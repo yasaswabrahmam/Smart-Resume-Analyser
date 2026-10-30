@@ -24,40 +24,61 @@ The system is validated by an automated test suite operating across both ecosyst
 
 | Metric | Java Spring Boot Suite | Python ML Microservice Suite | Total Combined |
 | :--- | :---: | :---: | :---: |
-| **Total Test Cases** | **24** | **5** | **29** |
-| **Tests Passed** | **24** | **5** | **29** |
+| **Total Test Cases** | **28** | **5** | **33** |
+| **Tests Passed** | **28** | **5** | **33** |
 | **Failures / Errors** | **0** | **0** | **0** |
-| **Execution Duration** | 24.51s | 1.46s | 25.97s |
+| **Execution Duration** | 22.75s | 1.46s | 24.21s |
 | **Database Isolation** | In-Memory H2 Engine | Mock TestClient | 100% Isolated |
 | **Build Status** | **BUILD SUCCESS** | **ALL PASSED** | **100% GREEN** |
 
 ---
 
-## 3. Step-by-Step Live Demonstration Script (10-15 Minutes)
+## 3. Step-by-Step Live Demonstration Script (12-15 Minutes)
 
 When presenting to professors, evaluators, or industry panels, execute the following verified walkthrough:
 
-### Step 1: Dedicated Public Landing Page (Minutes 0:00 – 2:30)
+### Step 1: Part 1 — Public Brochure & Model Transparency (Minutes 0:00 – 3:00)
 1. Open the browser to `http://localhost:8085/`.
-2. Emphasize the **strict separation between public marketing and authenticated application**:
-   - The landing page has **NO internal sidebar**; it is a full-width presentation.
-   - Highlights the core thesis: *"Your Career Journey, Connected in One Place."*
-   - Explores the 3-pillar problem statement (tool fragmentation, opaque ATS black boxes, and dead-end skill gaps).
-   - Showcases the 6 industry target roles with real-world sample job descriptions.
+2. Emphasize the **Product Brochure architecture**:
+   - The landing page has **NO internal application sidebar**; it is a full-width presentation.
+   - Highlights the core promise: *"Understand where you are, discover where you can go, build the skills and evidence you need, and take the next step towards a suitable opportunity."*
+   - Explores the dual pathways: **Student / Recent Graduate** vs **Experienced Professional**.
+   - Answers the 10 brochure questions without requiring account creation.
    - Transparently details the 6-factor deterministic ATS mathematical equation.
-   - Walk through the 9-stage connected candidate lifecycle.
-3. Show the sticky public navbar with section links and primary guest CTAs (**Get Started Free**, **Sign In**).
+   - Showcases the **Technology & AI/ML Model Transparency Table**, with honest classification (*Active & Tested*, *Active but not fully evaluated*, *In development*, *Planned*).
+   - Demonstrates the DPDP/GDPR & Responsible AI section (zero training on private resumes without consent).
 
-### Step 2: User Authentication & Workspace Transition (Minutes 2:30 – 4:00)
-1. Click **Get Started Free** or **Sign In** (`/register` or `/login`).
-2. Log in with user credentials:
-   - Password security: Explain BCrypt hashing with work factor 10.
-   - Show how logging in transitions the user into the **Authenticated Application Workspace** (`/dashboard`), where the dedicated three-tier sidebar (Workspace, Career Acceleration, Platform Links) becomes active.
+### Step 2: Part 2 — Explore (Horizons & Pathway Onboarding) (Minutes 3:00 – 6:00)
+1. Navigate to `/explore` (Career Explorer Catalogue).
+   - Filter across 8 role families (Software Engineering, Data Science & AI, Cloud & DevOps, Cybersecurity, Product Management, Quality Assurance, Frontend & UI/UX, Mobile Engineering).
+   - Expand role cards to show career levels (Intern to Senior), core and preferred skills, tools, responsibilities, project evidence blueprints, and prerequisites.
+2. Sign in via `/login` (`admin@smartresume.com` / `admin123` or `user@smartresume.com` / `user123`).
+3. Navigate to `/profile` (Profile & Career Pathway Settings).
+   - Demonstrate updating pathway (Student vs Professional), degree, institution, graduation year, experience years, current role, current skills, and weekly study hours.
+   - Save changes and show persistent update with flash banner.
 
-### Step 3: Algorithmic ATS Resume Analysis (Minutes 4:00 – 6:30)
-1. Navigate to `/analyzer/upload`.
-2. Upload a sample technical resume (PDF or DOCX).
-3. Paste a target Job Description or select a predefined role.
+### Step 3: Part 3 — Prepare (ATS, Skill Gaps, Roadmap & Interview) (Minutes 6:00 – 9:30)
+1. Navigate to `/analyzer` (ATS & Resume Check).
+   - Review deterministic 6-factor scoring breakdown (Contact, Section, Format, Keyword Match, Experience, Education).
+2. Navigate to `/skill-gap` (Skills & Evidence).
+   - Review skills partitioned into Demonstrated, Weak, and Missing.
+   - Inspect practical Project Evidence Blueprints to turn missing skills into demonstrable portfolio work.
+3. Navigate to `/roadmap` (Personalized Learning Roadmap).
+   - Inspect sprint timeline adapted to weekly study hours with curated YouTube tutorials.
+4. Navigate to `/interview` (Interview Practice).
+   - Highlight technical, system design, and behavioral questions with explicit educational practice disclaimer.
+
+### Step 4: Part 4 — Pursue (Jobs, Eligibility & Pipeline Tracker) (Minutes 9:30 – 12:00)
+1. Navigate to `/jobs` (Multi-Portal & Live API Job Search).
+   - Search "Java" across Remotive live API and 7 top employment platforms.
+   - Showcase the **Personalized Eligibility Checker** returning *Meets Requirements*, *Does Not Meet*, or *Unknown* with evidence comparing the job description against candidate profile skills and experience.
+2. Navigate to `/tracker` (Application Pipeline Tracker).
+   - Demonstrate dragging/updating applications across 7 stages: *Saved/Interested*, *Applied*, *Online Assessment*, *Interviewing*, *Offer Received*, *Rejected*, *Withdrawn*.
+
+### Step 5: Model Governance & Safety Agent (Minutes 12:00 – 14:00)
+1. Navigate to `/admin` (System & Model Administration).
+   - Showcase the **Model Training, Evaluation & Governance Registry** managed by `ModelGovernanceAgent.java`.
+   - Explain how consent verification prevents data leakage, evaluation gates guard model quality, and automated rollback preserves stability.
 4. Click **Analyze Resume**:
    - Highlight **Magic Byte Stream Validation**: Prevents malicious `.exe` or script uploads cloaked as `.pdf`.
    - Explain the **ATS Scoring Equation**:

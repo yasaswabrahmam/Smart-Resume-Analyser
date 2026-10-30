@@ -196,6 +196,38 @@ All modifications strictly adhere to the project constraints:
      - Packaged executable JAR `smart-resume-analyzer-1.0.0.jar`.
      - Verified `GET /` returns HTTP 200 with `public-navbar` and without `app-sidebar`.
 
+### Phase 11: Phase 2 Four-Part Career Intelligence Platform (v2.1.0)
+- **Problem Diagnosed:** The user required transforming the application into a guided Four-Part Career Intelligence Platform: Part 1 (Public Brochure answering 10 questions without registration), Part 2 (Explore with student vs professional pathways and career catalogue), Part 3 (Prepare with deterministic ATS, skill gaps, blueprints, adaptive roadmap, and interview prep with disclaimers), and Part 4 (Pursue with live jobs, eligibility checking, and multi-stage tracker), governed by an explicit Model Governance & Evaluation Agent.
+- **Modifications:**
+  1. **Part 1 — Public Landing Page (Product Brochure):**
+     - Fully revamped `index.html` as a standalone product brochure answering all 10 brochure questions.
+     - Preserved obsidian dark theme, 3D animated emblem, and responsive public navbar.
+     - Added dual pathway explanation: *Student / Recent Graduate* vs *Experienced Professional*.
+     - Embedded comprehensive Technology & AI/ML Model Transparency disclosure table with honest classification statuses (*Active and tested*, *Active but not fully evaluated*, *In development*, *Planned*).
+     - Added DPDP/GDPR Privacy and Responsible AI section with dataset consent disclosure (zero training on private user resumes without explicit consent).
+  2. **Part 2 — Explore:**
+     - Extended `User.java` entity and `UserRegistrationDto.java` with `userType` (`STUDENT` / `PROFESSIONAL`), `targetRole`, `educationDegree`, `institution`, `graduationYear`, `experienceYears`, `@Column(name = "professional_role") currentRole`, `currentSkills`, `locationPreference`, `weeklyLearningHours`.
+     - Implemented `ProfileController.java` (`/profile` and `POST /profile/update`) and `profile/settings.html`.
+     - Created `CareerExplorerController.java` (`/explore`) and `career/explorer.html`.
+     - Expanded `JobRolesConfig.java` to 8 role families with 32+ career levels, core and preferred skills, tools, responsibilities, project evidence blueprints, certifications, and prerequisites.
+  3. **Part 3 — Prepare:**
+     - Preserved 6-factor deterministic ATS scoring formula in Java (`ResumeAnalyzerService`).
+     - Added project evidence blueprints in `skill-gap.html` alongside Demonstrated, Weak, and Missing skill partitions.
+     - Roadmap adjusted to user's weekly study hours with curated YouTube tutorials.
+     - Added educational practice disclaimer on `interview.html`.
+  4. **Part 4 — Pursue:**
+     - Implemented live tech jobs search with Remotive API and 7-portal aggregator (`jobs/search.html`).
+     - Added personalized 3-tier Eligibility Checker (`Meets Requirements`, `Does Not Meet`, `Unknown`) with concrete skill/experience evidence in `JobSearchService.java` and `JobSearchResultDto.java`.
+     - Expanded `ApplicationTracker.java` pipeline to 7 stages (`SAVED`, `APPLIED`, `ASSESSMENT`, `INTERVIEWING`, `OFFERED`, `REJECTED`, `WITHDRAWN`).
+  5. **Model Governance & Evaluation Agent:**
+     - Implemented `ModelGovernanceAgent.java` managing dataset checks (consent validation), baseline metrics, evaluation gates, and version rollbacks.
+     - Exposed live governed model registry on the Admin Dashboard (`/admin`).
+     - Created `ModelGovernanceAgentTest.java` with 4 hermetic unit tests.
+  6. **Verification & Testing:**
+     - All **28/28 unit and integration tests passed** across 11 test suites (0 failures, 0 errors, 0 skipped).
+     - Packaged executable Spring Boot archive and verified running daemon on port 8085.
+     - End-to-end verified routes: `GET /` (200), `GET /explore` (200), `POST /login` (200), `GET /profile` (200), `POST /profile/update` (200), `GET /admin` (200), `POST /jobs/search` (200).
+
 ---
 
 ## 4. Verification Sign-Off

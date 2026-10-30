@@ -55,8 +55,37 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setFullName(dto.getFullName().trim());
         user.setRole("ROLE_USER");
+        if (dto.getUserType() != null && !dto.getUserType().isBlank()) {
+            user.setUserType(dto.getUserType());
+        }
+        if (dto.getTargetRole() != null && !dto.getTargetRole().isBlank()) {
+            user.setTargetRole(dto.getTargetRole());
+        }
         user.setCreatedAt(LocalDateTime.now());
 
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public User updateProfile(User user, String userType, String targetRole, String degree, String institution, Integer gradYear, Integer expYears, String currentRole, String skills, String locationPref, Integer weeklyHours) {
+        if (userType != null && !userType.isBlank()) {
+            user.setUserType(userType);
+        }
+        if (targetRole != null && !targetRole.isBlank()) {
+            user.setTargetRole(targetRole);
+        }
+        user.setEducationDegree(degree);
+        user.setInstitution(institution);
+        user.setGraduationYear(gradYear);
+        user.setExperienceYears(expYears != null ? expYears : 0);
+        user.setCurrentRole(currentRole);
+        user.setCurrentSkills(skills);
+        if (locationPref != null && !locationPref.isBlank()) {
+            user.setLocationPreference(locationPref);
+        }
+        if (weeklyHours != null && weeklyHours > 0) {
+            user.setWeeklyLearningHours(weeklyHours);
+        }
         return userRepository.save(user);
     }
 

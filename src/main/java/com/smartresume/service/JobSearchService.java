@@ -80,6 +80,10 @@ public class JobSearchService {
     }
 
     public List<JobSearchResultDto> searchLiveJobs(JobFilterDto filter) {
+        return searchLiveJobs(filter, null);
+    }
+
+    public List<JobSearchResultDto> searchLiveJobs(JobFilterDto filter, com.smartresume.model.User user) {
         List<JobSearchResultDto> results = new ArrayList<>();
         String q = (filter.getQuery() != null && !filter.getQuery().isBlank()) ? filter.getQuery() : "software";
 
@@ -113,6 +117,7 @@ public class JobSearchService {
                                 job.path("description").asText(),
                                 true
                         );
+                        evaluateEligibility(dto, user);
                         results.add(dto);
                     }
                 }
@@ -123,13 +128,61 @@ public class JobSearchService {
 
         // Fallback / Demonstration sample jobs if external public API is offline
         if (results.isEmpty()) {
-            results.add(new JobSearchResultDto("101", "Senior Full Stack Engineer", "Google Cloud", "Bangalore, India", "Hybrid", "Full Time", "₹25 - ₹40 LPA", "Direct Enterprise Partner", "https://careers.google.com", "https://careers.google.com", "Today", "Designing high-throughput cloud microservices with Java, React, and Kubernetes.", true));
-            results.add(new JobSearchResultDto("102", "Backend Java / Spring Boot Developer", "Amazon Web Services", "Hyderabad, India", "Onsite", "Full Time", "₹18 - ₹32 LPA", "Direct Enterprise Partner", "https://amazon.jobs", "https://amazon.jobs", "Yesterday", "Building scalable distributed backend services and database architectures.", true));
-            results.add(new JobSearchResultDto("103", "Data Scientist & AI Engineer", "Microsoft AI", "Remote / Bangalore", "Remote", "Full Time", "₹22 - ₹38 LPA", "Direct Enterprise Partner", "https://careers.microsoft.com", "https://careers.microsoft.com", "2 days ago", "Training large language models and developing production ML pipelines.", true));
-            results.add(new JobSearchResultDto("104", "DevOps & Platform Engineer", "TCS Digital", "Pune, India", "Hybrid", "Full Time", "₹12 - ₹20 LPA", "Direct Enterprise Partner", "https://www.tcs.com/careers", "https://www.tcs.com/careers", "3 days ago", "Automating CI/CD pipelines, container orchestration, and infrastructure.", true));
+            JobSearchResultDto j1 = new JobSearchResultDto("101", "Junior Full Stack Engineer", "Google Cloud", "Bangalore, India", "Hybrid", "Full Time", "₹14 - ₹22 LPA", "Direct Enterprise Partner", "https://careers.google.com", "https://careers.google.com", "Today", "Designing high-throughput cloud microservices with Java, React, and Kubernetes for early-career graduates.", true);
+            JobSearchResultDto j2 = new JobSearchResultDto("102", "Backend Java / Spring Boot Developer", "Amazon Web Services", "Hyderabad, India", "Onsite", "Full Time", "₹18 - ₹32 LPA", "Direct Enterprise Partner", "https://amazon.jobs", "https://amazon.jobs", "Yesterday", "Building scalable distributed backend services and database architectures.", true);
+            JobSearchResultDto j3 = new JobSearchResultDto("103", "Data Scientist & AI Engineer Intern", "Microsoft AI", "Remote / Bangalore", "Remote", "Internship", "₹60,000 / month", "Direct Enterprise Partner", "https://careers.microsoft.com", "https://careers.microsoft.com", "2 days ago", "Internship training large language models and developing production ML pipelines.", true);
+            JobSearchResultDto j4 = new JobSearchResultDto("104", "Senior DevOps & Platform Architect", "TCS Digital", "Pune, India", "Hybrid", "Full Time", "₹22 - ₹35 LPA", "Direct Enterprise Partner", "https://www.tcs.com/careers", "https://www.tcs.com/careers", "3 days ago", "Senior role: 5+ years minimum experience automating CI/CD pipelines, container orchestration, and infrastructure.", true);
+
+            evaluateEligibility(j1, user);
+            evaluateEligibility(j2, user);
+            evaluateEligibility(j3, user);
+            evaluateEligibility(j4, user);
+
+            results.addAll(List.of(j1, j2, j3, j4));
         }
 
         return results;
+    }
+
+    public void evaluateEligibility(JobSearchResultDto job, com.smartresume.model.User user) {
+        if (job == null) return;
+        if (user == null) {
+            job.setEligibilityStatus("UNKNOWN_CRITERIA");
+            job.setEligibilityReason("Sign in with a student or professional profile to check personalized eligibility criteria.");
+            return;
+        }
+
+        String title = job.getTitle() != null ? job.getTitle().toLowerCase() : "";
+        String desc = job.getDescription() != null ? job.getDescription().toLowerCase() : "";
+        String fullText = title + " " + desc;
+
+        boolean isSeniorJob = fullText.contains("senior") || fullText.contains("lead") || fullText.contains("principal") ||
+                fullText.contains("staff") || fullText.contains("5+ years") || fullText.contains("7+ years") || fullText.contains("architect");
+        boolean isFresherJob = fullText.contains("fresher") || fullText.contains("intern") || fullText.contains("graduate") ||
+                fullText.contains("entry") || fullText.contains("junior") || fullText.contains("0-1 year") || fullText.contains("0-2 year");
+
+        if ("STUDENT".equalsIgnoreCase(user.getUserType())) {
+            if (isFresherJob) {
+                job.setEligibilityStatus("MEETS_CRITERIA");
+                job.setEligibilityReason("Eligible: Matches student/fresher profile (Entry/Intern opportunity with zero minimum tenure barrier).");
+            } else if (isSeniorJob) {
+                job.setEligibilityStatus("DOES_NOT_MEET");
+                job.setEligibilityReason("Does not meet: Requires advanced industry tenure (Senior/Lead level criteria).");
+            } else {
+                job.setEligibilityStatus("UNKNOWN_CRITERIA");
+                job.setEligibilityReason("General requirements: Review detailed provider posting for batch year and degree specifics.");
+            }
+        } else {
+            // Professional
+            int exp = user.getExperienceYears() != null ? user.getExperienceYears() : 0;
+            if (isSeniorJob && exp < 4) {
+                job.setEligibilityStatus("DOES_NOT_MEET");
+                job.setEligibilityReason("Experience gap: Posting asks for senior/lead tenure, but your profile indicates " + exp + " years.");
+            } else {
+                job.setEligibilityStatus("MEETS_CRITERIA");
+                job.setEligibilityReason("Eligible: Matches your professional experience profile and domain background.");
+            }
+        }
     }
 
     public Map<String, List<Map<String, String>>> getFeaturedCompanies() {

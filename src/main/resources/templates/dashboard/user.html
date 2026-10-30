@@ -10,21 +10,24 @@
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
             <div>
                 <div class="d-flex align-items-center gap-2 mb-1">
-                    <span class="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30">Active Member</span>
+                    <span class="badge" th:classappend="${currentUser.userType == 'STUDENT' ? 'bg-success bg-opacity-15 text-success border border-success border-opacity-30' : 'bg-info bg-opacity-15 text-info border border-info border-opacity-30'}"
+                          th:text="${currentUser.userType == 'STUDENT' ? 'Student / Fresher Pathway' : 'Professional Pathway'}">Student Pathway</span>
+                    <span class="badge bg-secondary text-light" th:text="${currentUser.targetRole ?: 'Full Stack Developer'}">Full Stack Developer</span>
                 </div>
                 <h2 class="fw-bold mb-1">
                     Personal Candidate Dashboard
                 </h2>
-                <p class="text-muted small mb-0">Welcome back, <strong class="text-heading" th:text="${currentUser.fullName}">User</strong> &bull; Manage your uploaded and built resumes.</p>
+                <p class="text-muted small mb-0">Welcome back, <strong class="text-heading" th:text="${currentUser.fullName}">User</strong> &bull; Manage your career journey, resumes, and application pipeline.</p>
             </div>
             <div class="d-flex gap-2">
-                <a th:href="@{/analyzer}" class="btn btn-primary-custom">
-                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                    <span>Analyze Resume</span>
+                <a th:href="@{/profile}" class="btn btn-secondary-custom btn-sm">
+                    <i class="fa-solid fa-user-gear me-1"></i> Edit Pathway
                 </a>
-                <a th:href="@{/builder}" class="btn btn-secondary-custom">
-                    <i class="fa-solid fa-file-pen"></i>
-                    <span>Open Builder</span>
+                <a th:href="@{/explore}" class="btn btn-secondary-custom btn-sm">
+                    <i class="fa-solid fa-compass me-1"></i> Explore Roles
+                </a>
+                <a th:href="@{/analyzer}" class="btn btn-primary-custom btn-sm">
+                    <i class="fa-solid fa-cloud-arrow-up me-1"></i> Analyze Resume
                 </a>
             </div>
         </div>

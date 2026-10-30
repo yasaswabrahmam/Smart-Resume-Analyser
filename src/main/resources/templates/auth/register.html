@@ -44,6 +44,20 @@
                             <div th:if="${#fields.hasErrors('password')}" class="text-danger small mt-1" th:errors="*{password}"></div>
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label">Career Pathway</label>
+                            <div class="d-flex gap-2">
+                                <div class="form-check flex-fill p-2 rounded border border-secondary border-opacity-25" style="background: rgba(255,255,255,0.02);">
+                                    <input class="form-check-input ms-1" type="radio" th:field="*{userType}" id="pathStudent" value="STUDENT" checked>
+                                    <label class="form-check-label text-white small ms-1 fw-semibold" for="pathStudent">Student / Fresher</label>
+                                </div>
+                                <div class="form-check flex-fill p-2 rounded border border-secondary border-opacity-25" style="background: rgba(255,255,255,0.02);">
+                                    <input class="form-check-input ms-1" type="radio" th:field="*{userType}" id="pathPro" value="PROFESSIONAL">
+                                    <label class="form-check-label text-white small ms-1 fw-semibold" for="pathPro">Professional</label>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="mb-4">
                             <label class="form-label">Confirm Password</label>
                             <div class="input-group">

@@ -150,11 +150,13 @@
                                 <form th:action="@{/tracker/update-status}" method="post" class="d-inline">
                                     <input type="hidden" name="id" th:value="${app.id}">
                                     <select name="status" class="form-select form-select-sm py-0 px-2" style="font-size: 0.75rem; width: auto; background: rgba(20,26,35,0.9); border-color: var(--border-subtle); color: #fff;" onchange="this.form.submit()">
-                                        <option value="SAVED" th:selected="${app.status == 'SAVED'}">Saved</option>
+                                        <option value="SAVED" th:selected="${app.status == 'SAVED'}">Saved / Interested</option>
                                         <option value="APPLIED" th:selected="${app.status == 'APPLIED'}">Applied</option>
+                                        <option value="ASSESSMENT" th:selected="${app.status == 'ASSESSMENT'}">Online Assessment</option>
                                         <option value="INTERVIEWING" th:selected="${app.status == 'INTERVIEWING'}">Interviewing</option>
-                                        <option value="OFFERED" th:selected="${app.status == 'OFFERED'}">Offered</option>
-                                        <option value="REJECTED" th:selected="${app.status == 'REJECTED'}">Archived</option>
+                                        <option value="OFFERED" th:selected="${app.status == 'OFFERED'}">Offer Received</option>
+                                        <option value="REJECTED" th:selected="${app.status == 'REJECTED'}">Rejected</option>
+                                        <option value="WITHDRAWN" th:selected="${app.status == 'WITHDRAWN'}">Withdrawn</option>
                                     </select>
                                 </form>
                             </td>

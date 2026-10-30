@@ -8,7 +8,7 @@
 ## 1. Executive Summary
 
 A comprehensive automated testing protocol was executed across the entire Smart AI Resume Analyzer enterprise stack. Testing was partitioned into two isolated testing suites:
-1. **Java Spring Boot Suite (Maven / JUnit 5 / Mockito):** 10 test suites containing **24 unit and integration tests**. All tests executed with **0 failures, 0 errors, and 0 skipped** across a runtime of 24.505 seconds.
+1. **Java Spring Boot Suite (Maven / JUnit 5 / Mockito):** 11 test suites containing **28 unit and integration tests**. All tests executed with **0 failures, 0 errors, and 0 skipped** across a runtime of 22.75 seconds.
 2. **Python ML Microservice Suite (Pytest / FastAPI TestClient):** 5 automated test methods testing entity extraction, semantic scoring, TF-IDF role classification, and vector embeddings. All tests passed with **100% success rate (5/5)** in 1.46 seconds.
 
 Database decoupling was validated through a dedicated in-memory H2 test profile (`application-test.properties`), preventing test pollution of the production MySQL database.
@@ -19,9 +19,9 @@ Database decoupling was validated through a dedicated in-memory H2 test profile 
 
 | Component | Framework | Total Tests | Passed | Failed | Errors | Skipped | Pass Rate | Duration |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Java Core & Services** | JUnit 5 + Mockito | 24 | 24 | 0 | 0 | 0 | **100%** | 24.51s |
+| **Java Core & Services** | JUnit 5 + Mockito | 28 | 28 | 0 | 0 | 0 | **100%** | 22.75s |
 | **Python ML Microservice** | Pytest + FastAPI | 5 | 5 | 0 | 0 | 0 | **100%** | 1.46s |
-| **Total Test Suite** | Hybrid Enterprise | **29** | **29** | **0** | **0** | **0** | **100%** | **25.97s** |
+| **Total Test Suite** | Hybrid Enterprise | **33** | **33** | **0** | **0** | **0** | **100%** | **24.21s** |
 
 ---
 
@@ -34,29 +34,31 @@ Database decoupling was validated through a dedicated in-memory H2 test profile 
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running com.smartresume.CareerAgentOrchestratorTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.168 s
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.832 s
 [INFO] Running com.smartresume.FileValidationServiceTest
-[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.201 s
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.198 s
+[INFO] Running com.smartresume.ModelGovernanceAgentTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.124 s
 [INFO] Running com.smartresume.PythonMlClientServiceTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.233 s
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.215 s
 [INFO] Running com.smartresume.ResumeAnalyzerEdgeCasesTest
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.178 s
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.162 s
 [INFO] Running com.smartresume.ResumeAnalyzerServiceTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.108 s
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.098 s
 [INFO] Running com.smartresume.ResumeBuilderServiceTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.088 s
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.075 s
 [INFO] Running com.smartresume.ResumeBuilderTemplatesTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.210 s
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.195 s
 [INFO] Running com.smartresume.ResumeParserServiceTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.083 s
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.079 s
 [INFO] Running com.smartresume.SecurityHardenedTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.547 s
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.485 s
 [INFO] Running com.smartresume.SmartResumeAnalyzerApplicationTests
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.951 s
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.412 s
 [INFO] 
 [INFO] Results:
 [INFO] 
-[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 28, Failures: 0, Errors: 0, Skipped: 0
 [INFO] 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS

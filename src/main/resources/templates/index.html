@@ -7,7 +7,9 @@
 </head>
 <body>
     <div id="public-content">
-        <!-- 1. Hero Section: Full-Width Clean Modern Design (No App Sidebar!) -->
+        <!-- ========================================================================= -->
+        <!-- 1. Hero Section: Product Vision & Primary Actions -->
+        <!-- ========================================================================= -->
         <section class="py-5 text-center position-relative overflow-hidden" style="background: radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.12) 0%, rgba(11, 15, 25, 0.95) 70%, #0B0F19 100%); border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
             <div class="container-xl px-3 px-md-4 py-md-5">
                 <!-- 3D Brand Mark Badge -->
@@ -15,7 +17,7 @@
                     <div th:replace="~{fragments/brand :: brandIcon('brand-icon-hero mx-auto mb-2')}"></div>
                     <span class="ai-badge mt-2">
                         <span class="ai-pulse-dot"></span>
-                        <span>Next-Generation Career Intelligence</span>
+                        <span>Career Intelligence Platform &bull; Phase 2</span>
                     </span>
                 </div>
 
@@ -25,10 +27,9 @@
                     <span class="brand-title-gradient">Connected in One Place.</span>
                 </h1>
 
-                <!-- Subtitle / Vision Statement -->
-                <p class="lead text-muted mx-auto mb-4" style="max-width: 820px; font-size: 1.15rem; line-height: 1.7;">
-                    Career preparation is fragmented across disjointed resume builders, ATS checkers, job portals, YouTube, and learning sites.
-                    <strong>Smart Resume AI</strong> unifies every stage: from building an ATS-proof resume and uncovering skill gaps to streaming tailored YouTube tutorials, discovering live jobs, tracking applications, and preparing for technical interviews.
+                <!-- Supporting Message (Product Promise) -->
+                <p class="lead text-muted mx-auto mb-4" style="max-width: 840px; font-size: 1.15rem; line-height: 1.7;">
+                    Discover suitable career paths, build a stronger resume, identify your skill gaps, learn through a personalised roadmap and find relevant opportunities — all in one connected platform.
                 </p>
 
                 <!-- Primary Action Buttons -->
@@ -37,211 +38,328 @@
                         <i class="fa-solid fa-rocket"></i>
                         <span>Get Started Free</span>
                     </a>
-                    <a th:href="@{/login}" class="btn btn-secondary-custom px-4 py-3 fs-6 d-inline-flex align-items-center gap-2">
-                        <i class="fa-solid fa-right-to-bracket"></i>
-                        <span>Sign In</span>
-                    </a>
-                    <a th:href="@{/#workflow}" class="btn btn-secondary-custom px-4 py-3 fs-6 d-inline-flex align-items-center gap-2">
+                    <a th:href="@{/#how-it-works}" class="btn btn-secondary-custom px-4 py-3 fs-6 d-inline-flex align-items-center gap-2">
                         <i class="fa-solid fa-compass"></i>
-                        <span>Explore Complete Workflow</span>
+                        <span>Explore How It Works</span>
+                    </a>
+                    <a th:href="@{/explore}" class="btn btn-secondary-custom px-4 py-3 fs-6 d-inline-flex align-items-center gap-2">
+                        <i class="fa-solid fa-layer-group text-info"></i>
+                        <span>Career Explorer</span>
                     </a>
                 </div>
 
-                <!-- Trust Metrics / Technologies Strip -->
+                <!-- Trust Strip -->
                 <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap text-muted small pt-3 border-top border-secondary border-opacity-10">
                     <span><i class="fa-solid fa-shield-halved text-success me-1"></i> DPDP/GDPR PII Masked</span>
                     <span><i class="fa-solid fa-calculator text-info me-1"></i> 100% Explainable 6-Factor ATS</span>
-                    <span><i class="fa-brands fa-youtube text-danger me-1"></i> Curated YouTube &amp; Course Learning</span>
-                    <span><i class="fa-solid fa-briefcase text-warning me-1"></i> 7 Live Job Boards</span>
+                    <span><i class="fa-brands fa-youtube text-danger me-1"></i> Curated YouTube &amp; Docs Learning</span>
+                    <span><i class="fa-solid fa-briefcase text-warning me-1"></i> 7 Live Job Portals</span>
                     <span><i class="fa-solid fa-list-check text-primary me-1"></i> End-to-End Application Tracker</span>
                 </div>
             </div>
         </section>
 
-        <!-- 2. The Problem We Solve & The Connected Solution -->
+        <!-- ========================================================================= -->
+        <!-- 2. Problem Statement: Why Career Preparation is Broken -->
+        <!-- ========================================================================= -->
         <section class="py-5" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
             <div class="container-xl px-3 px-md-4">
                 <div class="text-center mb-5">
                     <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-20 px-3 py-1 mb-2">The Real Problem</span>
                     <h2 class="fw-bold text-white mb-2">Why Career Preparation is Broken Today</h2>
-                    <p class="text-muted mx-auto" style="max-width: 720px;">
-                        Job seekers waste dozens of hours jumping between disconnected tools without clear direction:
+                    <p class="text-muted mx-auto" style="max-width: 740px;">
+                        Students and professionals often have to move between many different websites to understand career options, build a resume, check ATS compatibility, identify missing skills, find learning resources, discover genuine jobs, prepare for interviews and track applications.
                     </p>
                 </div>
 
                 <div class="row g-4 mb-5">
-                    <!-- Fragmented Tool 1 -->
                     <div class="col-md-4">
                         <div class="p-4 rounded-3 h-100" style="background: rgba(239, 68, 68, 0.04); border: 1px solid rgba(239, 68, 68, 0.15);">
                             <div class="text-danger mb-3 fs-3"><i class="fa-solid fa-clone"></i></div>
-                            <h5 class="fw-bold text-white mb-2">Fragmented Experience</h5>
-                            <p class="text-muted small mb-0">You build a resume on Site A, test ATS on Site B, search jobs on 4 different portals, and search for tutorials on YouTube. Nothing communicates with anything else.</p>
+                            <h5 class="fw-bold text-white mb-2">Context Switching &amp; Confusion</h5>
+                            <p class="text-muted small mb-0">Moving between separate websites for resumes, jobs, courses, and interviews creates confusion and makes it difficult to decide what to do next.</p>
                         </div>
                     </div>
-
-                    <!-- Fragmented Tool 2 -->
                     <div class="col-md-4">
                         <div class="p-4 rounded-3 h-100" style="background: rgba(239, 68, 68, 0.04); border: 1px solid rgba(239, 68, 68, 0.15);">
                             <div class="text-danger mb-3 fs-3"><i class="fa-solid fa-eye-slash"></i></div>
                             <h5 class="fw-bold text-white mb-2">Opaque ATS Black Boxes</h5>
-                            <p class="text-muted small mb-0">Most ATS checkers give an arbitrary numerical score without explaining why you lost points, what evidence is missing, or how to fix it with specific metrics.</p>
+                            <p class="text-muted small mb-0">Conventional tools return an arbitrary number without explaining why points were lost, which skills were missing, or how to provide concrete project evidence.</p>
                         </div>
                     </div>
-
-                    <!-- Fragmented Tool 3 -->
                     <div class="col-md-4">
                         <div class="p-4 rounded-3 h-100" style="background: rgba(239, 68, 68, 0.04); border: 1px solid rgba(239, 68, 68, 0.15);">
                             <div class="text-danger mb-3 fs-3"><i class="fa-solid fa-circle-question"></i></div>
-                            <h5 class="fw-bold text-white mb-2">No Actionable Skill Bridge</h5>
-                            <p class="text-muted small mb-0">Knowing a skill is missing doesn't help if you don't know where to learn it, which YouTube tutorials are actually good, or how to prove it with a portfolio project.</p>
+                            <h5 class="fw-bold text-white mb-2">Dead-End Skill Gaps</h5>
+                            <p class="text-muted small mb-0">Discovering a missing qualification leaves candidates stranded without recommended tutorials, practical project blueprints, or realistic study schedules.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- The Connected Solution Banner -->
+                <!-- Product Promise Banner -->
                 <div class="custom-card p-4 p-md-5 text-center" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
-                    <span class="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30 px-3 py-1 mb-2">The Connected Solution</span>
-                    <h3 class="fw-bold text-white mb-3">One Unified Platform Across Your Entire Career Lifecycle</h3>
-                    <p class="text-muted mx-auto mb-4" style="max-width: 780px;">
-                        Smart Resume AI replaces the patchwork of tools with a single, intelligent workflow:
+                    <span class="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30 px-3 py-1 mb-2">Our Product Promise</span>
+                    <h3 class="fw-bold text-white mb-3" style="max-width: 820px; margin: 0 auto; line-height: 1.35;">
+                        &ldquo;Understand where you are, discover where you can go, build the skills and evidence you need, and take the next step towards a suitable opportunity.&rdquo;
+                    </h3>
+                    <p class="text-muted small mx-auto mb-0" style="max-width: 680px;">
+                        Smart Resume AI is not merely an ATS checker, resume builder or job portal. Its value is the connection between your profile, real job requirements, demonstrated skills, learning plan and application journey.
                     </p>
-                    <div class="d-flex justify-content-center align-items-center flex-wrap gap-2 text-white fw-semibold small">
-                        <span class="badge bg-secondary p-2">1. Build Resume</span> <i class="fa-solid fa-arrow-right text-success d-none d-sm-inline"></i>
-                        <span class="badge bg-secondary p-2">2. Analyse ATS</span> <i class="fa-solid fa-arrow-right text-success d-none d-sm-inline"></i>
-                        <span class="badge bg-secondary p-2">3. Target Role</span> <i class="fa-solid fa-arrow-right text-success d-none d-sm-inline"></i>
-                        <span class="badge bg-secondary p-2">4. Identify Gaps</span> <i class="fa-solid fa-arrow-right text-success d-none d-sm-inline"></i>
-                        <span class="badge bg-secondary p-2">5. Learn Skills</span> <i class="fa-solid fa-arrow-right text-success d-none d-sm-inline"></i>
-                        <span class="badge bg-secondary p-2">6. Discover Jobs</span> <i class="fa-solid fa-arrow-right text-success d-none d-sm-inline"></i>
-                        <span class="badge bg-secondary p-2">7. Apply</span> <i class="fa-solid fa-arrow-right text-success d-none d-sm-inline"></i>
-                        <span class="badge bg-secondary p-2">8. Track Applications</span> <i class="fa-solid fa-arrow-right text-success d-none d-sm-inline"></i>
-                        <span class="badge bg-success p-2">9. Interview Prep</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================================= -->
+        <!-- 3. Who It Helps: Student & Professional Pathways -->
+        <!-- ========================================================================= -->
+        <section class="py-5" id="who-it-helps" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <div class="container-xl px-3 px-md-4">
+                <div class="text-center mb-5">
+                    <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-20 px-3 py-1 mb-2">Target Pathways</span>
+                    <h2 class="fw-bold text-white mb-2">Designed for Students, Graduates &amp; Working Professionals</h2>
+                    <p class="text-muted mx-auto" style="max-width: 720px;">
+                        Whether entering the tech industry for the first time or accelerating senior advancement, our platform provides dedicated pathways tailored to your background:
+                    </p>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Student Pathway Card -->
+                    <div class="col-lg-6">
+                        <div class="p-4 rounded-3 h-100 d-flex flex-column" style="background: rgba(16, 185, 129, 0.04); border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="user-avatar-circle" style="width: 44px; height: 44px; background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">
+                                        <i class="fa-solid fa-graduation-cap"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="fw-bold text-white mb-0">For Students &amp; Fresh Graduates</h4>
+                                        <span class="text-muted extra-small">Campus Placements, Internships &amp; First Engineering Jobs</span>
+                                    </div>
+                                </div>
+                                <span class="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30">Student Path</span>
+                            </div>
+
+                            <p class="text-muted small mb-3">
+                                Overcome the catch-22 of "need experience to get experience" with structured project evidence and graduation-year matched roles:
+                            </p>
+
+                            <ul class="list-unstyled text-muted small d-flex flex-column gap-2.5 mb-4 flex-grow-1">
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-success mt-1"></i>
+                                    <span><strong>Explore possible career roles:</strong> Discover standard job families across software, data, cloud, cybersecurity, and testing.</span>
+                                </li>
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-success mt-1"></i>
+                                    <span><strong>Find internships &amp; fresher opportunities:</strong> Filter vacancies with zero minimum tenure barrier.</span>
+                                </li>
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-success mt-1"></i>
+                                    <span><strong>Understand eligibility criteria:</strong> Transparent checks against degree and graduation-year requirements.</span>
+                                </li>
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-success mt-1"></i>
+                                    <span><strong>Build an ATS resume with limited experience:</strong> Highlight academic coursework, capstones, and club leadership.</span>
+                                </li>
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-success mt-1"></i>
+                                    <span><strong>Identify missing technical skills:</strong> Compare coursework with real hiring expectations.</span>
+                                </li>
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-success mt-1"></i>
+                                    <span><strong>Build practical GitHub portfolio projects:</strong> Prove competency with end-to-end deliverables and rubrics.</span>
+                                </li>
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-success mt-1"></i>
+                                    <span><strong>Prepare for campus placements:</strong> Practice core DSA, coding concepts, and STAR interview scenarios.</span>
+                                </li>
+                            </ul>
+
+                            <a th:href="@{/register}" class="btn btn-sm btn-primary-custom w-100 py-2">
+                                <i class="fa-solid fa-user-plus me-1"></i> Start as Student / Graduate
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Professional Pathway Card -->
+                    <div class="col-lg-6">
+                        <div class="p-4 rounded-3 h-100 d-flex flex-column" style="background: rgba(6, 182, 212, 0.04); border: 1px solid rgba(6, 182, 212, 0.2);">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="user-avatar-circle" style="width: 44px; height: 44px; background: rgba(6, 182, 212, 0.15); color: #22D3EE; border: 1px solid rgba(6, 182, 212, 0.3);">
+                                        <i class="fa-solid fa-briefcase"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="fw-bold text-white mb-0">For Working Professionals</h4>
+                                        <span class="text-muted extra-small">Career Advancement, Domain Transitions &amp; Senior Requisitions</span>
+                                    </div>
+                                </div>
+                                <span class="badge bg-info bg-opacity-15 text-info border border-info border-opacity-30">Professional Path</span>
+                            </div>
+
+                            <p class="text-muted small mb-3">
+                                Tailor your verified accomplishments to reach mid, senior, or specialized roles without starting from scratch:
+                            </p>
+
+                            <ul class="list-unstyled text-muted small d-flex flex-column gap-2.5 mb-4 flex-grow-1">
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-info mt-1"></i>
+                                    <span><strong>Improve and tailor resumes:</strong> Rewrite passive duty lists into quantified Google X-Y-Z achievements.</span>
+                                </li>
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-info mt-1"></i>
+                                    <span><strong>Explore career transitions:</strong> Transition smoothly into AI/ML, Cloud DevOps, or Product Management.</span>
+                                </li>
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-info mt-1"></i>
+                                    <span><strong>Compare experience against job specs:</strong> Benchmark your tenure and skill stack against live market postings.</span>
+                                </li>
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-info mt-1"></i>
+                                    <span><strong>Identify emerging high-yield skills:</strong> Stay ahead of market obsolescence with targeted technologies.</span>
+                                </li>
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-info mt-1"></i>
+                                    <span><strong>Discover relevant opportunities:</strong> Launch deep-link searches across 7 major employment boards simultaneously.</span>
+                                </li>
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-info mt-1"></i>
+                                    <span><strong>Master system design &amp; leadership interviews:</strong> Prepare for complex architectural and situational panels.</span>
+                                </li>
+                            </ul>
+
+                            <a th:href="@{/register}" class="btn btn-sm btn-secondary-custom w-100 py-2">
+                                <i class="fa-solid fa-arrow-right-to-bracket me-1"></i> Start as Professional
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 3. Complete Connected Platform Modules -->
+        <!-- ========================================================================= -->
+        <!-- 4. Feature Showcase: 7 Integrated Platform Capabilities -->
+        <!-- ========================================================================= -->
         <section class="py-5" id="features" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
             <div class="container-xl px-3 px-md-4">
                 <div class="text-center mb-5">
-                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-20 px-3 py-1 mb-2">Platform Capabilities</span>
-                    <h2 class="fw-bold text-white mb-2">Everything You Need to Land Your Next Role</h2>
-                    <p class="text-muted mx-auto" style="max-width: 720px;">
-                        Explore our full suite of integrated modules designed for students, engineering graduates, and career changers.
+                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-20 px-3 py-1 mb-2">Feature Showcase</span>
+                    <h2 class="fw-bold text-white mb-2">Everything Connected: From Exploration to Offer</h2>
+                    <p class="text-muted mx-auto" style="max-width: 740px;">
+                        Explore each feature designed around real user benefits, showing how each activity seamlessly leads to the next step:
                     </p>
                 </div>
 
                 <div class="row g-4">
-                    <!-- Module 1: ATS Scoring -->
+                    <!-- Feature 1: Career Explorer -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="custom-card custom-card-cyan h-100 p-4 d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="brand-icon-wrapper" style="width: 44px; height: 44px; font-size: 1.25rem; background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.3); color: #22D3EE;">
+                                    <i class="fa-solid fa-compass"></i>
+                                </div>
+                                <span class="badge bg-info bg-opacity-15 text-info border border-info border-opacity-30">Part 2: Explore</span>
+                            </div>
+                            <h5 class="fw-bold text-white mb-2">1. Career Explorer</h5>
+                            <p class="text-muted small flex-grow-1 mb-3">
+                                <strong>User Benefit:</strong> Understand which careers exist, see core versus preferred skills, and compare prerequisites across 8 major engineering and tech families without guesswork.
+                            </p>
+                            <a th:href="@{/explore}" class="text-info fw-semibold small d-inline-flex align-items-center gap-1">
+                                <span>Browse 8 Role Families</span> <i class="fa-solid fa-arrow-right fs-6"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Feature 2: Resume Builder & ATS Analysis -->
                     <div class="col-md-6 col-lg-4">
                         <div class="custom-card custom-card-emerald h-100 p-4 d-flex flex-column">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div class="brand-icon-wrapper" style="width: 44px; height: 44px; font-size: 1.25rem;">
                                     <i class="fa-solid fa-magnifying-glass-chart"></i>
                                 </div>
-                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">Explainable</span>
+                                <span class="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30">Part 3: Prepare</span>
                             </div>
-                            <h5 class="fw-bold text-white mb-2">Explainable ATS Scoring</h5>
+                            <h5 class="fw-bold text-white mb-2">2. Resume Builder &amp; ATS Analysis</h5>
                             <p class="text-muted small flex-grow-1 mb-3">
-                                Evaluates your resume against job specifications using a deterministic 6-factor equation. See exact matched skills, missing keywords, and section grades.
+                                <strong>User Benefit:</strong> Upload existing PDF/DOCX or build with 4 ATS-friendly templates. Get a transparent 6-factor score showing exactly which skills and sections need improvement.
                             </p>
                             <a th:href="@{/login}" class="text-success fw-semibold small d-inline-flex align-items-center gap-1">
-                                <span>Try ATS Analyzer</span> <i class="fa-solid fa-arrow-right fs-6"></i>
+                                <span>Scan or Build Resume</span> <i class="fa-solid fa-arrow-right fs-6"></i>
                             </a>
                         </div>
                     </div>
 
-                    <!-- Module 2: AI Career Coach -->
+                    <!-- Feature 3: Skills & Projects -->
                     <div class="col-md-6 col-lg-4">
-                        <div class="custom-card custom-card-cyan h-100 p-4 d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="brand-icon-wrapper" style="width: 44px; height: 44px; font-size: 1.25rem; background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.3); color: #22D3EE;">
-                                    <i class="fa-solid fa-brain"></i>
-                                </div>
-                                <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25">Gemini 2.5</span>
-                            </div>
-                            <h5 class="fw-bold text-white mb-2">AI Career Coach</h5>
-                            <p class="text-muted small flex-grow-1 mb-3">
-                                Deep qualitative reviews powered by Google Gemini. Rewrites passive bullet points into quantified achievements using Google's X-Y-Z formula.
-                            </p>
-                            <a th:href="@{/login}" class="text-info fw-semibold small d-inline-flex align-items-center gap-1">
-                                <span>Explore AI Coach</span> <i class="fa-solid fa-arrow-right fs-6"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Module 3: 4-Template Resume Builder -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="custom-card custom-card-cyan h-100 p-4 d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="brand-icon-wrapper" style="width: 44px; height: 44px; font-size: 1.25rem; background: rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.3); color: #60A5FA;">
-                                    <i class="fa-solid fa-file-pen"></i>
-                                </div>
-                                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">PDF Export</span>
-                            </div>
-                            <h5 class="fw-bold text-white mb-2">4-Style Resume Builder</h5>
-                            <p class="text-muted small flex-grow-1 mb-3">
-                                Build ATS-compliant resumes across Modern, Classic, Minimalist, and Creative layouts with live preview and instant Flying Saucer PDF export.
-                            </p>
-                            <a th:href="@{/login}" class="text-primary fw-semibold small d-inline-flex align-items-center gap-1">
-                                <span>Build Resume</span> <i class="fa-solid fa-arrow-right fs-6"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Module 4: Skill Gap & Learning -->
-                    <div class="col-md-6 col-lg-4" id="skills">
                         <div class="custom-card h-100 p-4 d-flex flex-column">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div class="brand-icon-wrapper" style="width: 44px; height: 44px; font-size: 1.25rem; background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.3); color: #F87171;">
-                                    <i class="fa-brands fa-youtube"></i>
+                                    <i class="fa-solid fa-layer-group"></i>
                                 </div>
-                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25">Signature</span>
+                                <span class="badge bg-danger bg-opacity-15 text-danger border border-danger border-opacity-30">Part 3: Prepare</span>
                             </div>
-                            <h5 class="fw-bold text-white mb-2">Skill Gaps &amp; YouTube Learning</h5>
+                            <h5 class="fw-bold text-white mb-2">3. Skills &amp; Projects</h5>
                             <p class="text-muted small flex-grow-1 mb-3">
-                                Classifies skills into Demonstrated, Weak, and Missing. Directly recommends top YouTube tutorials, documentation, and portfolio project blueprints.
+                                <strong>User Benefit:</strong> Classifies skills into Demonstrated, Weak, and Missing. Provides concrete practical portfolio project blueprints with GitHub checklists to prove your capability.
                             </p>
                             <a th:href="@{/login}" class="text-danger fw-semibold small d-inline-flex align-items-center gap-1">
-                                <span>View Learning Hub</span> <i class="fa-solid fa-arrow-right fs-6"></i>
+                                <span>Identify Your Skill Gaps</span> <i class="fa-solid fa-arrow-right fs-6"></i>
                             </a>
                         </div>
                     </div>
 
-                    <!-- Module 5: 7-Portal Job Discovery -->
+                    <!-- Feature 4: Learning Roadmap -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="custom-card h-100 p-4 d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="brand-icon-wrapper" style="width: 44px; height: 44px; font-size: 1.25rem; background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3); color: #10B981;">
+                                    <i class="fa-solid fa-route"></i>
+                                </div>
+                                <span class="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30">Part 3: Prepare</span>
+                            </div>
+                            <h5 class="fw-bold text-white mb-2">4. Learning Roadmap</h5>
+                            <p class="text-muted small flex-grow-1 mb-3">
+                                <strong>User Benefit:</strong> Follow a structured 8-week trajectory adapted to your weekly study availability. Stream curated YouTube masterclasses and read official documentation for every gap.
+                            </p>
+                            <a th:href="@{/login}" class="text-success fw-semibold small d-inline-flex align-items-center gap-1">
+                                <span>View 8-Week Roadmap</span> <i class="fa-solid fa-arrow-right fs-6"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Feature 5: Jobs & Internships -->
                     <div class="col-md-6 col-lg-4">
                         <div class="custom-card h-100 p-4 d-flex flex-column">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div class="brand-icon-wrapper" style="width: 44px; height: 44px; font-size: 1.25rem; background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.3); color: #FBBF24;">
                                     <i class="fa-solid fa-briefcase"></i>
                                 </div>
-                                <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25">Live Links</span>
+                                <span class="badge bg-warning bg-opacity-15 text-warning border border-warning border-opacity-30">Part 4: Pursue</span>
                             </div>
-                            <h5 class="fw-bold text-white mb-2">7-Portal Job Aggregator</h5>
+                            <h5 class="fw-bold text-white mb-2">5. Jobs &amp; Internships</h5>
                             <p class="text-muted small flex-grow-1 mb-3">
-                                Automatically formats search queries across LinkedIn, Indeed, Naukri, Glassdoor, Google Jobs, Foundit, and Internshala matching your verified skills.
+                                <strong>User Benefit:</strong> Access live remote tech vacancies from the Remotive API alongside pre-formatted searches across LinkedIn, Indeed, Naukri, Glassdoor, and Internshala with full source attribution.
                             </p>
                             <a th:href="@{/login}" class="text-warning fw-semibold small d-inline-flex align-items-center gap-1">
-                                <span>Find Matching Jobs</span> <i class="fa-solid fa-arrow-right fs-6"></i>
+                                <span>Search 7 Portals</span> <i class="fa-solid fa-arrow-right fs-6"></i>
                             </a>
                         </div>
                     </div>
 
-                    <!-- Module 6: Application Tracker & Interview Prep -->
+                    <!-- Feature 6: Eligibility Checker & Tracker -->
                     <div class="col-md-6 col-lg-4">
                         <div class="custom-card h-100 p-4 d-flex flex-column">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div class="brand-icon-wrapper" style="width: 44px; height: 44px; font-size: 1.25rem; background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.3); color: #C084FC;">
                                     <i class="fa-solid fa-list-check"></i>
                                 </div>
-                                <span class="badge bg-secondary text-white">Full Lifecycle</span>
+                                <span class="badge bg-secondary text-white">Part 4: Pursue</span>
                             </div>
-                            <h5 class="fw-bold text-white mb-2">Application Tracker &amp; Prep</h5>
+                            <h5 class="fw-bold text-white mb-2">6. Eligibility &amp; Applications</h5>
                             <p class="text-muted small flex-grow-1 mb-3">
-                                Track job statuses (Applied, Screening, Interview, Offered). Generate custom technical and situational interview questions with ideal answer guides.
+                                <strong>User Benefit:</strong> Automatic eligibility indicators evaluate your degree, graduation year, and tenure against job criteria. Save jobs directly and track stages from Applied to Offer.
                             </p>
                             <a th:href="@{/login}" class="text-info fw-semibold small d-inline-flex align-items-center gap-1">
-                                <span>Track Applications</span> <i class="fa-solid fa-arrow-right fs-6"></i>
+                                <span>Track Your Pipeline</span> <i class="fa-solid fa-arrow-right fs-6"></i>
                             </a>
                         </div>
                     </div>
@@ -249,113 +367,246 @@
             </div>
         </section>
 
-        <!-- 4. Featured Job Roles & Real-World Sample Job Descriptions -->
-        <section class="py-5" id="roles" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+        <!-- ========================================================================= -->
+        <!-- 5. How It Works: The Explore → Prepare → Pursue Journey -->
+        <!-- ========================================================================= -->
+        <section class="py-5" id="how-it-works" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
             <div class="container-xl px-3 px-md-4">
                 <div class="text-center mb-5">
-                    <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-20 px-3 py-1 mb-2">Market Alignment</span>
-                    <h2 class="fw-bold text-white mb-2">Target Roles &amp; Sample Job Descriptions</h2>
-                    <p class="text-muted mx-auto" style="max-width: 760px;">
-                        Benchmark your qualifications against real-world engineering requisitions. Sign in to run an ATS check against any of these roles:
+                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-20 px-3 py-1 mb-2">Workflow</span>
+                    <h2 class="fw-bold text-white mb-2">How It Works: Explore &rarr; Prepare &rarr; Pursue</h2>
+                    <p class="text-muted mx-auto" style="max-width: 720px;">
+                        The platform organizes your complete career trajectory into three connected phases:
                     </p>
                 </div>
 
                 <div class="row g-4">
-                    <!-- Role 1 -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="p-4 rounded-3 h-100 d-flex flex-column" style="background: rgba(20, 26, 35, 0.85); border: 1px solid var(--border-subtle);">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">Backend / Full Stack</span>
-                                <span class="text-muted small"><i class="fa-solid fa-briefcase me-1"></i> 2-5 Yrs</span>
+                    <!-- Step 1: Explore -->
+                    <div class="col-lg-4">
+                        <div class="p-4 rounded-3 h-100" style="background: rgba(6, 182, 212, 0.04); border: 1px solid rgba(6, 182, 212, 0.2);">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <span class="user-avatar-circle" style="width: 38px; height: 38px; background: rgba(6, 182, 212, 0.2); color: #22D3EE;">1</span>
+                                <span class="badge bg-info bg-opacity-15 text-info border border-info border-opacity-30">EXPLORE</span>
                             </div>
-                            <h5 class="fw-bold text-white mb-2">Full Stack Java Developer</h5>
-                            <p class="text-muted small mb-3 flex-grow-1">
-                                Build enterprise microservices, REST APIs, and modern front-ends using Java 21, Spring Boot 3, and React.
-                            </p>
-                            <div class="mb-3">
-                                <strong class="text-heading small d-block mb-1">Key Required Skills:</strong>
-                                <div class="d-flex flex-wrap gap-1">
-                                    <span class="badge bg-secondary text-light">Java 21</span>
-                                    <span class="badge bg-secondary text-light">Spring Boot</span>
-                                    <span class="badge bg-secondary text-light">Microservices</span>
-                                    <span class="badge bg-secondary text-light">React</span>
-                                    <span class="badge bg-secondary text-light">MySQL</span>
-                                    <span class="badge bg-secondary text-light">Docker</span>
-                                </div>
-                            </div>
-                            <a th:href="@{/login}" class="btn btn-sm btn-secondary-custom w-100">
-                                <i class="fa-solid fa-play text-success me-1"></i> Benchmark This Role
-                            </a>
+                            <h5 class="fw-bold text-white mb-2">Discover Where You Can Go</h5>
+                            <ul class="text-muted small ps-3 mb-0 d-flex flex-column gap-2">
+                                <li>Set up your Student or Professional onboarding profile.</li>
+                                <li>Explore 8 role families with verified industry requirements.</li>
+                                <li>Compare required vs preferred skills and typical responsibilities.</li>
+                            </ul>
                         </div>
                     </div>
 
-                    <!-- Role 2 -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="p-4 rounded-3 h-100 d-flex flex-column" style="background: rgba(20, 26, 35, 0.85); border: 1px solid var(--border-subtle);">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25">AI / Data Science</span>
-                                <span class="text-muted small"><i class="fa-solid fa-briefcase me-1"></i> 2-5 Yrs</span>
+                    <!-- Step 2: Prepare -->
+                    <div class="col-lg-4">
+                        <div class="p-4 rounded-3 h-100" style="background: rgba(16, 185, 129, 0.04); border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <span class="user-avatar-circle" style="width: 38px; height: 38px; background: rgba(16, 185, 129, 0.2); color: #10B981;">2</span>
+                                <span class="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30">PREPARE</span>
                             </div>
-                            <h5 class="fw-bold text-white mb-2">Python AI &amp; ML Engineer</h5>
-                            <p class="text-muted small mb-3 flex-grow-1">
-                                Architect NLP pipelines, fine-tune transformer models, and build RAG inference microservices with FastAPI and PyTorch.
-                            </p>
-                            <div class="mb-3">
-                                <strong class="text-heading small d-block mb-1">Key Required Skills:</strong>
-                                <div class="d-flex flex-wrap gap-1">
-                                    <span class="badge bg-secondary text-light">Python</span>
-                                    <span class="badge bg-secondary text-light">FastAPI</span>
-                                    <span class="badge bg-secondary text-light">PyTorch</span>
-                                    <span class="badge bg-secondary text-light">Scikit-learn</span>
-                                    <span class="badge bg-secondary text-light">spaCy</span>
-                                    <span class="badge bg-secondary text-light">RAG</span>
-                                </div>
-                            </div>
-                            <a th:href="@{/login}" class="btn btn-sm btn-secondary-custom w-100">
-                                <i class="fa-solid fa-play text-info me-1"></i> Benchmark This Role
-                            </a>
+                            <h5 class="fw-bold text-white mb-2">Build Skills &amp; Prove Ability</h5>
+                            <ul class="text-muted small ps-3 mb-0 d-flex flex-column gap-2">
+                                <li>Scan your resume or build from scratch across 4 ATS templates.</li>
+                                <li>Get an explainable 6-factor score with matched vs missing skills.</li>
+                                <li>Stream curated YouTube tutorials and build GitHub portfolio capstones.</li>
+                                <li>Practice role-specific technical and STAR behavioral questions.</li>
+                            </ul>
                         </div>
                     </div>
 
-                    <!-- Role 3 -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="p-4 rounded-3 h-100 d-flex flex-column" style="background: rgba(20, 26, 35, 0.85); border: 1px solid var(--border-subtle);">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25">DevOps / Cloud</span>
-                                <span class="text-muted small"><i class="fa-solid fa-briefcase me-1"></i> 3-6 Yrs</span>
+                    <!-- Step 3: Pursue -->
+                    <div class="col-lg-4">
+                        <div class="p-4 rounded-3 h-100" style="background: rgba(245, 158, 11, 0.04); border: 1px solid rgba(245, 158, 11, 0.2);">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <span class="user-avatar-circle" style="width: 38px; height: 38px; background: rgba(245, 158, 11, 0.2); color: #FBBF24;">3</span>
+                                <span class="badge bg-warning bg-opacity-15 text-warning border border-warning border-opacity-30">PURSUE</span>
                             </div>
-                            <h5 class="fw-bold text-white mb-2">Cloud DevOps &amp; SRE Architect</h5>
-                            <p class="text-muted small mb-3 flex-grow-1">
-                                Automate multi-region cloud environments with Terraform, orchestrate Kubernetes clusters, and build zero-downtime CI/CD.
-                            </p>
-                            <div class="mb-3">
-                                <strong class="text-heading small d-block mb-1">Key Required Skills:</strong>
-                                <div class="d-flex flex-wrap gap-1">
-                                    <span class="badge bg-secondary text-light">AWS</span>
-                                    <span class="badge bg-secondary text-light">Terraform</span>
-                                    <span class="badge bg-secondary text-light">Kubernetes</span>
-                                    <span class="badge bg-secondary text-light">Docker</span>
-                                    <span class="badge bg-secondary text-light">CI/CD</span>
-                                    <span class="badge bg-secondary text-light">Linux</span>
-                                </div>
-                            </div>
-                            <a th:href="@{/login}" class="btn btn-sm btn-secondary-custom w-100">
-                                <i class="fa-solid fa-play text-warning me-1"></i> Benchmark This Role
-                            </a>
+                            <h5 class="fw-bold text-white mb-2">Apply &amp; Track Opportunities</h5>
+                            <ul class="text-muted small ps-3 mb-0 d-flex flex-column gap-2">
+                                <li>Discover genuine opportunities via Remotive API and 7 job portals.</li>
+                                <li>Verify graduation year and tenure eligibility before applying.</li>
+                                <li>Apply directly on official employer career pages (no dead links).</li>
+                                <li>Manage pipeline from Saved to Interview and Offer in the Tracker.</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 5. Mathematical Rigor: The Explainable 6-Factor ATS Formula -->
+        <!-- ========================================================================= -->
+        <!-- 6. Technology & AI/ML Model Transparency Section (MANDATORY) -->
+        <!-- ========================================================================= -->
+        <section class="py-5" id="transparency" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <div class="container-xl px-3 px-md-4">
+                <div class="text-center mb-5">
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-20 px-3 py-1 mb-2">Technical Integrity</span>
+                    <h2 class="fw-bold text-white mb-2">Technology &amp; AI/ML Model Transparency</h2>
+                    <p class="text-muted mx-auto" style="max-width: 760px;">
+                        We believe candidates and reviewers deserve honest technical disclosures. Below is an exact accounting of every technology, its responsibility, inputs, outputs, and current operational status:
+                    </p>
+                </div>
+
+                <!-- Transparency Disclosure Invariants -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-2 h-100" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
+                            <strong class="text-success small d-block mb-1"><i class="fa-solid fa-scale-balanced me-1"></i> Deterministic ATS Scoring</strong>
+                            <p class="text-muted extra-small mb-0">Our ATS score is computed by a 6-factor arithmetic equation enforced in Java, not an arbitrary neural network prediction.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-2 h-100" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
+                            <strong class="text-info small d-block mb-1"><i class="fa-solid fa-database me-1"></i> Grounded RAG Disclosure</strong>
+                            <p class="text-muted extra-small mb-0">RAG is not a live job API; it is only utilized when indexed reference documents ground LLM career responses.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-2 h-100" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
+                            <strong class="text-warning small d-block mb-1"><i class="fa-solid fa-user-shield me-1"></i> Privacy &amp; Consent Invariant</strong>
+                            <p class="text-muted extra-small mb-0">We never train models on private user resumes. Personal PII is masked via regex before any external AI call.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Structured Technical Component Table -->
+                <div class="table-responsive custom-card p-3 mb-4">
+                    <table class="table table-dark table-hover align-middle mb-0" style="background: transparent;">
+                        <thead>
+                            <tr class="text-muted small border-bottom" style="border-color: var(--border-subtle) !important;">
+                                <th>Technology / Model</th>
+                                <th>Intended Responsibility</th>
+                                <th>Input Processed</th>
+                                <th>Output Produced</th>
+                                <th>Feature Supported</th>
+                                <th>Operational Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="small">
+                            <!-- 1. Java & Spring Boot -->
+                            <tr>
+                                <td><strong class="text-white">Java 21 &amp; Spring Boot 3.3.4</strong></td>
+                                <td>Main application core, authentication, business logic, session security, and REST APIs</td>
+                                <td>HTTP requests, user credentials, resume files</td>
+                                <td>Rendered web views, JSON responses, security sessions</td>
+                                <td>Entire platform controller &amp; gateway</td>
+                                <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active &amp; Tested</span></td>
+                            </tr>
+                            <!-- 2. MySQL 8.4 -->
+                            <tr>
+                                <td><strong class="text-white">MySQL 8.4 Server</strong></td>
+                                <td>Relational data persistence, user profiles, application tracking, audit logs</td>
+                                <td>Entity objects via Spring Data JPA</td>
+                                <td>Normalized relational records (7 tables)</td>
+                                <td>User, Resume, JobMatch, AuditLog tables</td>
+                                <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active &amp; Tested</span></td>
+                            </tr>
+                            <!-- 3. Apache PDFBox & Apache POI -->
+                            <tr>
+                                <td><strong class="text-white">Apache PDFBox &amp; Apache POI</strong></td>
+                                <td>Document stream validation &amp; plaintext extraction with magic byte checks</td>
+                                <td>PDF (%PDF-) &amp; DOCX (PK\x03\x04) binary streams</td>
+                                <td>Sanitized plain text representation</td>
+                                <td>Resume Parser Service</td>
+                                <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active &amp; Tested</span></td>
+                            </tr>
+                            <!-- 4. Deterministic 6-Factor ATS -->
+                            <tr>
+                                <td><strong class="text-white">6-Factor ATS Formula Engine</strong></td>
+                                <td>Deterministic, reproducible mathematical calculation of compatibility</td>
+                                <td>Resume text, job specifications, contact tokens</td>
+                                <td>Score (0–100), matched/missing skills, section grades</td>
+                                <td>Resume Analyzer &amp; Results Audit</td>
+                                <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active &amp; Tested</span></td>
+                            </tr>
+                            <!-- 5. In-Memory PII Masking Pipeline -->
+                            <tr>
+                                <td><strong class="text-white">In-Memory PII Redaction Regex</strong></td>
+                                <td>DPDP Act 2023 &amp; GDPR compliance: masks phones, emails, and IDs</td>
+                                <td>Raw resume text before downstream AI calls</td>
+                                <td>Redacted payload with [REDACTED_PHONE/EMAIL]</td>
+                                <td>File Validation &amp; Gemini Client</td>
+                                <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active &amp; Tested</span></td>
+                            </tr>
+                            <!-- 6. Remotive API & 7-Portal Aggregator -->
+                            <tr>
+                                <td><strong class="text-white">Remotive API &amp; 7 Job Portals</strong></td>
+                                <td>Retrieving genuine remote vacancies &amp; building deep-links with attribution</td>
+                                <td>Target role title and geographic location query</td>
+                                <td>Job listings with original URLs, timestamps, &amp; eligibility</td>
+                                <td>Jobs &amp; Internships Discovery</td>
+                                <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active &amp; Tested</span></td>
+                            </tr>
+                            <!-- 7. Flying Saucer / OpenPDF -->
+                            <tr>
+                                <td><strong class="text-white">Flying Saucer / OpenPDF</strong></td>
+                                <td>High-fidelity vector PDF generation across 4 ATS-friendly templates</td>
+                                <td>Thymeleaf XHTML resume templates</td>
+                                <td>Print-ready vector PDF binary stream</td>
+                                <td>Resume Builder PDF Export</td>
+                                <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active &amp; Tested</span></td>
+                            </tr>
+                            <!-- 8. Google Gemini 2.5 Flash -->
+                            <tr>
+                                <td><strong class="text-white">Google Gemini 2.5 Flash</strong></td>
+                                <td>Qualitative career reviews, Google X-Y-Z bullet rewrites, cover letters</td>
+                                <td>PII-sanitized achievements &amp; role criteria</td>
+                                <td>Structured text recommendations &amp; rewrites</td>
+                                <td>AI Career Coach &amp; Interview Prep</td>
+                                <td><span class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-30">Active (Heuristic Fallback)</span></td>
+                            </tr>
+                            <!-- 9. Python / FastAPI Microservice Bridge -->
+                            <tr>
+                                <td><strong class="text-white">Python 3.12 / FastAPI Sidecar</strong></td>
+                                <td>Dedicated microservice for heavy NLP/ML operations when justified</td>
+                                <td>JSON payloads over REST from Java</td>
+                                <td>Extracted entity spans, semantic vectors</td>
+                                <td>ML Service (Port 8000 fallback to Java)</td>
+                                <td><span class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-30">Active (Auto-Fallback)</span></td>
+                            </tr>
+                            <!-- 10. Sentence Transformers (MiniLM) -->
+                            <tr>
+                                <td><strong class="text-white">Sentence-Transformers (MiniLM-L6)</strong></td>
+                                <td>Dense vector cosine similarity between resume evidence &amp; job criteria</td>
+                                <td>Extracted experience sentences &amp; job bullets</td>
+                                <td>Cosine similarity matrix (0.0 to 1.0)</td>
+                                <td>Semantic Job Matcher</td>
+                                <td><span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-30">In Development</span></td>
+                            </tr>
+                            <!-- 11. Model Evaluation Governance Agent -->
+                            <tr>
+                                <td><strong class="text-white">Model Governance &amp; Evaluation Agent</strong></td>
+                                <td>Orchestrating reproducible training, baseline comparisons, &amp; approval gates</td>
+                                <td>Permitted training corpora &amp; evaluation benchmarks</td>
+                                <td>F1/Precision metrics, registry versions, rollback</td>
+                                <td>Model Training Governance</td>
+                                <td><span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-30">In Development</span></td>
+                            </tr>
+                            <!-- 12. Qdrant Vector Search & Grounded RAG -->
+                            <tr>
+                                <td><strong class="text-white">Qdrant Vector DB &amp; Grounded RAG</strong></td>
+                                <td>Ingesting, chunking, and retrieving career knowledge for grounded generation</td>
+                                <td>Curated engineering competencies &amp; role taxonomies</td>
+                                <td>Retrieved context passages with source metadata</td>
+                                <td>Grounded Career Explanations</td>
+                                <td><span class="badge bg-secondary bg-opacity-20 text-light border border-secondary border-opacity-30">Planned</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================================= -->
+        <!-- 7. Mathematical Rigor: The Explainable 6-Factor ATS Formula -->
+        <!-- ========================================================================= -->
         <section class="py-5" id="formula" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
             <div class="container-xl px-3 px-md-4">
                 <div class="text-center mb-4">
-                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-20 px-3 py-1 mb-2">Anti-Hallucination</span>
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-20 px-3 py-1 mb-2">Anti-Hallucination Mathematics</span>
                     <h2 class="fw-bold text-white mb-2">The Explainable 6-Factor ATS Formula</h2>
                     <p class="text-muted mx-auto" style="max-width: 740px;">
-                        We believe candidates deserve transparency. Our core ATS score uses a deterministic mathematical equation:
+                        We believe candidates deserve transparency. Our core ATS score uses a deterministic mathematical equation implemented in Java (<code>ResumeAnalyzerService.java</code>):
                     </p>
                 </div>
 
@@ -363,14 +614,14 @@
                     <div class="text-success fw-bold fs-5 mb-2 font-monospace">
                         ATS Score = (S_keywords &times; 0.30) + (S_experience &times; 0.20) + (S_format &times; 0.20) + (S_contact &times; 0.10) + (S_summary &times; 0.10) + (S_education &times; 0.10)
                     </div>
-                    <p class="text-dim small mb-0">Total Score: 0 – 100 Points &bull; Enforced strictly in Java (<code>ResumeAnalyzerService.java</code>)</p>
+                    <p class="text-dim small mb-0">Total Score: 0 – 100 Points &bull; Enforced strictly in Java &bull; Zero stochastic hallucination</p>
                 </div>
 
                 <div class="row g-3">
                     <div class="col-md-4 col-sm-6">
                         <div class="p-3 rounded-2 h-100" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
                             <div class="d-flex justify-content-between mb-2">
-                                <strong class="text-heading small">Keyword Match</strong>
+                                <strong class="text-heading small">Keyword Match (S_keywords)</strong>
                                 <span class="badge bg-success">30%</span>
                             </div>
                             <p class="text-muted small mb-0">Regex word boundaries match skills without false substring collisions (e.g. Java vs JavaScript).</p>
@@ -379,25 +630,25 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="p-3 rounded-2 h-100" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
                             <div class="d-flex justify-content-between mb-2">
-                                <strong class="text-heading small">Work Experience</strong>
+                                <strong class="text-heading small">Work Experience (S_experience)</strong>
                                 <span class="badge bg-primary">20%</span>
                             </div>
-                            <p class="text-muted small mb-0">Evaluates employment duration, bullet density, and power action verbs.</p>
+                            <p class="text-muted small mb-0">Evaluates employment duration, bullet density, and Google X-Y-Z active achievement verbs.</p>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6">
                         <div class="p-3 rounded-2 h-100" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
                             <div class="d-flex justify-content-between mb-2">
-                                <strong class="text-heading small">Formatting Density</strong>
+                                <strong class="text-heading small">Formatting Density (S_format)</strong>
                                 <span class="badge bg-info">20%</span>
                             </div>
-                            <p class="text-muted small mb-0">Validates length (450–1,200 words), standard headers, and absence of corrupted tokens.</p>
+                            <p class="text-muted small mb-0">Validates length (450–1,200 words), standard headers, and absence of corrupted Unicode tokens.</p>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6">
                         <div class="p-3 rounded-2 h-100" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
                             <div class="d-flex justify-content-between mb-2">
-                                <strong class="text-heading small">Contact Completeness</strong>
+                                <strong class="text-heading small">Contact Completeness (S_contact)</strong>
                                 <span class="badge bg-secondary">10%</span>
                             </div>
                             <p class="text-muted small mb-0">Verifies email, telephone, LinkedIn, and GitHub/Portfolio URL presence.</p>
@@ -406,111 +657,73 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="p-3 rounded-2 h-100" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
                             <div class="d-flex justify-content-between mb-2">
-                                <strong class="text-heading small">Summary Statement</strong>
+                                <strong class="text-heading small">Summary Statement (S_summary)</strong>
                                 <span class="badge bg-secondary">10%</span>
                             </div>
-                            <p class="text-muted small mb-0">Verifies professional summary or objective outlining specialization.</p>
+                            <p class="text-muted small mb-0">Verifies targeted professional summary outlining domain specialization.</p>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6">
                         <div class="p-3 rounded-2 h-100" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
                             <div class="d-flex justify-content-between mb-2">
-                                <strong class="text-heading small">Education Verification</strong>
+                                <strong class="text-heading small">Education Verification (S_education)</strong>
                                 <span class="badge bg-secondary">10%</span>
                             </div>
-                            <p class="text-muted small mb-0">Detects recognized academic degrees (B.Tech, B.S., M.S., University).</p>
+                            <p class="text-muted small mb-0">Detects recognized academic degrees (B.Tech, B.S., M.S., University) and graduation year.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 6. Connected 9-Step Candidate Journey -->
-        <section class="py-5" id="workflow" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+        <!-- ========================================================================= -->
+        <!-- 8. Privacy & Responsible AI Section -->
+        <!-- ========================================================================= -->
+        <section class="py-5" id="privacy" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
             <div class="container-xl px-3 px-md-4">
                 <div class="text-center mb-5">
-                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-20 px-3 py-1 mb-2">Connected Flow</span>
-                    <h2 class="fw-bold text-white mb-2">The Complete First-Time User Journey</h2>
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-20 px-3 py-1 mb-2">Security &amp; Ethics</span>
+                    <h2 class="fw-bold text-white mb-2">Privacy &amp; Responsible AI Safeguards</h2>
                     <p class="text-muted mx-auto" style="max-width: 720px;">
-                        Here is the exact step-by-step experience from entering our platform to landing your job offer:
+                        We report only the privacy and security practices actually implemented in our codebase. No unverified certifications or exaggerated compliance claims.
                     </p>
                 </div>
 
-                <div class="row g-3">
+                <div class="row g-4">
                     <div class="col-md-4">
-                        <div class="p-3 rounded-3 h-100" style="background: rgba(20, 26, 35, 0.7); border: 1px solid var(--border-subtle);">
-                            <div class="user-avatar-circle mb-2" style="width: 36px; height: 36px; font-size: 0.95rem;">1</div>
-                            <h6 class="text-white fw-bold">1. Discover &amp; Register</h6>
-                            <p class="text-muted small mb-0">Explore public features, create your account, and set up your target role preferences.</p>
+                        <div class="p-4 rounded-3 h-100" style="background: rgba(20, 26, 35, 0.8); border: 1px solid var(--border-subtle);">
+                            <div class="text-success fs-3 mb-2"><i class="fa-solid fa-user-shield"></i></div>
+                            <h5 class="fw-bold text-white mb-2">In-Memory PII Redaction</h5>
+                            <p class="text-muted small mb-0">Before any resume text is evaluated by external AI models, our regex pipeline automatically redacts candidate mobile phone numbers and email addresses into safe placeholders.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="p-3 rounded-3 h-100" style="background: rgba(20, 26, 35, 0.7); border: 1px solid var(--border-subtle);">
-                            <div class="user-avatar-circle mb-2" style="width: 36px; height: 36px; font-size: 0.95rem; background: rgba(59, 130, 246, 0.15); color: #60A5FA; border-color: rgba(59, 130, 246, 0.3);">2</div>
-                            <h6 class="text-white fw-bold">2. Upload or Build Resume</h6>
-                            <p class="text-muted small mb-0">Upload existing PDF/DOCX or build from scratch across 4 ATS-friendly templates.</p>
+                        <div class="p-4 rounded-3 h-100" style="background: rgba(20, 26, 35, 0.8); border: 1px solid var(--border-subtle);">
+                            <div class="text-info fs-3 mb-2"><i class="fa-solid fa-key"></i></div>
+                            <h5 class="fw-bold text-white mb-2">BCrypt Password Protection</h5>
+                            <p class="text-muted small mb-0">User passwords are hashed using Spring Security's BCryptPasswordEncoder (work factor 10). Passwords are never logged or stored in plaintext.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="p-3 rounded-3 h-100" style="background: rgba(20, 26, 35, 0.7); border: 1px solid var(--border-subtle);">
-                            <div class="user-avatar-circle mb-2" style="width: 36px; height: 36px; font-size: 0.95rem; background: rgba(6, 182, 212, 0.15); color: #22D3EE; border-color: rgba(6, 182, 212, 0.3);">3</div>
-                            <h6 class="text-white fw-bold">3. Algorithmic ATS Audit</h6>
-                            <p class="text-muted small mb-0">Get a 6-factor score, matched skills list, and missing keyword breakdown.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-3 rounded-3 h-100" style="background: rgba(20, 26, 35, 0.7); border: 1px solid var(--border-subtle);">
-                            <div class="user-avatar-circle mb-2" style="width: 36px; height: 36px; font-size: 0.95rem; background: rgba(16, 185, 129, 0.15); color: #10B981; border-color: rgba(16, 185, 129, 0.3);">4</div>
-                            <h6 class="text-white fw-bold">4. Identify Skill Gaps</h6>
-                            <p class="text-muted small mb-0">Skills categorized into Demonstrated, Weak, and Missing with concrete evidence.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-3 rounded-3 h-100" style="background: rgba(20, 26, 35, 0.7); border: 1px solid var(--border-subtle);">
-                            <div class="user-avatar-circle mb-2" style="width: 36px; height: 36px; font-size: 0.95rem; background: rgba(239, 68, 68, 0.15); color: #F87171; border-color: rgba(239, 68, 68, 0.3);">5</div>
-                            <h6 class="text-white fw-bold">5. Stream YouTube &amp; Courses</h6>
-                            <p class="text-muted small mb-0">Watch curated tutorials and read official docs for every missing technology.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-3 rounded-3 h-100" style="background: rgba(20, 26, 35, 0.7); border: 1px solid var(--border-subtle);">
-                            <div class="user-avatar-circle mb-2" style="width: 36px; height: 36px; font-size: 0.95rem; background: rgba(245, 158, 11, 0.15); color: #FBBF24; border-color: rgba(245, 158, 11, 0.3);">6</div>
-                            <h6 class="text-white fw-bold">6. Search 7 Job Portals</h6>
-                            <p class="text-muted small mb-0">Launch pre-filtered searches on LinkedIn, Naukri, Indeed, and Google Jobs.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-3 rounded-3 h-100" style="background: rgba(20, 26, 35, 0.7); border: 1px solid var(--border-subtle);">
-                            <div class="user-avatar-circle mb-2" style="width: 36px; height: 36px; font-size: 0.95rem; background: rgba(168, 85, 247, 0.15); color: #C084FC; border-color: rgba(168, 85, 247, 0.3);">7</div>
-                            <h6 class="text-white fw-bold">7. Apply on Official Links</h6>
-                            <p class="text-muted small mb-0">Apply directly on genuine employer portals with verified credentials.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-3 rounded-3 h-100" style="background: rgba(20, 26, 35, 0.7); border: 1px solid var(--border-subtle);">
-                            <div class="user-avatar-circle mb-2" style="width: 36px; height: 36px; font-size: 0.95rem; background: rgba(16, 185, 129, 0.15); color: #10B981; border-color: rgba(16, 185, 129, 0.3);">8</div>
-                            <h6 class="text-white fw-bold">8. Track Applications</h6>
-                            <p class="text-muted small mb-0">Monitor interview statuses and follow-ups in the unified Application Tracker.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-3 rounded-3 h-100" style="background: rgba(20, 26, 35, 0.7); border: 1px solid var(--border-subtle);">
-                            <div class="user-avatar-circle mb-2" style="width: 36px; height: 36px; font-size: 0.95rem; background: rgba(6, 182, 212, 0.15); color: #22D3EE; border-color: rgba(6, 182, 212, 0.3);">9</div>
-                            <h6 class="text-white fw-bold">9. Ace the Interview</h6>
-                            <p class="text-muted small mb-0">Practice role-specific technical and behavioral questions generated by AI.</p>
+                        <div class="p-4 rounded-3 h-100" style="background: rgba(20, 26, 35, 0.8); border: 1px solid var(--border-subtle);">
+                            <div class="text-warning fs-3 mb-2"><i class="fa-solid fa-handshake-angle"></i></div>
+                            <h5 class="fw-bold text-white mb-2">No Hiring Guarantees</h5>
+                            <p class="text-muted small mb-0">We explicitly disclaim unsupported promises regarding guaranteed placements or hiring probabilities. The platform is an educational diagnostic and career acceleration tool.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 7. Call to Action Banner -->
+        <!-- ========================================================================= -->
+        <!-- 9. Final Call to Action Banner -->
+        <!-- ========================================================================= -->
         <section class="py-5">
             <div class="container-xl px-3 px-md-4">
                 <div class="custom-card p-4 p-md-5 text-center position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 182, 212, 0.12) 100%); border-color: rgba(16, 185, 129, 0.3);">
                     <h2 class="display-6 fw-bold text-white mb-2">Ready to Connect Your Career Journey?</h2>
-                    <p class="text-muted mx-auto mb-4" style="max-width: 650px; font-size: 1.05rem;">
-                        Join students and engineers who have stopped guessing. Create your free account to audit your resume, uncover skill gaps, and apply with confidence.
+                    <p class="text-muted mx-auto mb-4" style="max-width: 680px; font-size: 1.05rem;">
+                        Join students, fresh graduates, and engineers who have stopped guessing. Create your free account to audit your resume, uncover skill gaps, follow your personalized roadmap, and apply with confidence.
                     </p>
                     <div class="d-flex justify-content-center gap-3 flex-wrap">
                         <a th:href="@{/register}" class="btn btn-primary-custom px-4 py-3 fs-6 shadow-lg d-inline-flex align-items-center gap-2">

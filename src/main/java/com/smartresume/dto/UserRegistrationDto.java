@@ -20,6 +20,9 @@ public class UserRegistrationDto {
     @NotBlank(message = "Confirm password is required")
     private String confirmPassword;
 
+    private String userType = "STUDENT";
+    private String targetRole = "Full Stack Developer";
+
     public UserRegistrationDto() {
     }
 
@@ -31,4 +34,8 @@ public class UserRegistrationDto {
     public void setPassword(String password) { this.password = password; }
     public String getConfirmPassword() { return confirmPassword; }
     public void setConfirmPassword(String confirmPassword) { this.confirmPassword = confirmPassword; }
+    public String getUserType() { return userType; }
+    public void setUserType(String userType) { this.userType = userType; }
+    public String getTargetRole() { return targetRole; }
+    public void setTargetRole(String targetRole) { this.targetRole = targetRole; }
 }

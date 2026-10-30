@@ -116,6 +116,64 @@
             </div>
         </div>
 
+        <!-- Model Training & Evaluation Governance Registry (Phase 2) -->
+        <div class="custom-card mb-4 p-4 border-warning border-opacity-25" th:if="${governedModels != null}">
+            <div class="card-header-clean mb-3">
+                <div>
+                    <h5 class="fw-bold text-warning mb-1 d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-microchip"></i>
+                        <span>Model Training, Evaluation &amp; Governance Registry</span>
+                    </h5>
+                    <small class="text-muted">Orchestrating dataset permission gates, baseline comparisons, F1 evaluation criteria, and deployment approvals.</small>
+                </div>
+                <span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-30">Controlled Governance</span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Model Identifier</th>
+                            <th>Task &amp; Version</th>
+                            <th>Dataset Source &amp; Consent</th>
+                            <th>Baseline vs Model F1</th>
+                            <th>Inference Latency</th>
+                            <th>Governance Status</th>
+                            <th>Approval Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="m : ${governedModels}">
+                            <td>
+                                <strong class="text-white d-block" th:text="${m.modelName}">Model Name</strong>
+                                <span class="text-muted extra-small" th:text="${m.modelId}">MOD-001</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary text-info extra-small" th:text="${m.taskType}">TASK</span>
+                                <span class="text-muted extra-small d-block" th:text="${m.version}">v1.0.0</span>
+                            </td>
+                            <td>
+                                <span class="text-body small d-block" th:text="${m.datasetSource}">Dataset</span>
+                                <span class="badge bg-success bg-opacity-15 text-success extra-small" th:if="${m.userConsentVerified}"><i class="fa-solid fa-check me-1"></i> Consent Verified</span>
+                            </td>
+                            <td>
+                                <span class="text-muted extra-small">Base: <strong th:text="${m.baselineF1}">0.78</strong></span> &bull;
+                                <span class="text-success extra-small">Model: <strong th:text="${m.modelF1}">0.89</strong></span>
+                            </td>
+                            <td>
+                                <span class="text-body small" th:text="${m.latencyMs + ' ms'}">45.0 ms</span>
+                            </td>
+                            <td>
+                                <span class="badge" th:classappend="${m.status == T(com.smartresume.agent.ModelGovernanceAgent.TrainingStatus).DEPLOYED_ACTIVE ? 'bg-success bg-opacity-20 text-success border border-success border-opacity-30' : (m.status == T(com.smartresume.agent.ModelGovernanceAgent.TrainingStatus).PENDING_DEPLOYMENT_APPROVAL ? 'bg-warning bg-opacity-20 text-warning border border-warning border-opacity-30' : 'bg-secondary text-muted')}"
+                                      th:text="${m.status}">STATUS</span>
+                            </td>
+                            <td class="text-muted extra-small" th:text="${m.deploymentApprovalNotes}">Approval notes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Audit Activity Logs Table -->
         <div class="custom-card mb-4 p-4">
             <div class="card-header-clean">

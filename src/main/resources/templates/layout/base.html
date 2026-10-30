@@ -57,49 +57,65 @@
                 </div>
             </a>
 
-            <!-- Core Navigation Items -->
-            <div class="sidebar-nav-section">Workspace</div>
+            <!-- Core Navigation Items Grouped by Career Journey -->
+            <div class="sidebar-nav-section">Dashboard</div>
             <nav class="sidebar-nav">
                 <a class="nav-link" th:href="@{/dashboard}">
                     <i class="fa-solid fa-chart-pie"></i>
-                    <span>Dashboard</span>
+                    <span>My Dashboard</span>
                 </a>
+            </nav>
+
+            <div class="sidebar-nav-section">Part 2: Explore</div>
+            <nav class="sidebar-nav">
+                <a class="nav-link" th:href="@{/explore}">
+                    <i class="fa-solid fa-compass text-info"></i>
+                    <span>Career Explorer</span>
+                    <span class="badge bg-info bg-opacity-20 text-info nav-pill-badge">Roles</span>
+                </a>
+                <a class="nav-link" th:href="@{/jobs}">
+                    <i class="fa-solid fa-briefcase text-warning"></i>
+                    <span>Jobs &amp; Internships</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-nav-section">Part 3: Prepare</div>
+            <nav class="sidebar-nav">
                 <a class="nav-link" th:href="@{/analyzer}">
-                    <i class="fa-solid fa-file-magnifying-glass"></i>
-                    <span>Resume Analyzer</span>
+                    <i class="fa-solid fa-file-magnifying-glass text-success"></i>
+                    <span>Resume &amp; ATS</span>
+                </a>
+                <a class="nav-link" th:href="@{/skill-gap}">
+                    <i class="fa-solid fa-layer-group text-danger"></i>
+                    <span>Skills &amp; Projects</span>
+                </a>
+                <a class="nav-link" th:href="@{/roadmap}">
+                    <i class="fa-solid fa-route text-info"></i>
+                    <span>Learning Roadmap</span>
+                </a>
+                <a class="nav-link" th:href="@{/interview}">
+                    <i class="fa-solid fa-user-tie text-warning"></i>
+                    <span>Interview Practice</span>
                 </a>
                 <a class="nav-link ai-link" th:href="@{/ai-analyzer}">
                     <i class="fa-solid fa-wand-magic-sparkles text-info"></i>
                     <span>AI Career Coach</span>
-                    <span class="badge bg-info bg-opacity-25 text-info nav-pill-badge">Gemini</span>
                 </a>
                 <a class="nav-link" th:href="@{/builder}">
-                    <i class="fa-solid fa-file-pen"></i>
+                    <i class="fa-solid fa-file-pen text-primary"></i>
                     <span>Resume Builder</span>
-                </a>
-                <a class="nav-link" th:href="@{/jobs}">
-                    <i class="fa-solid fa-briefcase"></i>
-                    <span>Job Search (7 Portals)</span>
                 </a>
             </nav>
 
-            <div class="sidebar-nav-section">Career Acceleration</div>
+            <div class="sidebar-nav-section">Part 4: Pursue</div>
             <nav class="sidebar-nav">
-                <a class="nav-link" th:href="@{/skill-gap}">
-                    <i class="fa-solid fa-layer-group text-danger"></i>
-                    <span>Skill Gap &amp; YouTube</span>
-                </a>
-                <a class="nav-link" th:href="@{/roadmap}">
-                    <i class="fa-solid fa-route text-info"></i>
-                    <span>8-Week Roadmap</span>
-                </a>
                 <a class="nav-link" th:href="@{/tracker}">
                     <i class="fa-solid fa-list-check text-success"></i>
-                    <span>Application Tracker</span>
+                    <span>Applications</span>
                 </a>
-                <a class="nav-link" th:href="@{/interview}">
-                    <i class="fa-solid fa-user-tie text-warning"></i>
-                    <span>Interview Prep</span>
+                <a class="nav-link" th:href="@{/profile}">
+                    <i class="fa-solid fa-user-gear text-secondary"></i>
+                    <span>Profile &amp; Pathway</span>
                 </a>
             </nav>
 
@@ -107,7 +123,7 @@
             <nav class="sidebar-nav">
                 <a class="nav-link" th:href="@{/}">
                     <i class="fa-solid fa-globe"></i>
-                    <span>Public Landing Page</span>
+                    <span>Product Brochure</span>
                 </a>
                 <a class="nav-link" th:href="@{/analytics}">
                     <i class="fa-solid fa-chart-line"></i>

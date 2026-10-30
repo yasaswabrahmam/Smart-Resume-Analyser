@@ -39,8 +39,13 @@ public class JobSearchController {
     public String searchJobs(@ModelAttribute("filter") JobFilterDto filter, Model model) {
         populateJobSearchModel(model, filter);
 
-        // Fetch live jobs
-        List<JobSearchResultDto> liveJobs = jobSearchService.searchLiveJobs(filter);
+        com.smartresume.model.User user = userService.getCurrentUser().orElse(null);
+        if (user != null) {
+            model.addAttribute("currentUser", user);
+        }
+
+        // Fetch live jobs with personalized eligibility evaluation
+        List<JobSearchResultDto> liveJobs = jobSearchService.searchLiveJobs(filter, user);
         model.addAttribute("liveJobs", liveJobs);
 
         // Generate direct targeted search URLs for all 7 portals
@@ -48,7 +53,6 @@ public class JobSearchController {
         model.addAttribute("portalUrls", portalUrls);
 
         model.addAttribute("hasSearched", true);
-        userService.getCurrentUser().ifPresent(u -> model.addAttribute("currentUser", u));
         return "jobs/search";
     }
 

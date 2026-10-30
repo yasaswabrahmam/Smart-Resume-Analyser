@@ -15,6 +15,11 @@ public class JobSearchResultDto {
     private String description;
     private boolean isLive; // true if scraped or API fetched, false if direct portal search link
 
+    // Phase 2 Eligibility & Attribution Fields
+    private String eligibilityStatus = "UNKNOWN_CRITERIA"; // "MEETS_CRITERIA", "DOES_NOT_MEET", "UNKNOWN_CRITERIA"
+    private String eligibilityReason = "General tech opportunity: review detailed provider posting for batch and degree eligibility.";
+    private String retrievedAt;
+
     public JobSearchResultDto() {
     }
 
@@ -34,7 +39,15 @@ public class JobSearchResultDto {
         this.postedDate = postedDate;
         this.description = description;
         this.isLive = isLive;
+        this.retrievedAt = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm"));
     }
+
+    public String getEligibilityStatus() { return eligibilityStatus; }
+    public void setEligibilityStatus(String eligibilityStatus) { this.eligibilityStatus = eligibilityStatus; }
+    public String getEligibilityReason() { return eligibilityReason; }
+    public void setEligibilityReason(String eligibilityReason) { this.eligibilityReason = eligibilityReason; }
+    public String getRetrievedAt() { return retrievedAt; }
+    public void setRetrievedAt(String retrievedAt) { this.retrievedAt = retrievedAt; }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }

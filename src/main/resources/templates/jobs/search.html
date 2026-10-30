@@ -206,10 +206,30 @@
                             </div>
                             <span class="badge bg-secondary bg-opacity-25 text-secondary border border-secondary border-opacity-25 text-xs" th:text="${job.source}">Remotive</span>
                         </div>
-                        <p class="text-muted small flex-grow-1 mb-3" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
+                        <p class="text-muted small flex-grow-1 mb-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
                            th:text="${job.description != null ? #strings.abbreviate(job.description, 160) : 'Verified vacancy matching your specified skills and candidate profile.'}">
                             Job brief summary goes here...
                         </p>
+
+                        <!-- Eligibility Verification Badge (Part 4: Pursue) -->
+                        <div class="mb-3 p-2 rounded-2" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
+                            <div class="d-flex align-items-center justify-content-between mb-1">
+                                <div>
+                                    <span th:if="${job.eligibilityStatus == 'MEETS_CRITERIA'}" class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30" style="font-size: 0.72rem;">
+                                        <i class="fa-solid fa-circle-check me-1"></i> Meets Criteria
+                                    </span>
+                                    <span th:if="${job.eligibilityStatus == 'DOES_NOT_MEET'}" class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-30" style="font-size: 0.72rem;">
+                                        <i class="fa-solid fa-circle-xmark me-1"></i> Experience Gap
+                                    </span>
+                                    <span th:if="${job.eligibilityStatus == 'UNKNOWN_CRITERIA'}" class="badge bg-secondary bg-opacity-30 text-light border border-secondary border-opacity-30" style="font-size: 0.72rem;">
+                                        <i class="fa-solid fa-circle-question me-1"></i> Review Posting
+                                    </span>
+                                </div>
+                                <span class="text-muted" style="font-size: 0.68rem;" th:text="${'Fetched ' + (job.retrievedAt ?: 'Today')}">Today</span>
+                            </div>
+                            <p class="text-muted mb-0" style="font-size: 0.73rem;" th:text="${job.eligibilityReason}">Eligibility analysis reason</p>
+                        </div>
+
                         <div class="d-flex justify-content-between align-items-center pt-2.5 border-top border-secondary border-opacity-15 mt-auto">
                             <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 small"
                                   th:text="${job.salary != null && !job.salary.isBlank() ? job.salary : 'Competitive Compensation'}">Competitive</span>

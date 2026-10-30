@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout/base :: layout(~{::#main-content})}">
+<head>
+    <title>Profile &amp; Career Settings — Smart Resume AI</title>
+</head>
+<body>
+    <div id="main-content">
+        <!-- Breadcrumb / Header Area -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-2 py-1">Career Profile</span>
+                    <span class="text-muted small">&bull; Student &amp; Professional Pathway</span>
+                </div>
+                <h2 class="fw-bold text-white mb-1">Profile &amp; Career Preferences</h2>
+                <p class="text-muted small mb-0">Personalize your journey. Your preferences tailor ATS benchmarks, skill roadmaps, and internship/job opportunities.</p>
+            </div>
+            <div>
+                <a th:href="@{/dashboard}" class="btn btn-secondary-custom btn-sm">
+                    <i class="fa-solid fa-arrow-left me-1"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Left Column: User Summary Card -->
+            <div class="col-lg-4">
+                <div class="custom-card p-4 text-center mb-4">
+                    <div class="user-avatar-circle mx-auto mb-3" style="width: 72px; height: 72px; font-size: 1.8rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.2)); border: 2px solid rgba(16, 185, 129, 0.4); color: #10B981;">
+                        <i class="fa-solid fa-user-astronaut"></i>
+                    </div>
+                    <h5 class="fw-bold text-white mb-1" th:text="${user.fullName}">Candidate Name</h5>
+                    <p class="text-muted small mb-2" th:text="${user.email}">user@domain.com</p>
+
+                    <div class="d-flex justify-content-center gap-2 mb-3">
+                        <span class="badge" th:classappend="${user.userType == 'STUDENT' ? 'bg-success bg-opacity-15 text-success border border-success border-opacity-30' : 'bg-info bg-opacity-15 text-info border border-info border-opacity-30'}"
+                              th:text="${user.userType == 'STUDENT' ? 'Student Pathway' : 'Professional Pathway'}">
+                            Student Pathway
+                        </span>
+                        <span class="badge bg-secondary text-light" th:text="${user.role == 'ROLE_ADMIN' ? 'Administrator' : 'Standard Member'}">Standard Member</span>
+                    </div>
+
+                    <div class="p-3 rounded-3 text-start small mb-3" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Target Career Role:</span>
+                            <strong class="text-heading" th:text="${user.targetRole ?: 'Not specified'}">Full Stack Developer</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Work Preference:</span>
+                            <strong class="text-heading" th:text="${user.locationPreference ?: 'Remote'}">Remote</strong>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Weekly Study Hours:</span>
+                            <strong class="text-heading" th:text="${(user.weeklyLearningHours ?: 10) + ' hrs / week'}">10 hrs / week</strong>
+                        </div>
+                    </div>
+
+                    <a th:href="@{/skill-gap}" class="btn btn-sm btn-primary-custom w-100">
+                        <i class="fa-solid fa-bullseye me-1"></i> View My Skill Gaps
+                    </a>
+                </div>
+
+                <!-- Pathway Tip Box -->
+                <div class="p-3 rounded-3" style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h6 class="text-success fw-bold small mb-2"><i class="fa-solid fa-lightbulb me-1"></i> Why We Ask This</h6>
+                    <p class="text-muted small mb-0">
+                        <strong>Graduation year &amp; degree</strong> allow our eligibility checker to filter out senior-only requisitions and highlight genuine campus/internship openings.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Column: Edit Profile Form -->
+            <div class="col-lg-8">
+                <div class="custom-card p-4">
+                    <h5 class="fw-bold text-white mb-3 pb-2 border-bottom border-secondary border-opacity-20">
+                        <i class="fa-solid fa-sliders text-success me-2"></i>Edit Career Profile &amp; Pathway
+                    </h5>
+
+                    <form th:action="@{/profile/update}" method="post">
+                        <!-- Pathway Radio Switcher -->
+                        <div class="mb-4">
+                            <label class="form-label text-heading fw-semibold mb-2">Choose Your Career Pathway:</label>
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <div class="p-3 rounded-3 border h-100 position-relative cursor-pointer"
+                                         style="background: rgba(20, 26, 35, 0.8);"
+                                         th:styleappend="${user.userType == 'STUDENT' ? 'border-color: #10B981 !important;' : 'border-color: var(--border-subtle);'}">
+                                        <div class="form-check m-0">
+                                            <input class="form-check-input" type="radio" name="userType" id="typeStudent" value="STUDENT"
+                                                   th:checked="${user.userType == null or user.userType == 'STUDENT'}">
+                                            <label class="form-check-label fw-bold text-white ms-1" for="typeStudent">
+                                                Student / Fresher
+                                            </label>
+                                        </div>
+                                        <p class="text-muted small mt-2 mb-0 ms-4">
+                                            Exploring campus placements, internships, first software engineering roles, and project portfolio building.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="p-3 rounded-3 border h-100 position-relative cursor-pointer"
+                                         style="background: rgba(20, 26, 35, 0.8);"
+                                         th:styleappend="${user.userType == 'PROFESSIONAL' ? 'border-color: #06B6D4 !important;' : 'border-color: var(--border-subtle);'}">
+                                        <div class="form-check m-0">
+                                            <input class="form-check-input" type="radio" name="userType" id="typeProfessional" value="PROFESSIONAL"
+                                                   th:checked="${user.userType == 'PROFESSIONAL'}">
+                                            <label class="form-check-label fw-bold text-white ms-1" for="typeProfessional">
+                                                Working Professional
+                                            </label>
+                                        </div>
+                                        <p class="text-muted small mt-2 mb-0 ms-4">
+                                            Tailoring experience for career progression, domain transitions, and mid/senior requisitions.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Target Role & Location Preference -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="targetRole" class="form-label text-heading small fw-semibold">Target Career Role *</label>
+                                <select class="form-select custom-input" id="targetRole" name="targetRole" required>
+                                    <option th:each="r : ${roleList}" th:value="${r}" th:text="${r}" th:selected="${r == user.targetRole}">Full Stack Developer</option>
+                                </select>
+                                <span class="text-muted extra-small">Powers ATS keyword matching and skill gap benchmarks</span>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="locationPreference" class="form-label text-heading small fw-semibold">Work Mode &amp; Location</label>
+                                <input type="text" class="form-control custom-input" id="locationPreference" name="locationPreference"
+                                       th:value="${user.locationPreference ?: 'Remote'}" placeholder="e.g. Remote, Bangalore, London, Hybrid">
+                            </div>
+                        </div>
+
+                        <!-- Education & Academics -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-5">
+                                <label for="educationDegree" class="form-label text-heading small fw-semibold">Degree &amp; Major</label>
+                                <input type="text" class="form-control custom-input" id="educationDegree" name="educationDegree"
+                                       th:value="${user.educationDegree}" placeholder="e.g. B.Tech Computer Science, B.S. IT">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="institution" class="form-label text-heading small fw-semibold">College / University</label>
+                                <input type="text" class="form-control custom-input" id="institution" name="institution"
+                                       th:value="${user.institution}" placeholder="e.g. National Institute of Tech">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="graduationYear" class="form-label text-heading small fw-semibold">Graduation Year</label>
+                                <input type="number" class="form-control custom-input" id="graduationYear" name="graduationYear"
+                                       th:value="${user.graduationYear}" placeholder="e.g. 2025" min="1990" max="2035">
+                            </div>
+                        </div>
+
+                        <!-- Professional / Experience Details -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="currentRole" class="form-label text-heading small fw-semibold">Current Title / Role (If Employed)</label>
+                                <input type="text" class="form-control custom-input" id="currentRole" name="currentRole"
+                                       th:value="${user.currentRole}" placeholder="e.g. Junior Developer, Student, Freelancer">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="experienceYears" class="form-label text-heading small fw-semibold">Years of Experience</label>
+                                <input type="number" class="form-control custom-input" id="experienceYears" name="experienceYears"
+                                       th:value="${user.experienceYears ?: 0}" min="0" max="40">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="weeklyLearningHours" class="form-label text-heading small fw-semibold">Weekly Study Hours</label>
+                                <input type="number" class="form-control custom-input" id="weeklyLearningHours" name="weeklyLearningHours"
+                                       th:value="${user.weeklyLearningHours ?: 10}" min="1" max="80">
+                            </div>
+                        </div>
+
+                        <!-- Current Technical Skills -->
+                        <div class="mb-4">
+                            <label for="currentSkills" class="form-label text-heading small fw-semibold">Current Verified Technical Skills (Comma-separated)</label>
+                            <textarea class="form-control custom-input" id="currentSkills" name="currentSkills" rows="3"
+                                      placeholder="e.g. Java, Spring Boot, MySQL, Git, Docker, React, HTML, CSS"
+                                      th:text="${user.currentSkills}"></textarea>
+                            <span class="text-muted extra-small">Our eligibility checker and skill gap engine compare these against target job listings.</span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-end gap-2 pt-2 border-top border-secondary border-opacity-20">
+                            <a th:href="@{/dashboard}" class="btn btn-secondary-custom">Cancel</a>
+                            <button type="submit" class="btn btn-primary-custom px-4">
+                                <i class="fa-solid fa-floppy-disk me-1"></i> Save Profile &amp; Pathway
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

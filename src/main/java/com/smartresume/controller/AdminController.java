@@ -33,17 +33,20 @@ public class AdminController {
     private final ResumeRepository resumeRepository;
     private final FeedbackRepository feedbackRepository;
     private final UserService userService;
+    private final com.smartresume.agent.ModelGovernanceAgent modelGovernanceAgent;
 
     public AdminController(AdminService adminService,
                            ExportService exportService,
                            ResumeRepository resumeRepository,
                            FeedbackRepository feedbackRepository,
-                           UserService userService) {
+                           UserService userService,
+                           com.smartresume.agent.ModelGovernanceAgent modelGovernanceAgent) {
         this.adminService = adminService;
         this.exportService = exportService;
         this.resumeRepository = resumeRepository;
         this.feedbackRepository = feedbackRepository;
         this.userService = userService;
+        this.modelGovernanceAgent = modelGovernanceAgent;
     }
 
     @GetMapping
@@ -67,6 +70,8 @@ public class AdminController {
         List<AdminLog> adminLogs = adminService.getAdminLogs();
         model.addAttribute("adminLogs", adminLogs);
         model.addAttribute("logs", adminLogs);
+
+        model.addAttribute("governedModels", modelGovernanceAgent.getRegisteredModels());
 
         return "dashboard/admin";
     }

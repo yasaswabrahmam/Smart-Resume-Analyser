@@ -1,43 +1,55 @@
 # Feature Implementation Status
 
-**Smart Resume AI — Capability Matrix**  
-*Document Version: 2.0.0*  
+**Smart Resume AI — Capability Matrix (Phase 2 Career Intelligence Platform)**  
+*Document Version: 2.1.0*  
 *Generated: October 2026*
 
 ---
 
-## 1. Feature Completion Matrix
+## 1. Architectural Pillar Completion Matrix
 
-| Module | Sub-Feature | Implementation Status | Tech Stack | Notes |
+| Platform Pillar | Module / Feature | Implementation Status | Tech Stack | Notes & Disclosures |
 |---|---|---|---|---|
-| **Public Experience** | Dedicated Landing Page | **Complete (100%)** | Thymeleaf, Bootstrap 5.3, CSS3 | No sidebar, full-width, clean public navbar. |
-| | Problem vs Solution Grid | **Complete (100%)** | HTML5, CSS Grid | Outlines fragmentation problem and 9-stage solution. |
-| | Target Roles & Sample JDs | **Complete (100%)** | Java (`JobRolesConfig`), HTML5 | 6 industry roles with sample requirements. |
-| | ATS Formula Breakdown | **Complete (100%)** | KaTeX / MathML / HTML | Explains the 6 deterministic factors. |
-| **Resume Ingestion** | PDF & DOCX File Upload | **Complete (100%)** | Apache Tika, Apache PDFBox | Validates magic bytes, max size $10\text{MB}$. |
-| | DPDP/GDPR PII Masking | **Complete (100%)** | Regex, `FileValidationService` | Sanitizes phone numbers, emails, national IDs. |
-| **ATS Scoring** | 6-Factor Deterministic Equation | **Complete (100%)** | Java (`ResumeAnalyzerService`) | Word-boundary regex; zero hallucination. |
-| | Section Auditing | **Complete (100%)** | Java | Checks Experience, Education, Contact, Summary. |
-| | Visual Score Gauge & Cards | **Complete (100%)** | Chart.js / CSS circular SVG | Interactive score ring with color bands. |
-| **Career Acceleration** | Skill Gap Categorization | **Complete (100%)** | Java (`SkillGapService`) | Partitioned into Demonstrated, Weak, Missing. |
-| | YouTube Video Tutorials | **Complete (100%)** | Java / Thymeleaf | Direct YouTube channels, titles, and durations. |
-| | 8-Week Structured Roadmap | **Complete (100%)** | Java (`CareerRoadmapService`) | 4 bi-weekly sprints with clear deliverables. |
-| | Role-Specific Interview Prep | **Complete (100%)** | Java (`InterviewPrepService`) | Technical core, system design, STAR behavioral. |
-| **Job Discovery & Tracker** | Remotive Live Jobs API | **Complete (100%)** | Spring `RestClient` / JSON | Real-time tech jobs with tags and locations. |
-| | 7-Portal Aggregator | **Complete (100%)** | Java / HTML | LinkedIn, Indeed, Naukri, Glassdoor, Foundit, Google, Internshala. |
-| | Application Pipeline Tracker | **Complete (100%)** | Spring Data JPA, MySQL | Saved, Applied, Interviewing, Offered, Rejected. |
-| | Dashboard Live Metrics | **Complete (100%)** | Java (`ApplicationTrackerService`) | Live stats for saved and active applications. |
-| **Resume Builder** | 4 ATS-Friendly Templates | **Complete (100%)** | Thymeleaf, HTML5 | Modern, Classic, Minimalist, Creative. |
-| | Live Editor Preview | **Complete (100%)** | JavaScript | Dynamic form updates. |
-| | Flying Saucer PDF Export | **Complete (100%)** | Flying Saucer, iText 2.1.7 | High-fidelity vector PDF generation. |
-| **AI & LLM Services** | Google Gemini 2.5 Flash Review | **Complete (100%)** | Java REST Client (`GeminiAiService`) | Qualitative feedback, Google X-Y-Z rewrites. |
-| | Multi-Agent Orchestration | **Complete (100%)** | Java (`CareerAgentOrchestrator`) | Parser, Auditor, Coach, Tracker sub-agents. |
-| | Python ML Microservice Client | **Complete (100%)** | FastAPI Client / Fallback | Resilient fallback to Java when Python is offline. |
+| **Part 1: Public Brochure** | Dedicated Landing Page | **Complete (100%)** | Thymeleaf, Bootstrap 5.3, CSS3 | Preserves obsidian dark theme, 3D emblem, and public navbar. |
+| | 10 Brochure Questions Answered | **Complete (100%)** | HTML5, CSS Grid | Explains audience, problems, capabilities, and workflows without requiring registration. |
+| | Dual Pathways (Student vs Professional) | **Complete (100%)** | Thymeleaf, HTML5 | First job / internship vs mid-career promotion / transition pathways. |
+| | AI/ML Model Transparency Table | **Complete (100%)** | Thymeleaf, Markdown | Honest status classification: *Active and tested*, *Active but not fully evaluated*, *In development*, *Planned*. |
+| | DPDP/GDPR & Responsible AI | **Complete (100%)** | Java, Regex, HTML5 | PII redaction, dataset consent validation, no training on user resumes without explicit consent. |
+| **Part 2: Explore** | Student & Professional Onboarding | **Complete (100%)** | Spring Data JPA, MySQL | User entity extended with `userType`, `targetRole`, `educationDegree`, `institution`, `graduationYear`, `weeklyLearningHours`. |
+| | Profile & Pathway Settings (`/profile`) | **Complete (100%)** | Spring MVC, Thymeleaf | Live profile view and POST `/profile/update` route with flash feedback. |
+| | Career Explorer (`/explore`) | **Complete (100%)** | Java (`JobRolesConfig`), Thymeleaf | 8 role families, 32+ career levels, core & preferred skills, tools, project evidence, certs, and prerequisites. |
+| | Dynamic Role Filtering | **Complete (100%)** | Spring MVC (`CareerExplorerController`) | Real-time filtering by role category, keyword, and career tier (Intern to Senior). |
+| **Part 3: Prepare** | PDF & DOCX Resume Parser | **Complete (100%)** | Apache Tika, Apache PDFBox | Magic byte verification, size guardrails, robust text extraction. |
+| | 6-Factor Deterministic ATS Scoring | **Complete (100%)** | Java (`ResumeAnalyzerService`) | Word-boundary regex; zero hallucinated scores; explainable mathematical breakdown. |
+| | Skill Gap Engine (`/skill-gap`) | **Complete (100%)** | Java (`SkillGapService`) | Partitioned into Demonstrated, Weak, Missing + Project blueprints for practical evidence. |
+| | Adaptive Learning Roadmap (`/roadmap`) | **Complete (100%)** | Java (`CareerRoadmapService`) | Adjusted to user's weekly study hours; curated YouTube tutorials with channel titles and durations. |
+| | Interview Practice Hub (`/interview`) | **Complete (100%)** | Java (`InterviewPrepService`) | Core concepts, system design, STAR behavioral; clearly marked as educational practice material. |
+| **Part 4: Pursue** | Live Tech Jobs API | **Complete (100%)** | Spring `RestClient`, Remotive API | Live active remote listings with category tags, locations, and timestamps. |
+| | 7-Portal Employment Aggregator | **Complete (100%)** | Java, HTML5 | LinkedIn, Indeed, Naukri, Glassdoor, Foundit, Google Jobs, Internshala. |
+| | Personalized Eligibility Checker | **Complete (100%)** | Java (`JobSearchService`) | Returns *Meets Requirements*, *Does Not Meet*, or *Unknown* with concrete evidence based on user profile skills & experience. |
+| | 7-Stage Application Tracker (`/tracker`)| **Complete (100%)** | Spring Data JPA, MySQL | Saved/Interested, Applied, Assessment, Interviewing, Offer Received, Rejected, Withdrawn. |
+| **Governance & Safety** | Model Training & Governance Agent | **Complete (100%)** | Java (`ModelGovernanceAgent`) | Consent verification, evaluation gates, baseline comparison, model registry, and automated rollback. |
+| | Admin Governance Dashboard (`/admin`) | **Complete (100%)** | Thymeleaf, Spring Security | Auditable table displaying governed model statuses, datasets, evaluation gates, and version rollbacks. |
 
 ---
 
-## 2. Integrity & Quality Assurance
+## 2. Model & Algorithmic Transparency Ledger
 
-- **Zero Mock Data in Production**: All job searches connect to real APIs (Remotive) or authentic job portal URLs.
-- **Fail-Safe Fallbacks**: If the external Gemini API key is not configured or exceeds quota, the application automatically uses rule-based heuristic templates to ensure uninterrupted operation.
-- **Strict Separation of Concerns**: Java handles $100\%$ of business logic, database persistence, authentication, and scoring.
+| Model / Capability | Current Status | Architecture / Engine | Governance Gate Status |
+|---|---|---|---|
+| **Deterministic 6-Factor ATS Scoring** | Active & Tested | Java Core (Regex, Section Weighing) | Verified hermetic (28/28 tests passed) |
+| **DPDP/GDPR PII Masking Engine** | Active & Tested | Java Regex (`FileValidationService`) | Sanitization verified for phone, email, national IDs |
+| **Remotive Live Job Feed & Eligibility** | Active & Tested | REST Client + Heuristic Matcher | Live API with fallback to 7 portal aggregator |
+| **Model Governance & Registry Agent** | Active & Tested | Java Agent (`ModelGovernanceAgent`) | Dataset consent gate, metric baselines & rollback |
+| **Google Gemini 2.5 Flash Review** | Active but not fully evaluated | Spring REST / Gemini API | Fallback heuristic engine active if key absent |
+| **Python spaCy & Vector Embeddings** | In Development | FastAPI Sidecar (`http://localhost:8000`) | Standalone microservice with graceful Java fallback |
+| **RAG Resume Vector Search (Qdrant)** | Planned | Qdrant / Local Vector Store | Architecture planned; consent gates enforced |
+
+---
+
+## 3. Quality Assurance Summary
+- **Test Suite Pass Rate:** 28 / 28 automated tests passing hermetically (0 failures, 0 errors, 0 skipped).
+- **Security:** CSRF protection enabled across all state-mutating forms; BCrypt password hashing; session fixation migration; strict referrer policy.
+- **Port Bindings:**
+  - Spring Boot Application: `http://localhost:8085`
+  - MySQL Database: `localhost:3306` (`smart_resume_db`)

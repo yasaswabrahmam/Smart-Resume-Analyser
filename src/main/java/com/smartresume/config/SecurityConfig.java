@@ -37,13 +37,13 @@ public class SecurityConfig {
                 .sessionFixation(sessionFixation -> sessionFixation.migrateSession())
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/analyzer/view/**", "/ai-analyzer/download-pdf/**", "/tracker/**", "/dashboard/**", "/app/**").authenticated()
+                .requestMatchers("/analyzer/view/**", "/ai-analyzer/download-pdf/**", "/tracker/**", "/dashboard/**", "/app/**", "/profile/**").authenticated()
                 .requestMatchers(
                     "/", "/home", "/about", "/login", "/register",
                     "/analyzer", "/analyzer/analyze",
                     "/ai-analyzer", "/ai-analyzer/analyze",
                     "/builder/**", "/jobs/**", "/feedback/**", "/analytics/**",
-                    "/skill-gap/**", "/roadmap/**", "/interview/**",
+                    "/skill-gap/**", "/roadmap/**", "/interview/**", "/explore/**",
                     "/css/**", "/js/**", "/images/**", "/error", "/h2-console/**", "/api/**"
                 ).permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
