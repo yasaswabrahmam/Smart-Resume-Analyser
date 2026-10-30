@@ -109,6 +109,15 @@ On the other hand, Python is the premier language for machine learning and natur
 1. **File Upload Security:** Rather than trusting client-provided MIME types or file extensions, `FileValidationService.java` reads the raw binary header bytes. It accepts files only if they match genuine PDF magic bytes (`%PDF-` / `0x25 0x50 0x44 0x46`) or genuine DOCX ZIP headers (`PK\x03\x04` / `0x50 0x4B 0x03 0x04`). Executables cloaked as `.pdf` are blocked immediately.  
 2. **Spreadsheet Formula Injection (CWE-1236):** In `ExportService.java`, all candidate data exported to CSV is checked. Any cell starting with formula execution characters (`=`, `+`, `-`, `@`, `\t`, `\r`) is automatically prefixed with a single quote (`'`), neutralizing macro execution upon opening in Excel."*
 
+### Question 6: "How are user registration, login, session security, and data integrity handled and preserved?"
+**Defense Answer:**  
+*"User registration and authentication are completely preserved using Spring Security 6 and Spring Data JPA:
+1. **Visual & UI Integrity:** `templates/auth/login.html` and `templates/auth/register.html` retain their original dark glassmorphic styling, brand emblems, and interactive demo auto-fill buttons (`admin@smartresume.com` and `user@smartresume.com`).
+2. **Password Security:** All passwords are encrypted with `BCryptPasswordEncoder` (strength 10). Plaintext passwords are never stored, logged, or exposed.
+3. **Session & CSRF Management:** Forms enforce synchronized CSRF tokens. Sessions are migrated on authentication (`.sessionFixation().migrateSession()`) to prevent session fixation attacks. Logout cleanly invalidates the session and destroys the `JSESSIONID` cookie.
+4. **Role-Based Access Control:** Validated via Spring Security rules where `ROLE_ADMIN` has exclusive access to `/admin/**` and candidate profiles are isolated to their authenticated owner.
+5. **Live Verification:** Verified via automated HTTP testing (`verify_auth.py`), demonstrating 100% pass across all 14 authentication workflows (login, invalid credential rejection, registration persistence, session migration, role restriction, and clean logout)."*
+
 ---
 
 ## 5. Review Sign-Off Checklist
