@@ -49,8 +49,9 @@ public class AIResumeAnalyzerService {
             return result;
         }
 
-        // Build prompt
-        String prompt = buildPrompt(resumeText, jobRole, jobDescription);
+        // Build prompt with in-memory PII sanitization (DPDP Act 2023 compliance)
+        String sanitizedText = maskPii(resumeText);
+        String prompt = buildPrompt(sanitizedText, jobRole, jobDescription);
 
         // Attempt Gemini API call
         if (effectiveKey != null && !effectiveKey.isBlank() && !effectiveKey.equals("YOUR_GEMINI_API_KEY")) {
@@ -77,6 +78,12 @@ public class AIResumeAnalyzerService {
         }
 
         return result;
+    }
+
+    private String maskPii(String text) {
+        if (text == null || text.isBlank()) return "";
+        String masked = text.replaceAll("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}", "[REDACTED_EMAIL]");
+        return masked.replaceAll("(\\+?\\d{1,3}[-.\\s]?)?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}", "[REDACTED_PHONE]");
     }
 
     private double clampScore(double score) {

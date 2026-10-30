@@ -151,4 +151,18 @@ public class ResumeParserService {
         }
         return found;
     }
+
+    /**
+     * In-memory PII Sanitizer for DPDP Act 2023 & GDPR Compliance.
+     * Masks email addresses and phone numbers before
+     * transmitting candidate text to external cloud AI endpoints (e.g. Google Gemini).
+     */
+    public String maskPii(String text) {
+        if (text == null || text.isBlank()) return "";
+        // Mask email addresses
+        String masked = text.replaceAll("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}", "[REDACTED_EMAIL]");
+        // Mask phone numbers (standard US/international 10-13 digit formats)
+        masked = masked.replaceAll("(\\+?\\d{1,3}[-.\\s]?)?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}", "[REDACTED_PHONE]");
+        return masked;
+    }
 }

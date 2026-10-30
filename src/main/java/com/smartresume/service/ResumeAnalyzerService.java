@@ -219,7 +219,17 @@ public class ResumeAnalyzerService {
 
         for (String skill : requiredSkills) {
             String skillLower = skill.toLowerCase();
-            if (lower.contains(skillLower)) {
+            boolean matched;
+            if (skillLower.matches("^[a-z0-9_]+$")) {
+                // Word-boundary check for single-token keywords (e.g. "java" won't falsely match "javascript")
+                Pattern p = Pattern.compile("\\b" + Pattern.quote(skillLower) + "\\b", Pattern.CASE_INSENSITIVE);
+                matched = p.matcher(text).find();
+            } else {
+                // Multi-word or symbol keywords (e.g. "Spring Boot", "C++", "REST APIs")
+                matched = lower.contains(skillLower);
+            }
+
+            if (matched) {
                 found.add(skill);
             } else {
                 missing.add(skill);
