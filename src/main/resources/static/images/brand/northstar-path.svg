@@ -1,0 +1,105 @@
+<svg class="brand-3d-svg" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Smart Resume AI Northstar Path">
+    <defs>
+        <!-- Background Ambient Glow -->
+        <radialGradient id="northstarAmbientGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#21D2CF" stop-opacity="0.35"/>
+            <stop offset="50%" stop-color="#356BFA" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#071426" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- Base Plate Metallic Gradient -->
+        <linearGradient id="northstarPlateGrad" x1="20" y1="20" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#101D31"/>
+            <stop offset="50%" stop-color="#0A1728"/>
+            <stop offset="100%" stop-color="#071426"/>
+        </linearGradient>
+
+        <!-- Hairline Border Gradient -->
+        <linearGradient id="northstarBorderGrad" x1="16" y1="16" x2="144" y2="144" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#F4C46A" stop-opacity="0.85"/>
+            <stop offset="35%" stop-color="#21D2CF" stop-opacity="0.95"/>
+            <stop offset="70%" stop-color="#356BFA" stop-opacity="0.75"/>
+            <stop offset="100%" stop-color="#101D31" stop-opacity="0.3"/>
+        </linearGradient>
+
+        <!-- Career Journey Path Stroke Gradient -->
+        <linearGradient id="careerJourneyGrad" x1="30" y1="130" x2="130" y2="30" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#356BFA"/>
+            <stop offset="40%" stop-color="#21D2CF"/>
+            <stop offset="85%" stop-color="#F4C46A"/>
+            <stop offset="100%" stop-color="#FFF8E7"/>
+        </linearGradient>
+
+        <!-- Open Platform Orbit Ring Gradient -->
+        <linearGradient id="platformOrbitGrad" x1="24" y1="80" x2="136" y2="80" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#356BFA" stop-opacity="0.2"/>
+            <stop offset="50%" stop-color="#21D2CF" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#F4C46A" stop-opacity="0.3"/>
+        </linearGradient>
+
+        <!-- Northstar Radial Radiance -->
+        <radialGradient id="starRadiance" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="30%" stop-color="#F4C46A" stop-opacity="0.9"/>
+            <stop offset="70%" stop-color="#21D2CF" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#21D2CF" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- Glow Filters -->
+        <filter id="starGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        <filter id="pathGlow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- Layer 0: Ambient Backdrop Glow -->
+    <circle cx="80" cy="80" r="76" fill="url(#northstarAmbientGlow)"/>
+
+    <!-- Layer 1: Base Plate Squircle (Obsidian Shield Base) -->
+    <rect x="18" y="18" width="124" height="124" rx="34" fill="url(#northstarPlateGrad)"/>
+    <rect x="18" y="18" width="124" height="124" rx="34" stroke="url(#northstarBorderGrad)" stroke-width="1.75" fill="none"/>
+
+    <!-- Layer 2: Surrounding Open Orbital Ring (Connected Platform) -->
+    <path d="M 32 94 A 56 36 0 1 1 128 66" fill="none" stroke="url(#platformOrbitGrad)" stroke-width="2" stroke-dasharray="4 3" stroke-linecap="round" opacity="0.75"/>
+
+    <!-- Layer 3: Curved Career Journey Route -->
+    <path d="M 38 122 C 48 94, 68 84, 84 76 C 98 68, 110 54, 122 38" fill="none" stroke="#21D2CF" stroke-width="6" stroke-linecap="round" opacity="0.25" filter="url(#pathGlow)"/>
+    <path d="M 38 122 C 48 94, 68 84, 84 76 C 98 68, 110 54, 122 38" fill="none" stroke="url(#careerJourneyGrad)" stroke-width="3.5" stroke-linecap="round" filter="url(#pathGlow)"/>
+
+    <!-- Layer 4: Three Milestone Waypoints (Explore, Prepare, Pursue) -->
+    <!-- Waypoint 1: Explore (Electric Blue) -->
+    <circle cx="44" cy="110" r="7" fill="#356BFA" fill-opacity="0.25"/>
+    <circle cx="44" cy="110" r="4" fill="#101D31" stroke="#356BFA" stroke-width="2"/>
+    <circle cx="44" cy="110" r="1.8" fill="#21D2CF"/>
+
+    <!-- Waypoint 2: Prepare (Career Cyan) -->
+    <circle cx="80" cy="78" r="8" fill="#21D2CF" fill-opacity="0.25"/>
+    <circle cx="80" cy="78" r="4.5" fill="#101D31" stroke="#21D2CF" stroke-width="2"/>
+    <circle cx="80" cy="78" r="2" fill="#FFFFFF"/>
+
+    <!-- Waypoint 3: Pursue (Warm Northstar Gold) -->
+    <circle cx="106" cy="56" r="8.5" fill="#F4C46A" fill-opacity="0.28"/>
+    <circle cx="106" cy="56" r="5" fill="#101D31" stroke="#F4C46A" stroke-width="2.2"/>
+    <circle cx="106" cy="56" r="2.2" fill="#FFF6E0"/>
+
+    <!-- Layer 5: Destination Northstar (Radiant 4-Pointed Star of Opportunity) -->
+    <circle cx="122" cy="38" r="15" fill="url(#starRadiance)" filter="url(#starGlow)"/>
+    <path d="M 122 22 L 125.5 34.5 L 138 38 L 125.5 41.5 L 122 54 L 118.5 41.5 L 106 38 L 118.5 34.5 Z" fill="#F4C46A" filter="url(#starGlow)"/>
+    <path d="M 122 25 L 124.5 35.5 L 135 38 L 124.5 40.5 L 122 51 L 119.5 40.5 L 109 38 L 119.5 35.5 Z" fill="#FFFFFF"/>
+    <circle cx="122" cy="38" r="2" fill="#FFFDF0"/>
+
+    <!-- Micro Star Sparkles along the horizon -->
+    <circle cx="66" cy="42" r="1.2" fill="#21D2CF" opacity="0.6"/>
+    <circle cx="134" cy="72" r="1.5" fill="#F4C46A" opacity="0.5"/>
+    <circle cx="96" cy="118" r="1.2" fill="#356BFA" opacity="0.6"/>
+</svg>

@@ -4,6 +4,15 @@
    ========================================================================== */
 
 :root {
+    /* Northstar Path Brand & Career Intelligence Tokens */
+    --color-midnight-navy: #071426;
+    --color-deep-slate: #101D31;
+    --color-electric-blue: #356BFA;
+    --color-career-cyan: #21D2CF;
+    --color-northstar-gold: #F4C46A;
+    --color-text-light: #F4F7FC;
+    --color-text-muted: #A7B4C8;
+
     /* Brand & Accent Tokens */
     --primary: #10B981;             /* Emerald Green (Success, ATS strengths) */
     --primary-hover: #059669;

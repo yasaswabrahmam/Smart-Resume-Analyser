@@ -4,12 +4,14 @@ import com.smartresume.config.JobRolesConfig;
 import com.smartresume.config.JobRolesConfig.RoleDefinition;
 import com.smartresume.model.User;
 import com.smartresume.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -61,8 +63,38 @@ public class CareerExplorerController {
         model.addAttribute("selectedLevel", level != null ? level : "All");
         model.addAttribute("searchTerm", search != null ? search : "");
         model.addAttribute("totalCount", filteredRoles.size());
+        model.addAttribute("canonicalSkillsCount", JobRolesConfig.CANONICAL_SKILLS.size());
         model.addAttribute("title", "Career Explorer — Role & Skill Intelligence");
 
         return "career/explorer";
+    }
+
+    /**
+     * Ingest an unknown employer job description, extract canonical skills,
+     * infer candidate role category, and dynamically register a custom role profile.
+     */
+    @PostMapping("/infer-role")
+    public String inferRoleFromJobDescription(
+            @RequestParam("targetTitle") String targetTitle,
+            @RequestParam("jobDescription") String jobDescription,
+            RedirectAttributes redirectAttributes) {
+
+        RoleDefinition inferredRole = JobRolesConfig.inferRoleFromJobDescription(targetTitle, jobDescription);
+        redirectAttributes.addFlashAttribute("inferredSuccess", true);
+        redirectAttributes.addFlashAttribute("inferredRole", inferredRole);
+        return "redirect:/explore?search=" + URLEncoder.encode(inferredRole.getRoleName(), StandardCharsets.UTF_8);
+    }
+
+    /**
+     * REST endpoint to retrieve structured role profile metadata.
+     */
+    @GetMapping("/api/role/{roleId}")
+    @ResponseBody
+    public ResponseEntity<RoleDefinition> getRoleDetails(@PathVariable String roleId) {
+        RoleDefinition role = JobRolesConfig.getRoleByName(roleId);
+        if (role != null) {
+            return ResponseEntity.ok(role);
+        }
+        return ResponseEntity.notFound().build();
     }
 }

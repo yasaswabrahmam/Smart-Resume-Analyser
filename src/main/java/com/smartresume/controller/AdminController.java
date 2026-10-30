@@ -1,5 +1,7 @@
 package com.smartresume.controller;
 
+import com.smartresume.agent.ModelGovernanceAgent;
+import com.smartresume.agent.ModelTrainingOrchestratorAgent;
 import com.smartresume.model.AdminLog;
 import com.smartresume.model.Feedback;
 import com.smartresume.model.Resume;
@@ -18,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -33,20 +36,23 @@ public class AdminController {
     private final ResumeRepository resumeRepository;
     private final FeedbackRepository feedbackRepository;
     private final UserService userService;
-    private final com.smartresume.agent.ModelGovernanceAgent modelGovernanceAgent;
+    private final ModelGovernanceAgent modelGovernanceAgent;
+    private final ModelTrainingOrchestratorAgent modelTrainingOrchestratorAgent;
 
     public AdminController(AdminService adminService,
                            ExportService exportService,
                            ResumeRepository resumeRepository,
                            FeedbackRepository feedbackRepository,
                            UserService userService,
-                           com.smartresume.agent.ModelGovernanceAgent modelGovernanceAgent) {
+                           ModelGovernanceAgent modelGovernanceAgent,
+                           ModelTrainingOrchestratorAgent modelTrainingOrchestratorAgent) {
         this.adminService = adminService;
         this.exportService = exportService;
         this.resumeRepository = resumeRepository;
         this.feedbackRepository = feedbackRepository;
         this.userService = userService;
         this.modelGovernanceAgent = modelGovernanceAgent;
+        this.modelTrainingOrchestratorAgent = modelTrainingOrchestratorAgent;
     }
 
     @GetMapping
@@ -72,8 +78,31 @@ public class AdminController {
         model.addAttribute("logs", adminLogs);
 
         model.addAttribute("governedModels", modelGovernanceAgent.getRegisteredModels());
+        model.addAttribute("datasetCatalog", modelTrainingOrchestratorAgent.getDatasetCatalog());
+        model.addAttribute("orchestratedModels", modelTrainingOrchestratorAgent.getModelRegistry());
 
         return "dashboard/admin";
+    }
+
+    @PostMapping("/models/train")
+    public String triggerTrainingPipeline(@RequestParam String datasetId,
+                                         @RequestParam String taskType,
+                                         @RequestParam String architecture) {
+        modelTrainingOrchestratorAgent.runTrainingPipeline(datasetId, taskType, architecture);
+        return "redirect:/admin?trained=true#models";
+    }
+
+    @PostMapping("/models/promote")
+    public String promoteModel(@RequestParam String modelId) {
+        String adminEmail = userService.getCurrentUser().map(User::getEmail).orElse("admin");
+        modelTrainingOrchestratorAgent.promoteCandidateToProduction(modelId, adminEmail);
+        return "redirect:/admin?promoted=true#models";
+    }
+
+    @PostMapping("/models/rollback")
+    public String rollbackModel(@RequestParam String modelId, @RequestParam String reason) {
+        modelTrainingOrchestratorAgent.rollbackModel(modelId, reason);
+        return "redirect:/admin?rolledBack=true#models";
     }
 
     @GetMapping("/export/excel")

@@ -26,7 +26,8 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.ignoringRequestMatchers(
                 new AntPathRequestMatcher("/h2-console/**"),
-                new AntPathRequestMatcher("/api/**")
+                new AntPathRequestMatcher("/api/**"),
+                new AntPathRequestMatcher("/copilot/api/**")
             ))
             .headers(headers -> headers
                 .frameOptions(frame -> frame.sameOrigin()) // For h2 console & iframe previews
@@ -43,7 +44,7 @@ public class SecurityConfig {
                     "/analyzer", "/analyzer/analyze",
                     "/ai-analyzer", "/ai-analyzer/analyze",
                     "/builder/**", "/jobs/**", "/feedback/**", "/analytics/**",
-                    "/skill-gap/**", "/roadmap/**", "/interview/**", "/explore/**",
+                    "/skill-gap/**", "/roadmap/**", "/interview/**", "/explore/**", "/copilot/**",
                     "/css/**", "/js/**", "/images/**", "/error", "/h2-console/**", "/api/**"
                 ).permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")

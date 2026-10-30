@@ -7,9 +7,10 @@
 ---
 
 ```markdown
-# CONTEXT & INSTRUCTIONS: SMART RESUME AI CAREER PLATFORM
+# CONTEXT & INSTRUCTIONS: SMART RESUME AI CAREER INTELLIGENCE PLATFORM
 
 You are continuing development on the **SMART RESUME AI** project located in the workspace folder `Smart-Resume-Analyzer-Java`.
+Product Promise: *"Find your direction. Build your skills. Prove your ability. Move towards the right opportunity."*
 
 Before taking any action, review and strictly adhere to these verified facts, architecture rules, and invariants.
 
@@ -17,58 +18,69 @@ Before taking any action, review and strictly adhere to these verified facts, ar
 
 ## 1. CORE REPOSITORY FACTS & RUNTIME TOPOLOGY (VERIFIED OCTOBER 2026)
 
-- **Primary Application Core:** Enterprise Java 21 LTS, Spring Boot 3.3.4, Spring Security 6.3, Spring Data JPA / Hibernate 6.5, Apache Maven 3.9.6.
+- **Primary Application Core:** Enterprise Java 27 / 21 LTS, Spring Boot 3.3.4, Spring Security 6.3, Spring Data JPA / Hibernate 6.5, Apache Maven 3.9.9.
 - **Relational Database:** MySQL 8.4 Server on `127.0.0.1:3306` with database name `smart_resume_db` (7 normalized tables).
 - **Active Web Port:** `http://localhost:8085` (Configured in `application.properties`).
-- **Verified Test Baseline:** 10 test classes, 24 test methods, 100% pass rate (`mvn test`), with hermetic in-memory H2 test profile.
-- **Frontend Stack:** Dual-layout architecture with Thymeleaf 3, Bootstrap 5.3, FontAwesome 6.5, Chart.js 4.4, and custom dark-theme CSS (`src/main/resources/static/css/main.css`).
+- **Verified Test Baseline:** 14 test suites, 39 test methods, 100% pass rate (`mvn test`), hermetic in-memory H2 test profile. Python ML sidecar: 5/5 tests passed (`pytest`). Total: 44/44 tests green.
+- **Frontend Stack:** Dual-layout architecture with Thymeleaf 3, Bootstrap 5.3, FontAwesome 6.5, Chart.js 4.4, and custom obsidian dark-theme CSS (`src/main/resources/static/css/main.css`).
+- **Brand Identity:** The Northstar Path (Career Trajectory, 3 Waypoints: Explore, Prepare, Pursue, Radiant 4-pointed Star Apex, Open Platform Orbital Ring). Colors: Midnight Navy (`#071426`), Deep Slate (`#101D31`), Electric Blue (`#356BFA`), Career Cyan (`#21D2CF`), Warm Northstar Gold (`#F4C46A`).
 
 ---
 
-## 2. STRICT INVARIANTS & PRESERVATION RULES
+## 2. STRICT INVARIANTS & FOUR-PART ARCHITECTURE
 
 1. **JAVA IS THE MASTER APPLICATION CONTROLLER:**
-   - Java and Spring Boot manage web traffic, security, database persistence, ATS scoring, document building, Gemini API calls, and agent orchestration.
-   - Under no circumstances should the Java backend be converted into Python.
-2. **DUAL-LAYOUT ARCHITECTURAL SEPARATION:**
-   - **Public Landing Page (`/` using `layout/public.html`):** Full-width, NO APP SIDEBAR. Contains the public brand navbar, hero ("Your Career Journey, Connected in One Place"), problem vs. solution, 6 target industry roles, 6-factor ATS formula, and 9-stage workflow.
-   - **Authenticated Application (`/app` and `/dashboard` using `layout/base.html`):** Accessible after sign-in. Features the dedicated three-tier sidebar: Workspace, Career Acceleration, and Platform Links.
-3. **CONNECTED CAREER PIPELINE:**
-   - Career navigation is connected across 9 stages:
-     Build Resume -> ATS Audit -> Target Role -> Skill Gaps -> YouTube Learning -> Job Discovery -> Apply -> Track Applications -> Interview Prep.
-   - Core Services:
-     - `SkillGapService.java` (`/skill-gap`): Categorizes skills into Demonstrated, Weak, and Missing; binds curated YouTube tutorials and official docs.
-     - `CareerRoadmapService.java` (`/roadmap`): Generates an 8-week structured trajectory plan with weekly deliverables.
-     - `ApplicationTrackerService.java` (`/tracker`): Manages pipeline stages (`SAVED`, `APPLIED`, `INTERVIEWING`, `OFFERED`, `REJECTED`) in MySQL `job_matches`.
-     - `InterviewPrepService.java` (`/interview`): Generates technical core, system design, and STAR behavioral interview questions.
-4. **100% EXPLAINABLE 6-FACTOR ATS SCORING:**
-   - ATS score is deterministic and calculated in Java (`ResumeAnalyzerService.java`):
-     $$\text{ATS Score} = (S_{\text{keywords}} \times 0.30) + (S_{\text{exp}} \times 0.20) + (S_{\text{fmt}} \times 0.20) + (S_{\text{contact}} \times 0.10) + (S_{\text{summary}} \times 0.10) + (S_{\text{edu}} \times 0.10)$$
-   - Skills detected via word-boundary regex (`\b<skill>\b`) to eliminate false substring collisions.
-5. **GEMINI & AI PRIVACY:**
-   - Google Gemini is called directly in Java via HTTP/2 in `GeminiAiService.java`.
-   - Before transmission, candidate phone numbers and email addresses are masked by regex for DPDP Act 2023 / GDPR compliance.
-   - Fallback engine activates automatically if the external AI service is unreachable.
-6. **PYTHON ML MICROSERVICE SIDECAR:**
-   - Resides in `ml-service/` (FastAPI on port 8000) for optional NLP/embedding inference. Java calls it via REST with automatic graceful fallback if offline.
+   - Java and Spring Boot manage web traffic, security, database persistence, deterministic ATS scoring, multi-agent orchestration, Career Knowledge RAG retrieval, and Gemini API calls.
+   - Do not convert the Java backend into Python.
+
+2. **FOUR-PART PRODUCT EXPERIENCE:**
+   - **Part 1 — Public Brochure (`/` using `layout/public.html`):** Full-width, NO APP SIDEBAR. Explains the 10 brochure questions without registration, dual pathways (*Student / Recent Graduate* vs *Experienced Professional*), 6-factor deterministic ATS equation, transparent Model Ledger, and DPDP/GDPR disclosures.
+   - **Part 2 — Explore (`/explore`):** Role catalogue spanning 8 families (32+ levels), 60+ canonical skills, dynamic job description parsing (`/explore/infer-role`), and profile pathway configuration (`/profile`).
+   - **Part 3 — Prepare:** Deterministic ATS scoring (`/analyzer`), skill gap analysis with Project Evidence Blueprints (`/skill-gap`), adaptive time-budgeted roadmap (`/roadmap`), and STAR interview practice (`/interview`).
+   - **Part 4 — Pursue:** Live jobs discovery with Remotive API & 7-portal search links (`/jobs`), personalized 3-tier eligibility checker, and 7-stage application tracker (`/tracker`).
+
+3. **SIDEBAR NAVIGATION (EXACTLY 9 CONCISE LABELS):**
+   - In `templates/layout/base.html`, exactly 9 navigation items are shown in three groups:
+     1. Explore: (1) My Dashboard, (2) Career Explorer
+     2. Prepare: (3) Resume & ATS, (4) Skills & Projects, (5) Learning Roadmap, (6) Interview Practice
+     3. Pursue: (7) Jobs & Internships, (8) Applications
+     4. Account: (9) Profile & Settings
+
+4. **CAREER COPILOT AGENT (`CareerCopilotOrchestrator.java`):**
+   - Central conversational orchestrator (`/copilot`, `POST /copilot/api/chat`).
+   - Exactly 17 allowlisted tools (12 read-only, 5 user-confirmed writes).
+   - Strict bounded execution budget (maximum 5 tool hops per query).
+   - Strict `userId` isolation on all tool executions.
+   - Human Confirmation Gate: all 5 state-altering write operations require single-use cryptographic action tokens and modal confirmation.
+   - Real-time audit log stream returned in every API response.
+
+5. **CAREER KNOWLEDGE RAG SYSTEM (`CareerKnowledgeRagService.java`):**
+   - Curated knowledge base chunks: Google X-Y-Z Bullet Formula, System Design 4-Step Framework, CNCF Kubernetes Standards, OWASP DevSecOps Top 10, Full Stack Blueprint, Data Lake Guidelines.
+   - Hybrid retrieval scoring: Lexical keyword overlap (0.50), Semantic tags (0.35), Authority weighting (0.15).
+   - Grounded citations: every guidance snippet appends authoritative URLs and retrieval dates.
+   - Explicit uncertainty disclosure: triggers warning when retrieval confidence is below 0.45 (zero hallucination).
+
+6. **MODEL TRAINING & EVALUATION AGENT (`ModelTrainingOrchestratorAgent.java`):**
+   - DPDP & GDPR Zero-Unconsented Data Gate: Private user resumes are strictly excluded from model training.
+   - Registered approved datasets: `open-tech-skills-v1`, `canonical-occupations-2026`, `synthetic-evaluation-testset`.
+   - Automated baseline vs candidate evaluation: F1, Precision, Recall, and p95 latency ($\le 50\text{ms}$).
+   - 1-Click Rollback: Atomic in-memory pointer swap with zero server restart or downtime.
 
 ---
 
-## 3. ACTIVE CONTROLLERS & ENDPOINTS
+## 3. KEY CONTROLLERS & ENDPOINTS REFERENCE
 
-- `/` (`HomeController`): Dedicated public landing page (HTTP 200).
-- `/login`, `/register` (`AuthController`): Guest sign-in & onboarding.
-- `/app` (`HomeController`): Redirects to `/dashboard`.
-- `/dashboard` (`DashboardController`): User metrics & job pipeline status.
-- `/analyzer/upload`, `/analyzer/results/{id}` (`ResumeAnalyzerController`): 6-factor ATS audit.
-- `/analyzer/ai-coach` (`AIResumeAnalyzerController`): Google X-Y-Z bullet rewrites & qualitative advice.
-- `/builder` (`ResumeBuilderController`): 4-template resume builder with PDF export.
-- `/skill-gap` (`SkillGapController`): Demonstrated vs. gap analysis + YouTube tutorials.
-- `/roadmap` (`CareerRoadmapController`): 8-week career trajectory plan.
-- `/jobs/search` (`JobSearchController`): Remotive live jobs + 7-portal deep-link aggregator + Save to Tracker button.
-- `/tracker` (`ApplicationTrackerController`): Full job application lifecycle tracker.
-- `/interview` (`InterviewPrepController`): Technical, architectural, and STAR questions.
-- `/admin` (`AdminController`): Admin metrics & security audit logs.
-
-Always run `mvn test` after making modifications to verify 0 regressions across the 24 test methods.
+- `/` (`HomeController`): Public Landing Page Brochure.
+- `/explore` (`CareerExplorerController`): Role catalogue, search, filters.
+- `/explore/infer-role` (`CareerExplorerController`): POST dynamic JD parser & skill inferrer.
+- `/explore/api/role/{roleId}` (`CareerExplorerController`): GET structured role metadata JSON.
+- `/copilot` (`CareerCopilotController`): Career Copilot conversational assistant UI.
+- `/copilot/api/chat` (`CareerCopilotController`): POST multi-tool agent endpoint (JSON, CSRF ignored).
+- `/analyzer`, `/analyzer/analyze` (`ResumeAnalyzerController`): 6-factor deterministic ATS scoring.
+- `/skill-gap` (`SkillGapController`): Demonstrated vs Weak vs Missing skills + Project blueprints.
+- `/roadmap` (`CareerRoadmapController`): Time-budgeted adaptive learning roadmap.
+- `/jobs`, `/jobs/search` (`JobSearchController`): Remotive live API + 7 portal query links.
+- `/tracker` (`ApplicationTrackerController`): 7-stage Kanban application tracker.
+- `/profile` (`ProfileController`): Student vs Professional career pathway settings.
+- `/admin` (`AdminController`): Admin dashboard, MLOps model training, promotion & rollback.
 ```
