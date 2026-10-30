@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Brand Fragments</title>
+</head>
+<body>
+    <!-- ======================================================================
+         SMART RESUME AI — PREMIUM 3D ANIMATED BRAND EMBLEM
+         Resume + AI + Analysis + Career Growth
+         ====================================================================== -->
+    <div th:fragment="brandIcon(sizeClass)" th:class="'brand-3d-emblem ' + (${sizeClass} != null ? ${sizeClass} : 'brand-icon-sm')">
+        <svg class="brand-3d-svg" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Smart Resume AI 3D Emblem">
+            <defs>
+                <!-- Base Squircle Metallic Surface Gradient -->
+                <linearGradient id="basePlateGrad" x1="16" y1="16" x2="144" y2="144" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#1B2535"/>
+                    <stop offset="45%" stop-color="#101724"/>
+                    <stop offset="100%" stop-color="#080C14"/>
+                </linearGradient>
+
+                <!-- Base Plate Hairline Border Gradient -->
+                <linearGradient id="baseBorderGrad" x1="16" y1="16" x2="144" y2="144" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.7"/>
+                    <stop offset="35%" stop-color="#10B981" stop-opacity="0.4"/>
+                    <stop offset="70%" stop-color="rgba(255, 255, 255, 0.1)"/>
+                    <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.5"/>
+                </linearGradient>
+
+                <!-- Ambient Radial Glow Behind Base Plate -->
+                <radialGradient id="ambientBackdropGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.28"/>
+                    <stop offset="55%" stop-color="#10B981" stop-opacity="0.12"/>
+                    <stop offset="100%" stop-color="#0B0F14" stop-opacity="0"/>
+                </radialGradient>
+
+                <!-- Resume 3D Sheet Gradient (Frosted Glass / Brushed Slate-White) -->
+                <linearGradient id="sheetSurfaceGrad" x1="42" y1="28" x2="118" y2="132" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.96"/>
+                    <stop offset="45%" stop-color="#F1F5F9" stop-opacity="0.92"/>
+                    <stop offset="85%" stop-color="#CBD5E1" stop-opacity="0.82"/>
+                    <stop offset="100%" stop-color="#94A3B8" stop-opacity="0.75"/>
+                </linearGradient>
+
+                <!-- Resume Top-Right Corner Fold Gradient -->
+                <linearGradient id="cornerFoldGrad" x1="98" y1="28" x2="118" y2="48" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#E2E8F0"/>
+                    <stop offset="60%" stop-color="#94A3B8"/>
+                    <stop offset="100%" stop-color="#64748B"/>
+                </linearGradient>
+
+                <!-- AI Chip Metal Package Gradient -->
+                <linearGradient id="aiChipBodyGrad" x1="86" y1="86" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#243247"/>
+                    <stop offset="50%" stop-color="#121A26"/>
+                    <stop offset="100%" stop-color="#05080E"/>
+                </linearGradient>
+
+                <!-- AI Chip Core Silicon Glow (Emerald -> Cyan -> Electric Blue) -->
+                <linearGradient id="aiChipCoreGrad" x1="88" y1="88" x2="116" y2="116" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#10B981"/>
+                    <stop offset="50%" stop-color="#06B6D4"/>
+                    <stop offset="100%" stop-color="#3B82F6"/>
+                </linearGradient>
+
+                <!-- 3D Orbital Ribbon Gradient (Emerald -> Cyan -> Electric Blue) -->
+                <linearGradient id="orbitalRibbonGrad" x1="20" y1="50" x2="140" y2="110" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#10B981"/>
+                    <stop offset="40%" stop-color="#06B6D4"/>
+                    <stop offset="80%" stop-color="#3B82F6"/>
+                    <stop offset="100%" stop-color="#60A5FA"/>
+                </linearGradient>
+
+                <!-- Diagonal Shimmer Sweep Gradient across Document -->
+                <linearGradient id="shimmerSweepGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
+                    <stop offset="40%" stop-color="#FFFFFF" stop-opacity="0.05"/>
+                    <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.32"/>
+                    <stop offset="60%" stop-color="#FFFFFF" stop-opacity="0.05"/>
+                    <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+                </linearGradient>
+
+                <!-- Soft Drop Shadow Filter -->
+                <filter id="shadowPlate" x="-15%" y="-15%" width="130%" height="130%" filterUnits="userSpaceOnUse">
+                    <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.6"/>
+                </filter>
+                <filter id="shadowDocument" x="-10%" y="-10%" width="125%" height="125%" filterUnits="userSpaceOnUse">
+                    <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.4"/>
+                </filter>
+                <filter id="glowChip" x="-30%" y="-30%" width="160%" height="160%" filterUnits="userSpaceOnUse">
+                    <feGaussianBlur stdDeviation="3" result="blur"/>
+                    <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                </filter>
+                <filter id="glowOrbit" x="-20%" y="-20%" width="140%" height="140%" filterUnits="userSpaceOnUse">
+                    <feGaussianBlur stdDeviation="2.2" result="blur"/>
+                    <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                </filter>
+
+                <!-- Clip Path for Document Sheen Shimmer -->
+                <clipPath id="sheetClip">
+                    <path d="M 44 30 L 98 30 L 118 50 L 118 126 C 118 129.5 115.5 132 112 132 L 46 132 C 42.5 132 40 129.5 40 126 L 40 36 C 40 32.5 42.5 30 46 30 Z"/>
+                </clipPath>
+            </defs>
+
+            <!-- 1. Ambient Radial Glow -->
+            <circle cx="80" cy="80" r="74" fill="url(#ambientBackdropGlow)" class="brand-ambient-glow" />
+
+            <!-- 2. Dark Premium Glass/Metal Rounded-Square Base Plate -->
+            <rect x="14" y="14" width="132" height="132" rx="32" fill="url(#basePlateGrad)" filter="url(#shadowPlate)" />
+            <rect x="14.5" y="14.5" width="131" height="131" rx="31.5" stroke="url(#baseBorderGrad)" stroke-width="1.3" />
+
+            <!-- 3. Rear Arc of the 3D Orbital Ribbon (Passes BEHIND Resume Sheet) -->
+            <g class="orbit-rear-layer">
+                <path d="M 22 84 C 20 54, 134 38, 138 72"
+                      stroke="url(#orbitalRibbonGrad)" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.45" />
+                <path d="M 22 84 C 20 54, 134 38, 138 72"
+                      stroke="#06B6D4" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6" />
+            </g>
+
+            <!-- 4. Floating 3D Resume Sheet Group (With Subtle Parallax & Light Shimmer) -->
+            <g class="brand-floating-document">
+                <!-- Document Body Shadow & Surface -->
+                <path d="M 44 30 L 98 30 L 118 50 L 118 126 C 118 129.5 115.5 132 112 132 L 46 132 C 42.5 132 40 129.5 40 126 L 40 36 C 40 32.5 42.5 30 46 30 Z"
+                      fill="url(#sheetSurfaceGrad)" filter="url(#shadowDocument)" />
+
+                <!-- Beveled Edge Highlight -->
+                <path d="M 44 30.8 L 97.5 30.8 L 117.2 50.5 L 117.2 125.5 C 117.2 128.8 114.8 131.2 111.5 131.2 L 46 131.2 C 42.8 131.2 40.8 128.8 40.8 125.5 L 40.8 36 C 40.8 33 42.8 30.8 46 30.8 Z"
+                      stroke="rgba(255, 255, 255, 0.7)" stroke-width="0.8" fill="none" />
+
+                <!-- Folded Corner Geometry -->
+                <path d="M 98 30 L 98 50 L 118 50 Z" fill="#334155" opacity="0.35" />
+                <path d="M 98 30 L 98 48 C 98 49.1 98.9 50 100 50 L 118 50 Z" fill="url(#cornerFoldGrad)" />
+                <path d="M 98 30 L 118 50" stroke="rgba(255, 255, 255, 0.8)" stroke-width="0.8" />
+
+                <!-- Candidate Profile / Avatar Badge Element -->
+                <circle cx="56" cy="48" r="8" fill="#0F172A" />
+                <circle cx="56" cy="46" r="3.2" fill="#06B6D4" />
+                <path d="M 50.5 53.5 C 51.5 50.8 53.8 50 56 50 C 58.2 50 60.5 50.8 61.5 53.5 Z" fill="#10B981" />
+
+                <!-- Candidate Header Lines -->
+                <rect x="68" y="44" width="24" height="3" rx="1.5" fill="#0F172A" opacity="0.85" />
+                <rect x="68" y="49" width="16" height="2" rx="1" fill="#06B6D4" opacity="0.8" />
+
+                <!-- Divider Line -->
+                <rect x="48" y="60" width="62" height="1.2" rx="0.6" fill="#CBD5E1" opacity="0.75" />
+
+                <!-- Embossed Resume Content Lines (Work Experience & Skills) -->
+                <rect x="48" y="66" width="38" height="2.2" rx="1" fill="#475569" opacity="0.65" />
+                <rect x="48" y="72" width="56" height="2" rx="1" fill="#64748B" opacity="0.5" />
+                <rect x="48" y="77" width="50" height="2" rx="1" fill="#64748B" opacity="0.5" />
+
+                <rect x="48" y="86" width="30" height="2.2" rx="1" fill="#475569" opacity="0.65" />
+                <rect x="48" y="92" width="26" height="2" rx="1" fill="#64748B" opacity="0.5" />
+                <rect x="48" y="97" width="22" height="2" rx="1" fill="#64748B" opacity="0.5" />
+
+                <!-- Thin Circuit Network Branching from AI Chip -->
+                <g class="brand-circuit-network">
+                    <!-- Circuit Trace 1 (to resume lines) -->
+                    <path d="M 88 98 L 76 98 L 72 94 L 52 94"
+                          stroke="#06B6D4" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.8" />
+                    <!-- Circuit Trace 2 (to avatar / header) -->
+                    <path d="M 96 88 L 96 72 L 88 64 L 88 56"
+                          stroke="#10B981" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.8" />
+                    <!-- Circuit Trace 3 (lower bus) -->
+                    <path d="M 88 108 L 78 108 L 74 116 L 48 116"
+                          stroke="#3B82F6" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.75" />
+
+                    <!-- Sequenced Illuminated Circuit Nodes -->
+                    <circle cx="72" cy="94" r="2.2" fill="#06B6D4" class="circuit-node node-1" />
+                    <circle cx="52" cy="94" r="1.8" fill="#10B981" class="circuit-node node-2" />
+                    <circle cx="88" cy="64" r="2.2" fill="#10B981" class="circuit-node node-3" />
+                    <circle cx="74" cy="116" r="1.8" fill="#3B82F6" class="circuit-node node-4" />
+                </g>
+
+                <!-- Document Light Sweep Shimmer Effect -->
+                <g clip-path="url(#sheetClip)">
+                    <rect x="0" y="0" width="160" height="160" fill="url(#shimmerSweepGrad)" class="document-sheen" />
+                </g>
+            </g>
+
+            <!-- 5. Futuristic Glowing AI Microchip (Lower-Right of Document) -->
+            <g class="brand-ai-chip-group" filter="url(#glowChip)">
+                <!-- Microchip Connector Pins (Cyan/Emerald/Blue) -->
+                <!-- Left Pins -->
+                <line x1="82" y1="96" x2="86" y2="96" stroke="#06B6D4" stroke-width="1.5" stroke-linecap="round" />
+                <line x1="82" y1="102" x2="86" y2="102" stroke="#06B6D4" stroke-width="1.5" stroke-linecap="round" />
+                <line x1="82" y1="108" x2="86" y2="108" stroke="#06B6D4" stroke-width="1.5" stroke-linecap="round" />
+                <!-- Right Pins -->
+                <line x1="116" y1="96" x2="120" y2="96" stroke="#06B6D4" stroke-width="1.5" stroke-linecap="round" />
+                <line x1="116" y1="102" x2="120" y2="102" stroke="#06B6D4" stroke-width="1.5" stroke-linecap="round" />
+                <line x1="116" y1="108" x2="120" y2="108" stroke="#06B6D4" stroke-width="1.5" stroke-linecap="round" />
+                <!-- Top Pins -->
+                <line x1="94" y1="84" x2="94" y2="88" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" />
+                <line x1="101" y1="84" x2="101" y2="88" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" />
+                <line x1="108" y1="84" x2="108" y2="88" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" />
+                <!-- Bottom Pins -->
+                <line x1="94" y1="116" x2="94" y2="120" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round" />
+                <line x1="101" y1="116" x2="101" y2="120" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round" />
+                <line x1="108" y1="116" x2="108" y2="120" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round" />
+
+                <!-- Chip Metallic Beveled Body -->
+                <rect x="86" y="86" width="30" height="30" rx="6" fill="url(#aiChipBodyGrad)" stroke="#10B981" stroke-width="1.2" />
+
+                <!-- Inner Glowing Silicon Core (Breathing Pulse) -->
+                <rect class="ai-chip-core" x="90" y="90" width="22" height="22" rx="4"
+                      fill="#060C14" stroke="url(#aiChipCoreGrad)" stroke-width="1.2" />
+
+                <!-- Crisp "AI" Wordmark on Silicon Core -->
+                <text class="ai-chip-text" x="101" y="105.5"
+                      font-family="'Poppins', 'Inter', -apple-system, sans-serif"
+                      font-size="10.5" font-weight="800" text-anchor="middle"
+                      letter-spacing="-0.5px" fill="#06B6D4">AI</text>
+
+                <!-- Silicon Die Corner Markers -->
+                <circle cx="92" cy="92" r="0.9" fill="#10B981" />
+                <circle cx="110" cy="92" r="0.9" fill="#06B6D4" />
+                <circle cx="92" cy="110" r="0.9" fill="#3B82F6" />
+                <circle cx="110" cy="110" r="0.9" fill="#10B981" />
+            </g>
+
+            <!-- 6. Front Arc of the 3D Orbital Ribbon (Wraps in FRONT of Document & Chip) -->
+            <g class="orbit-front-layer" filter="url(#glowOrbit)">
+                <!-- Primary Orbital Ribbon Band -->
+                <path class="orbital-path-front"
+                      d="M 138 72 C 142 108, 24 116, 22 84"
+                      stroke="url(#orbitalRibbonGrad)" stroke-width="3.4" stroke-linecap="round" fill="none" />
+
+                <!-- White Laser High-Intensity Filament -->
+                <path d="M 138 72 C 142 108, 24 116, 22 84"
+                      stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.75" />
+
+                <!-- Orbiting Luminous Photon Particle -->
+                <circle class="orbital-photon" cx="138" cy="72" r="3.2" fill="#FFFFFF">
+                    <animateMotion path="M 138 72 C 142 108, 24 116, 22 84 C 20 54, 134 38, 138 72"
+                                   dur="5.5s" repeatCount="indefinite" />
+                </circle>
+            </g>
+        </svg>
+    </div>
+</body>
+</html>

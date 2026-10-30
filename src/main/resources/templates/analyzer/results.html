@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::#main-content})}">
+<head>
+    <title>ATS Analysis Results - Smart AI Resume Analyzer</title>
+</head>
+<body>
+    <div id="main-content">
+        <!-- Results Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30">ATS Evaluation Completed</span>
+                    <span class="text-dim">&bull;</span>
+                    <span class="text-muted small" th:text="${fileName}">resume.pdf</span>
+                </div>
+                <h2 class="fw-bold mb-1">
+                    <span class="text-white" th:text="${result.name}">Candidate Name</span> &bull; 
+                    <span class="text-success" th:text="${targetRole != null ? targetRole : 'General Technical Profile'}">Role</span>
+                </h2>
+            </div>
+            <div class="d-flex gap-2">
+                <a th:href="@{/analyzer}" class="btn btn-secondary-custom">
+                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                    <span>Analyze Another</span>
+                </a>
+                <a th:href="@{/builder}" class="btn btn-primary-custom">
+                    <i class="fa-solid fa-file-pen"></i>
+                    <span>Open in Builder</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 4 Top Level Performance Metrics -->
+        <div class="row g-3 mb-4">
+            <!-- Overall ATS Score -->
+            <div class="col-lg-3 col-md-6">
+                <div class="metric-card h-100">
+                    <div class="metric-header">
+                        <span class="metric-label">Overall ATS Score</span>
+                        <i class="fa-solid fa-gauge-high metric-icon text-success"></i>
+                    </div>
+                    <div class="metric-value" th:classappend="${result.atsScore >= 70 ? 'text-success' : (result.atsScore >= 50 ? 'text-warning' : 'text-danger')}">
+                        <span th:text="${#numbers.formatDecimal(result.atsScore, 1, 0)}">85</span><span class="fs-4 text-muted fw-normal">/100</span>
+                    </div>
+                    <div class="progress mt-2" style="height: 6px; background-color: rgba(255, 255, 255, 0.08);">
+                        <div class="progress-bar"
+                             th:classappend="${result.atsScore >= 70 ? 'bg-success' : (result.atsScore >= 50 ? 'bg-warning' : 'bg-danger')}"
+                             th:style="'width: ' + ${result.atsScore} + '%'"></div>
+                    </div>
+                    <div class="metric-subtext mt-2" th:text="${result.atsScore >= 70 ? 'High ATS Readiness' : (result.atsScore >= 50 ? 'Moderate Readiness' : 'Needs Optimization')}">Readiness</div>
+                </div>
+            </div>
+
+            <!-- Keyword Match Score -->
+            <div class="col-lg-3 col-md-6">
+                <div class="metric-card h-100">
+                    <div class="metric-header">
+                        <span class="metric-label">Keyword Match</span>
+                        <i class="fa-solid fa-bullseye metric-icon text-info"></i>
+                    </div>
+                    <div class="metric-value text-info">
+                        <span th:text="${#numbers.formatDecimal(result.keywordMatchScore, 1, 0)}">75</span><span class="fs-4 text-muted fw-normal">%</span>
+                    </div>
+                    <div class="progress mt-2" style="height: 6px; background-color: rgba(255, 255, 255, 0.08);">
+                        <div class="progress-bar bg-info" th:style="'width: ' + ${result.keywordMatchScore} + '%'"></div>
+                    </div>
+                    <div class="metric-subtext mt-2">Required Skills Alignment</div>
+                </div>
+            </div>
+
+            <!-- Formatting Score -->
+            <div class="col-lg-3 col-md-6">
+                <div class="metric-card h-100">
+                    <div class="metric-header">
+                        <span class="metric-label">Formatting Score</span>
+                        <i class="fa-solid fa-ruler-combined metric-icon text-warning"></i>
+                    </div>
+                    <div class="metric-value text-warning">
+                        <span th:text="${#numbers.formatDecimal(result.formatScore, 1, 0)}">90</span><span class="fs-4 text-muted fw-normal">/100</span>
+                    </div>
+                    <div class="progress mt-2" style="height: 6px; background-color: rgba(255, 255, 255, 0.08);">
+                        <div class="progress-bar bg-warning" th:style="'width: ' + ${result.formatScore} + '%'"></div>
+                    </div>
+                    <div class="metric-subtext mt-2">Layout &amp; Section Hierarchy</div>
+                </div>
+            </div>
+
+            <!-- Document Integrity -->
+            <div class="col-lg-3 col-md-6">
+                <div class="metric-card h-100">
+                    <div class="metric-header">
+                        <span class="metric-label">Document Verified</span>
+                        <i class="fa-solid fa-circle-check metric-icon text-primary"></i>
+                    </div>
+                    <div class="metric-value text-primary fs-3 mt-1">
+                        <span th:text="${result.documentType.toUpperCase()}">RESUME</span>
+                    </div>
+                    <div class="progress mt-2" style="height: 6px; background-color: rgba(255, 255, 255, 0.08);">
+                        <div class="progress-bar bg-primary" style="width: 100%;"></div>
+                    </div>
+                    <div class="metric-subtext mt-2">Passed Non-Resume Detection</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Breakdown Grid -->
+        <div class="row g-4">
+            <!-- Left Main Column: Skills & Suggestions -->
+            <div class="col-lg-8">
+                <!-- Skill Coverage Section -->
+                <div class="custom-card mb-4">
+                    <div class="card-header-clean">
+                        <h5 class="fw-bold mb-0">
+                            <i class="fa-solid fa-tags text-success me-2"></i> Skill Coverage for <span class="text-primary" th:text="${targetRole}">Target Role</span>
+                        </h5>
+                        <span class="badge bg-secondary bg-opacity-25 text-white" style="font-size: 0.75rem;" th:text="${result.foundSkills.size()} + ' Detected / ' + ${result.missingSkills.size()} + ' Missing'">0 / 0</span>
+                    </div>
+
+                    <!-- Found Matching Skills -->
+                    <div class="mb-4">
+                        <label class="form-label text-success d-flex align-items-center gap-1 mb-2">
+                            <i class="fa-solid fa-check"></i> Found Matching Skills (<span th:text="${result.foundSkills.size()}">0</span>)
+                        </label>
+                        <div>
+                            <span th:each="skill : ${result.foundSkills}" class="skill-badge">
+                                <i class="fa-solid fa-check fs-6"></i>
+                                <span th:text="${skill}">Java</span>
+                            </span>
+                            <span th:if="${result.foundSkills.isEmpty()}" class="text-muted small">No direct keyword matches detected.</span>
+                        </div>
+                    </div>
+
+                    <!-- Missing Recommended Skills -->
+                    <div>
+                        <label class="form-label text-danger d-flex align-items-center gap-1 mb-2">
+                            <i class="fa-solid fa-circle-exclamation"></i> Missing Required Skills (<span th:text="${result.missingSkills.size()}">0</span>)
+                        </label>
+                        <div>
+                            <span th:each="skill : ${result.missingSkills}" class="missing-badge">
+                                <i class="fa-solid fa-plus fs-6"></i>
+                                <span th:text="${skill}">Docker</span>
+                            </span>
+                            <span th:if="${result.missingSkills.isEmpty()}" class="text-success small">All target role required skills were detected!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actionable Suggestions Card -->
+                <div class="custom-card mb-4">
+                    <div class="card-header-clean">
+                        <h5 class="fw-bold mb-0">
+                            <i class="fa-solid fa-lightbulb text-warning me-2"></i> Actionable Improvement Suggestions
+                        </h5>
+                    </div>
+                    <div class="d-flex flex-column gap-2">
+                        <div th:each="sugg : ${result.suggestions}" class="p-3 rounded-2" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); display: flex; align-items: flex-start; gap: 0.75rem;">
+                            <i class="fa-solid fa-arrow-right text-success mt-1 fs-6"></i>
+                            <span class="text-body small" th:text="${sugg}">Suggestion details</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommended Courses & Learning Paths -->
+                <div class="custom-card mb-4" th:if="${!result.recommendedCourses.isEmpty()}">
+                    <div class="card-header-clean">
+                        <h5 class="fw-bold mb-0">
+                            <i class="fa-solid fa-graduation-cap text-primary me-2"></i> Recommended Courses for <span th:text="${targetRole}">Role</span>
+                        </h5>
+                    </div>
+                    <div th:each="entry : ${result.recommendedCourses}" class="mb-3">
+                        <div class="d-flex flex-column gap-2">
+                            <a th:each="course : ${entry.value}" th:href="${course[1]}" target="_blank"
+                               class="p-3 rounded-2 text-decoration-none d-flex justify-content-between align-items-center"
+                               style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); transition: var(--transition);">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-book-open text-primary"></i>
+                                    <span class="text-heading fw-semibold small" th:text="${course[0]}">Course Title</span>
+                                </div>
+                                <span class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30 d-inline-flex align-items-center gap-1">
+                                    <span>Learn</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar Column: Quality & Details -->
+            <div class="col-lg-4">
+                <!-- Section Scores -->
+                <div class="custom-card mb-4">
+                    <div class="card-header-clean">
+                        <h5 class="fw-bold mb-0">
+                            <i class="fa-solid fa-bars-progress text-info me-2"></i> Section Quality
+                        </h5>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between small text-muted mb-1">
+                            <span>Contact Info</span>
+                            <span class="text-heading fw-semibold" th:text="${#numbers.formatDecimal(result.contactScore, 1, 0)} + '%'">100%</span>
+                        </div>
+                        <div class="progress" style="height: 6px; background-color: rgba(255, 255, 255, 0.08);">
+                            <div class="progress-bar bg-success" th:style="'width: ' + ${result.contactScore} + '%'"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between small text-muted mb-1">
+                            <span>Professional Summary</span>
+                            <span class="text-heading fw-semibold" th:text="${#numbers.formatDecimal(result.summaryScore, 1, 0)} + '%'">100%</span>
+                        </div>
+                        <div class="progress" style="height: 6px; background-color: rgba(255, 255, 255, 0.08);">
+                            <div class="progress-bar bg-info" th:style="'width: ' + ${result.summaryScore} + '%'"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between small text-muted mb-1">
+                            <span>Work Experience</span>
+                            <span class="text-heading fw-semibold" th:text="${#numbers.formatDecimal(result.experienceScore, 1, 0)} + '%'">100%</span>
+                        </div>
+                        <div class="progress" style="height: 6px; background-color: rgba(255, 255, 255, 0.08);">
+                            <div class="progress-bar bg-warning" th:style="'width: ' + ${result.experienceScore} + '%'"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between small text-muted mb-1">
+                            <span>Education History</span>
+                            <span class="text-heading fw-semibold" th:text="${#numbers.formatDecimal(result.educationScore, 1, 0)} + '%'">100%</span>
+                        </div>
+                        <div class="progress" style="height: 6px; background-color: rgba(255, 255, 255, 0.08);">
+                            <div class="progress-bar bg-primary" th:style="'width: ' + ${result.educationScore} + '%'"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detected Contact Info -->
+                <div class="custom-card mb-4">
+                    <div class="card-header-clean">
+                        <h5 class="fw-bold mb-0">
+                            <i class="fa-solid fa-id-card text-warning me-2"></i> Contact Details
+                        </h5>
+                    </div>
+                    <div class="d-flex flex-column gap-2 small">
+                        <!-- Email -->
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-envelope text-muted" style="width: 16px;"></i>
+                            <a th:if="${result.email != null && !result.email.isBlank()}"
+                               th:href="'mailto:' + ${result.email}"
+                               class="text-info text-decoration-none text-truncate hover-underline"
+                               th:text="${result.email}">email@example.com</a>
+                            <span th:unless="${result.email != null && !result.email.isBlank()}" class="badge bg-secondary bg-opacity-25 text-dim border border-secondary border-opacity-25">Not detected</span>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-phone text-muted" style="width: 16px;"></i>
+                            <a th:if="${result.phone != null && !result.phone.isBlank()}"
+                               th:href="'tel:' + ${result.phone}"
+                               class="text-info text-decoration-none hover-underline"
+                               th:text="${result.phone}">+1234567890</a>
+                            <span th:unless="${result.phone != null && !result.phone.isBlank()}" class="badge bg-secondary bg-opacity-25 text-dim border border-secondary border-opacity-25">Not detected</span>
+                        </div>
+
+                        <!-- LinkedIn -->
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-brands fa-linkedin text-info" style="width: 16px;"></i>
+                            <a th:if="${result.linkedin != null && !result.linkedin.isBlank()}"
+                               th:href="${result.linkedin.startsWith('http') ? result.linkedin : 'https://' + result.linkedin}"
+                               target="_blank"
+                               class="text-info text-decoration-none text-truncate d-flex align-items-center gap-1 hover-underline">
+                                <span th:text="${result.linkedin}">linkedin.com/in/...</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </a>
+                            <span th:unless="${result.linkedin != null && !result.linkedin.isBlank()}" class="badge bg-secondary bg-opacity-25 text-dim border border-secondary border-opacity-25">Not detected</span>
+                        </div>
+
+                        <!-- GitHub -->
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-brands fa-github text-muted" style="width: 16px;"></i>
+                            <a th:if="${result.github != null && !result.github.isBlank()}"
+                               th:href="${result.github.startsWith('http') ? result.github : 'https://' + result.github}"
+                               target="_blank"
+                               class="text-info text-decoration-none text-truncate d-flex align-items-center gap-1 hover-underline">
+                                <span th:text="${result.github}">github.com/...</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </a>
+                            <span th:unless="${result.github != null && !result.github.isBlank()}" class="badge bg-secondary bg-opacity-25 text-dim border border-secondary border-opacity-25">Not detected</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Prep Guides -->
+                <div class="custom-card mb-4">
+                    <div class="card-header-clean">
+                        <h5 class="fw-bold mb-0">
+                            <i class="fa-solid fa-video text-danger me-2"></i> Video Prep Guides
+                        </h5>
+                    </div>
+                    <div th:each="category : ${result.interviewVideos}" class="mb-3">
+                        <strong class="text-heading small d-block mb-1" th:text="${category.key}">Category</strong>
+                        <div th:each="video : ${category.value}" class="mb-1">
+                            <a th:href="${video[1]}" target="_blank" class="small text-info text-decoration-none d-block text-truncate">
+                                <i class="fa-brands fa-youtube text-danger me-1"></i>
+                                <span th:text="${video[0]}">Video Title</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

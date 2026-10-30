@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::#main-content})}">
+<head>
+    <title>Analytics Dashboard - Smart AI Resume Analyzer</title>
+</head>
+<body>
+    <div id="main-content">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="ai-badge"><span class="ai-pulse-dot"></span> Real-Time Analytics</span>
+                </div>
+                <h2 class="fw-bold mb-0">System Analytics &amp; Market Insights</h2>
+                <p class="text-muted small mb-0">Aggregated database metrics, keyword frequencies, and ATS score distributions.</p>
+            </div>
+            <div>
+                <span class="badge bg-secondary bg-opacity-25 text-white border border-secondary border-opacity-30 px-3 py-2">
+                    <i class="fa-solid fa-arrows-rotate me-1 text-success"></i> Live MySQL 8.4 Telemetry
+                </span>
+            </div>
+        </div>
+
+        <!-- 4 Metric Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Total Resumes</span>
+                        <i class="fa-solid fa-file-invoice metric-icon text-success"></i>
+                    </div>
+                    <div class="metric-value text-success" th:text="${metrics.totalResumes}">0</div>
+                    <div class="metric-subtext">Ingested and evaluated</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Average ATS Score</span>
+                        <i class="fa-solid fa-gauge-high metric-icon text-info"></i>
+                    </div>
+                    <div class="metric-value text-info" th:text="${metrics.avgAtsScore}">0.0</div>
+                    <div class="metric-subtext">Overall benchmark average</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Avg Keyword Match</span>
+                        <i class="fa-solid fa-bullseye metric-icon text-warning"></i>
+                    </div>
+                    <div class="metric-value text-warning" th:text="${metrics.avgKeywordScore}">0.0</div>
+                    <div class="metric-subtext">Role skill alignment</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">High-Scoring Resumes</span>
+                        <i class="fa-solid fa-trophy metric-icon text-primary"></i>
+                    </div>
+                    <div class="metric-value text-primary" th:text="${metrics.highScoringPercentage} + '%'">0%</div>
+                    <div class="metric-subtext"><span th:text="${metrics.highScoringResumes}">0</span> resumes &ge; 70 ATS</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Grid (Chart.js) -->
+        <div class="row g-4 mb-4">
+            <!-- 1. Top In-Demand Technical Skills -->
+            <div class="col-lg-6">
+                <div class="custom-card p-4 h-100">
+                    <div class="card-header-clean">
+                        <h6 class="fw-bold mb-0">
+                            <i class="fa-solid fa-chart-column text-success me-2"></i> Top In-Demand Technical Skills
+                        </h6>
+                    </div>
+                    <div style="height: 280px; position: relative;">
+                        <canvas id="skillsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. ATS Score Distribution -->
+            <div class="col-lg-6">
+                <div class="custom-card p-4 h-100">
+                    <div class="card-header-clean">
+                        <h6 class="fw-bold mb-0">
+                            <i class="fa-solid fa-chart-pie text-info me-2"></i> ATS Score Distribution
+                        </h6>
+                    </div>
+                    <div style="height: 280px; position: relative;">
+                        <canvas id="scoresChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Target Industry Breakdown -->
+            <div class="col-lg-6">
+                <div class="custom-card p-4 h-100">
+                    <div class="card-header-clean">
+                        <h6 class="fw-bold mb-0">
+                            <i class="fa-solid fa-layer-group text-primary me-2"></i> Candidates by Industry Domain
+                        </h6>
+                    </div>
+                    <div style="height: 280px; position: relative;">
+                        <canvas id="categoriesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Most Popular Target Roles -->
+            <div class="col-lg-6">
+                <div class="custom-card p-4 h-100">
+                    <div class="card-header-clean">
+                        <h6 class="fw-bold mb-0">
+                            <i class="fa-solid fa-briefcase text-warning me-2"></i> Most Popular Target Roles
+                        </h6>
+                    </div>
+                    <div style="height: 280px; position: relative;">
+                        <canvas id="rolesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart.js Dark Mode Initialization Script -->
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            const skillLabels = /*[[${metrics.skillLabels}]]*/ ['Java', 'Python', 'SQL', 'Spring Boot', 'React', 'Docker', 'Git', 'AWS'];
+            const skillCounts = /*[[${metrics.skillCounts}]]*/ [12, 10, 8, 7, 6, 5, 5, 4];
+
+            const scoreLabels = /*[[${metrics.scoreLabels}]]*/ ['Needs Work (<50)', 'Moderate (50-69)', 'High (70+)'];
+            const scoreCounts = /*[[${metrics.scoreCounts}]]*/ [1, 2, 5];
+
+            const catLabels = /*[[${metrics.categoryLabels}]]*/ ['Software Engineering', 'Data & AI', 'Cloud & DevOps', 'Cybersecurity'];
+            const catCounts = /*[[${metrics.categoryCounts}]]*/ [8, 4, 3, 2];
+
+            const roleLabels = /*[[${metrics.roleLabels}]]*/ ['Backend Dev', 'Frontend Dev', 'Full Stack', 'Data Scientist', 'DevOps Eng'];
+            const roleCounts = /*[[${metrics.roleCounts}]]*/ [5, 4, 3, 2, 2];
+
+            Chart.defaults.color = '#94A3B8';
+            Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.06)';
+
+            // 1. Skills Chart
+            new Chart(document.getElementById('skillsChart'), {
+                type: 'bar',
+                data: {
+                    labels: skillLabels,
+                    datasets: [{
+                        label: 'Candidate Resumes',
+                        data: skillCounts,
+                        backgroundColor: 'rgba(16, 185, 129, 0.6)',
+                        borderColor: '#10B981',
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+                }
+            });
+
+            // 2. Score Distribution Doughnut Chart
+            new Chart(document.getElementById('scoresChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: scoreLabels,
+                    datasets: [{
+                        data: scoreCounts,
+                        backgroundColor: ['#EF4444', '#F59E0B', '#10B981'],
+                        borderColor: '#141A23',
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+
+            // 3. Categories Chart
+            new Chart(document.getElementById('categoriesChart'), {
+                type: 'pie',
+                data: {
+                    labels: catLabels,
+                    datasets: [{
+                        data: catCounts,
+                        backgroundColor: ['#3B82F6', '#06B6D4', '#10B981', '#F59E0B'],
+                        borderColor: '#141A23',
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+
+            // 4. Roles Chart
+            new Chart(document.getElementById('rolesChart'), {
+                type: 'bar',
+                data: {
+                    labels: roleLabels,
+                    datasets: [{
+                        label: 'Resumes',
+                        data: roleCounts,
+                        backgroundColor: 'rgba(245, 158, 11, 0.6)',
+                        borderColor: '#F59E0B',
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true, ticks: { precision: 0 } } }
+                }
+            });
+            /*]]>*/
+        </script>
+    </div>
+</body>
+</html>

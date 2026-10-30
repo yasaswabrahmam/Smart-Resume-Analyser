@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::#main-content})}">
+<head>
+    <title>Standard Resume Analyzer - Smart AI Resume Analyzer</title>
+</head>
+<body>
+    <div id="main-content">
+        <div class="row justify-content-center">
+            <div class="col-lg-9 col-xl-8">
+                <!-- Header -->
+                <div class="d-flex align-items-center mb-4 gap-3">
+                    <div class="brand-icon-wrapper" style="width: 48px; height: 48px; font-size: 1.35rem;">
+                        <i class="fa-solid fa-file-invoice"></i>
+                    </div>
+                    <div>
+                        <h2 class="fw-bold mb-1">Standard ATS Resume Analyzer</h2>
+                        <p class="text-muted mb-0 small">Evaluate your document against industry applicant tracking systems, role keywords, and structural standards.</p>
+                    </div>
+                </div>
+
+                <!-- Modern SaaS Upload Card -->
+                <div class="custom-card mb-4 p-4 p-md-5">
+                    <form th:action="@{/analyzer/analyze}" method="post" enctype="multipart/form-data" id="standardAnalyzerForm">
+                        
+                        <!-- Role Selection Row -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    <i class="fa-solid fa-layer-group me-1 text-primary"></i> Target Industry / Category
+                                </label>
+                                <select name="targetCategory" id="targetCategory" class="form-select" onchange="updateRoles()">
+                                    <option value="">-- Select Industry Domain --</option>
+                                    <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    <i class="fa-solid fa-briefcase me-1 text-primary"></i> Target Job Role
+                                </label>
+                                <select name="targetRole" id="targetRole" class="form-select">
+                                    <option value="">-- Select Target Position --</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Professional Drag & Drop Zone -->
+                        <div class="mb-4">
+                            <label class="form-label">
+                                <i class="fa-solid fa-file-arrow-up me-1 text-primary"></i> Resume Document File
+                            </label>
+
+                            <div class="upload-dropzone" id="dropzoneContainer" onclick="document.getElementById('resumeFileInput').click()">
+                                <div class="upload-icon-circle">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                </div>
+                                <h5 class="fw-bold text-white mb-1">Drag &amp; drop your resume here</h5>
+                                <p class="text-muted small mb-2">or <span class="text-primary fw-semibold">click to browse</span> from your computer</p>
+                                <div class="text-dim" style="font-size: 0.76rem;">Supported formats: PDF, Microsoft Word (.docx) &bull; Max size: 20MB</div>
+
+                                <div class="upload-filename-badge" id="selectedFileDisplay">
+                                    <i class="fa-solid fa-file-lines me-1"></i>
+                                    <span id="selectedFileName">filename.pdf</span>
+                                </div>
+
+                                <input type="file" name="resumeFile" id="resumeFileInput" class="d-none" accept=".pdf,.docx" required onchange="handleFileSelected(this)">
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary-custom w-100 py-3 fs-6">
+                            <i class="fa-solid fa-microchip"></i>
+                            <span>Run Algorithmic ATS Analysis</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 3 Information Pillars -->
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="custom-card h-100 p-3 text-center">
+                            <i class="fa-solid fa-bullseye fa-xl text-primary mb-2 d-block"></i>
+                            <h6 class="fw-bold text-white mb-1">Keyword Matching</h6>
+                            <p class="text-muted" style="font-size: 0.78rem;">Scans for required technical and domain competencies across 16 tech roles.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-card h-100 p-3 text-center">
+                            <i class="fa-solid fa-ruler-combined fa-xl text-warning mb-2 d-block"></i>
+                            <h6 class="fw-bold text-white mb-1">Format Checks</h6>
+                            <p class="text-muted" style="font-size: 0.78rem;">Validates bullet points, action verbs, dates, and contact completeness.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-card h-100 p-3 text-center">
+                            <i class="fa-solid fa-graduation-cap fa-xl text-info mb-2 d-block"></i>
+                            <h6 class="fw-bold text-white mb-1">Learning Pathways</h6>
+                            <p class="text-muted" style="font-size: 0.78rem;">Recommends free online courses and interview roadmaps for missing skills.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Embedded Role Data & File Handler Script -->
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            const jobRolesData = /*[[${jobRoles}]]*/ {};
+
+            function updateRoles() {
+                const catSelect = document.getElementById('targetCategory');
+                const roleSelect = document.getElementById('targetRole');
+                const selectedCat = catSelect.value;
+
+                roleSelect.innerHTML = '<option value="">-- Select Target Position --</option>';
+
+                if (selectedCat && jobRolesData[selectedCat]) {
+                    const rolesMap = jobRolesData[selectedCat];
+                    for (const roleKey in rolesMap) {
+                        const opt = document.createElement('option');
+                        opt.value = roleKey;
+                        opt.textContent = roleKey;
+                        roleSelect.appendChild(opt);
+                    }
+                }
+            }
+
+            function handleFileSelected(input) {
+                if (input.files && input.files[0]) {
+                    const file = input.files[0];
+                    const display = document.getElementById('selectedFileDisplay');
+                    const nameSpan = document.getElementById('selectedFileName');
+                    nameSpan.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+                    display.style.display = 'inline-flex';
+                }
+            }
+
+            // Drag and drop visual cues
+            const dropzone = document.getElementById('dropzoneContainer');
+            if (dropzone) {
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dropzone.classList.add('dragover');
+                    }, false);
+                });
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dropzone.classList.remove('dragover');
+                    }, false);
+                });
+                dropzone.addEventListener('drop', (e) => {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    if (files && files.length > 0) {
+                        const input = document.getElementById('resumeFileInput');
+                        input.files = files;
+                        handleFileSelected(input);
+                    }
+                });
+            }
+            /*]]>*/
+        </script>
+    </div>
+</body>
+</html>

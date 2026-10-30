@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::#main-content})}">
+<head>
+    <title>Resume Builder - Smart AI Resume Analyzer</title>
+</head>
+<body>
+    <div id="main-content">
+        <!-- Top Workspace Bar -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="brand-icon-wrapper" style="width: 44px; height: 44px; font-size: 1.25rem;">
+                    <i class="fa-solid fa-file-pen"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold mb-0">Interactive Resume Builder</h2>
+                    <p class="text-muted small mb-0">Craft, preview, and download ATS-optimized resumes in real-time.</p>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="d-flex align-items-center gap-2">
+                <button type="button" class="btn btn-secondary-custom" onclick="updateLivePreview()">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <span>Refresh Preview</span>
+                </button>
+                <button type="button" class="btn btn-secondary-custom" onclick="submitDownload('/builder/download/docx')">
+                    <i class="fa-solid fa-file-word text-primary"></i>
+                    <span>Download DOCX</span>
+                </button>
+                <button type="button" class="btn btn-primary-custom" onclick="submitDownload('/builder/download/pdf')">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>Download PDF</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 2-Column Professional SaaS Workspace -->
+        <form id="resumeForm" method="post" th:object="${resumeDto}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+            <div class="builder-workspace">
+                <!-- LEFT COLUMN: Resume Editing Controls -->
+                <div class="builder-controls-column">
+                    <!-- Template Selector Card -->
+                    <div class="custom-card mb-4 p-4" style="border-color: rgba(16, 185, 129, 0.3);">
+                        <label class="form-label text-white fw-bold mb-3 d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-palette text-primary"></i>
+                            <span>Select Document Template</span>
+                        </label>
+                        <div class="row g-2">
+                            <div class="col-6 col-md-3">
+                                <input type="radio" class="btn-check" name="template" id="tplModern" value="Modern" checked onchange="updateLivePreview()">
+                                <label class="btn btn-outline-secondary w-100 py-2 text-center" for="tplModern" style="border-color: var(--border-subtle);">
+                                    <div class="fw-bold text-white small">Modern</div>
+                                    <small class="text-dim" style="font-size: 0.72rem;">Royal Blue &bull; Badges</small>
+                                </label>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <input type="radio" class="btn-check" name="template" id="tplProfessional" value="Professional" onchange="updateLivePreview()">
+                                <label class="btn btn-outline-secondary w-100 py-2 text-center" for="tplProfessional" style="border-color: var(--border-subtle);">
+                                    <div class="fw-bold text-white small">Professional</div>
+                                    <small class="text-dim" style="font-size: 0.72rem;">Classic Executive</small>
+                                </label>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <input type="radio" class="btn-check" name="template" id="tplMinimal" value="Minimal" onchange="updateLivePreview()">
+                                <label class="btn btn-outline-secondary w-100 py-2 text-center" for="tplMinimal" style="border-color: var(--border-subtle);">
+                                    <div class="fw-bold text-white small">Minimal</div>
+                                    <small class="text-dim" style="font-size: 0.72rem;">Monochrome Clean</small>
+                                </label>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <input type="radio" class="btn-check" name="template" id="tplCreative" value="Creative" onchange="updateLivePreview()">
+                                <label class="btn btn-outline-secondary w-100 py-2 text-center" for="tplCreative" style="border-color: var(--border-subtle);">
+                                    <div class="fw-bold text-white small">Creative</div>
+                                    <small class="text-dim" style="font-size: 0.72rem;">Violet Contemporary</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1. Personal Information -->
+                    <div class="custom-card mb-4 p-4">
+                        <div class="card-header-clean">
+                            <h6 class="fw-bold text-success mb-0 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-user"></i>
+                                <span>1. Personal &amp; Contact Details</span>
+                            </h6>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Full Name *</label>
+                                <input type="text" id="fullName" name="fullName" class="form-control" placeholder="e.g. Yasaswa Brahmam" required oninput="updateLivePreview()">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Target Job Title *</label>
+                                <input type="text" id="title" name="title" class="form-control" placeholder="e.g. Senior Java Software Engineer" oninput="updateLivePreview()">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email Address *</label>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="user@example.com" required oninput="updateLivePreview()">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Phone Number *</label>
+                                <input type="text" id="phone" name="phone" class="form-control" placeholder="+91 9876543210" oninput="updateLivePreview()">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Location</label>
+                                <input type="text" id="location" name="location" class="form-control" placeholder="Bangalore, India" oninput="updateLivePreview()">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">LinkedIn URL</label>
+                                <input type="text" id="linkedin" name="linkedin" class="form-control" placeholder="linkedin.com/in/profile" oninput="updateLivePreview()">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">GitHub / Portfolio</label>
+                                <input type="text" id="portfolio" name="portfolio" class="form-control" placeholder="github.com/profile" oninput="updateLivePreview()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Professional Summary -->
+                    <div class="custom-card mb-4 p-4">
+                        <div class="card-header-clean">
+                            <h6 class="fw-bold text-success mb-0 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-align-left"></i>
+                                <span>2. Professional Summary</span>
+                            </h6>
+                        </div>
+                        <textarea id="summary" name="summary" class="form-control" rows="3" placeholder="Dedicated Software Engineer with 3+ years designing high-throughput microservices, scalable distributed backends, and cloud-native solutions..." oninput="updateLivePreview()"></textarea>
+                    </div>
+
+                    <!-- 3. Work Experience -->
+                    <div class="custom-card mb-4 p-4">
+                        <div class="card-header-clean">
+                            <h6 class="fw-bold text-success mb-0 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-briefcase"></i>
+                                <span>3. Work Experience</span>
+                            </h6>
+                            <button type="button" class="btn btn-sm btn-outline-success" onclick="addExperience()">
+                                <i class="fa-solid fa-plus me-1"></i> Add Position
+                            </button>
+                        </div>
+                        <div id="experienceContainer"></div>
+                    </div>
+
+                    <!-- 4. Education -->
+                    <div class="custom-card mb-4 p-4">
+                        <div class="card-header-clean">
+                            <h6 class="fw-bold text-success mb-0 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                                <span>4. Education</span>
+                            </h6>
+                            <button type="button" class="btn btn-sm btn-outline-success" onclick="addEducation()">
+                                <i class="fa-solid fa-plus me-1"></i> Add Education
+                            </button>
+                        </div>
+                        <div id="educationContainer"></div>
+                    </div>
+
+                    <!-- 5. Technical & Soft Skills -->
+                    <div class="custom-card mb-4 p-4">
+                        <div class="card-header-clean">
+                            <h6 class="fw-bold text-success mb-0 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-code"></i>
+                                <span>5. Skills &amp; Competencies</span>
+                            </h6>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label">Technical Skills (Comma separated)</label>
+                                <input type="text" id="techSkills" name="technicalSkills" class="form-control" placeholder="Java, Spring Boot, Microservices, MySQL, REST APIs, Git, Docker, Kubernetes" oninput="updateLivePreview()">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Soft Skills &amp; Methodologies</label>
+                                <input type="text" id="softSkills" name="softSkills" class="form-control" placeholder="Agile / Scrum, Team Leadership, Problem Solving, System Architecture" oninput="updateLivePreview()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Projects & Certifications -->
+                    <div class="custom-card mb-4 p-4">
+                        <div class="card-header-clean">
+                            <h6 class="fw-bold text-success mb-0 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-diagram-project"></i>
+                                <span>6. Key Projects</span>
+                            </h6>
+                            <button type="button" class="btn btn-sm btn-outline-success" onclick="addProject()">
+                                <i class="fa-solid fa-plus me-1"></i> Add Project
+                            </button>
+                        </div>
+                        <div id="projectContainer"></div>
+                    </div>
+
+                    <!-- Bottom Download Actions Bar -->
+                    <div class="d-flex gap-3 justify-content-end mb-5">
+                        <button type="button" class="btn btn-secondary-custom px-4 py-2" onclick="submitDownload('/builder/download/docx')">
+                            <i class="fa-solid fa-file-word text-primary"></i>
+                            <span>Export Word (.docx)</span>
+                        </button>
+                        <button type="button" class="btn btn-primary-custom px-4 py-2" onclick="submitDownload('/builder/download/pdf')">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>Export PDF Document</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: Realistic Live White Document Preview -->
+                <div class="builder-preview-column">
+                    <div class="d-flex justify-content-between align-items-center mb-2 px-1">
+                        <span class="small text-muted fw-semibold d-flex align-items-center gap-1">
+                            <i class="fa-solid fa-file-lines text-primary"></i> Real-time Paper Preview
+                        </span>
+                        <span class="badge bg-secondary bg-opacity-25 text-white" id="previewTemplateBadge">Modern Template</span>
+                    </div>
+
+                    <!-- Realistic White Paper Document Container -->
+                    <div class="paper-document paper-modern" id="previewPaper">
+                        <!-- Header Section -->
+                        <div id="previewHeader">
+                            <h1 id="prevName">YASASWA BRAHMAM</h1>
+                            <div class="paper-title" id="prevTitle">SENIOR SOFTWARE ENGINEER</div>
+                            <div class="paper-contact" id="prevContact">
+                                user@example.com &bull; +91 9876543210 &bull; Bangalore, India
+                            </div>
+                        </div>
+
+                        <!-- Professional Summary -->
+                        <div id="prevSummarySection">
+                            <h2>Professional Summary</h2>
+                            <p id="prevSummaryText">
+                                Accomplished software developer with expertise in high-throughput enterprise systems, Spring Boot microservices, and database optimization.
+                            </p>
+                        </div>
+
+                        <!-- Work Experience -->
+                        <div id="prevExpSection">
+                            <h2>Work Experience</h2>
+                            <div id="prevExpList">
+                                <div>
+                                    <strong>Software Engineer</strong> &mdash; <span>Enterprise Technologies Ltd.</span> <span style="float: right; color: #64748B;">2022 - Present</span>
+                                    <ul>
+                                        <li>Developed resilient backend microservices using Java and Spring Boot.</li>
+                                        <li>Designed optimized SQL queries improving API throughput by 35%.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Education -->
+                        <div id="prevEduSection">
+                            <h2>Education</h2>
+                            <div id="prevEduList">
+                                <div>
+                                    <strong>B.Tech in Computer Science</strong> &mdash; <span>State University</span> <span style="float: right; color: #64748B;">2022</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Technical Skills -->
+                        <div id="prevSkillsSection">
+                            <h2>Technical Skills</h2>
+                            <p id="prevSkillsList">
+                                Java, Spring Boot, MySQL, REST APIs, Microservices, Git, Docker
+                            </p>
+                        </div>
+
+                        <!-- Key Projects -->
+                        <div id="prevProjectSection">
+                            <h2>Key Projects</h2>
+                            <div id="prevProjectList">
+                                <div>
+                                    <strong>Cloud Resume Analyzer</strong> &mdash; <em>Spring Boot, PDFBox, MySQL</em>
+                                    <p>Engineered automated ATS readiness analyzer processing multi-format resumes with real-time scoring.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Dynamic Form & Preview Script -->
+        <script>
+            let expCount = 0;
+            let projCount = 0;
+            let eduCount = 0;
+
+            function addExperience(company = '', pos = '', dates = '', desc = '') {
+                const id = expCount++;
+                const div = document.createElement('div');
+                div.className = 'p-3 rounded-2 mb-3';
+                div.style.background = 'rgba(255, 255, 255, 0.02)';
+                div.style.border = '1px solid var(--border-subtle)';
+                div.id = `exp_${id}`;
+                div.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <strong class="text-white small">Position #${id + 1}</strong>
+                        <button type="button" class="btn btn-sm btn-outline-danger py-0 px-2" onclick="removeExp(${id})">&times;</button>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <input type="text" name="experiences[${id}].position" class="form-control form-control-sm" placeholder="Job Title" value="${pos}" oninput="updateLivePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="experiences[${id}].company" class="form-control form-control-sm" placeholder="Company Name" value="${company}" oninput="updateLivePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="experiences[${id}].startDate" class="form-control form-control-sm" placeholder="Start Date (e.g. 2022)" oninput="updateLivePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="experiences[${id}].endDate" class="form-control form-control-sm" placeholder="End Date (e.g. Present)" value="${dates}" oninput="updateLivePreview()">
+                        </div>
+                        <div class="col-12">
+                            <textarea name="experiences[${id}].responsibilities" class="form-control form-control-sm" rows="2" placeholder="Responsibilities & Achievements (bullet points)" oninput="updateLivePreview()">${desc}</textarea>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('experienceContainer').appendChild(div);
+                updateLivePreview();
+            }
+
+            function removeExp(id) {
+                const el = document.getElementById(`exp_${id}`);
+                if (el) el.remove();
+                updateLivePreview();
+            }
+
+            function addProject(name = '', tech = '', desc = '') {
+                const id = projCount++;
+                const div = document.createElement('div');
+                div.className = 'p-3 rounded-2 mb-3';
+                div.style.background = 'rgba(255, 255, 255, 0.02)';
+                div.style.border = '1px solid var(--border-subtle)';
+                div.id = `proj_${id}`;
+                div.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <strong class="text-white small">Project #${id + 1}</strong>
+                        <button type="button" class="btn btn-sm btn-outline-danger py-0 px-2" onclick="removeProj(${id})">&times;</button>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <input type="text" name="projects[${id}].name" class="form-control form-control-sm" placeholder="Project Title" value="${name}" oninput="updateLivePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="projects[${id}].technologies" class="form-control form-control-sm" placeholder="Technologies" value="${tech}" oninput="updateLivePreview()">
+                        </div>
+                        <div class="col-12">
+                            <textarea name="projects[${id}].description" class="form-control form-control-sm" rows="2" placeholder="Project Description & Achievements" oninput="updateLivePreview()">${desc}</textarea>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('projectContainer').appendChild(div);
+                updateLivePreview();
+            }
+
+            function removeProj(id) {
+                const el = document.getElementById(`proj_${id}`);
+                if (el) el.remove();
+                updateLivePreview();
+            }
+
+            function addEducation(school = '', degree = '', field = '', grad = '') {
+                const id = eduCount++;
+                const div = document.createElement('div');
+                div.className = 'p-3 rounded-2 mb-3';
+                div.style.background = 'rgba(255, 255, 255, 0.02)';
+                div.style.border = '1px solid var(--border-subtle)';
+                div.id = `edu_${id}`;
+                div.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <strong class="text-white small">Education #${id + 1}</strong>
+                        <button type="button" class="btn btn-sm btn-outline-danger py-0 px-2" onclick="removeEdu(${id})">&times;</button>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <input type="text" name="educations[${id}].school" class="form-control form-control-sm" placeholder="University / College" value="${school}" oninput="updateLivePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="educations[${id}].degree" class="form-control form-control-sm" placeholder="Degree (e.g. B.Tech)" value="${degree}" oninput="updateLivePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="educations[${id}].field" class="form-control form-control-sm" placeholder="Field of Study" value="${field}" oninput="updateLivePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="educations[${id}].graduationDate" class="form-control form-control-sm" placeholder="Graduation Year" value="${grad}" oninput="updateLivePreview()">
+                        </div>
+                    </div>
+                `;
+                document.getElementById('educationContainer').appendChild(div);
+                updateLivePreview();
+            }
+
+            function removeEdu(id) {
+                const el = document.getElementById(`edu_${id}`);
+                if (el) el.remove();
+                updateLivePreview();
+            }
+
+            function updateLivePreview() {
+                const name = document.getElementById('fullName').value || 'YOUR FULL NAME';
+                const title = document.getElementById('title').value || 'TARGET JOB TITLE';
+                const email = document.getElementById('email').value || 'user@example.com';
+                const phone = document.getElementById('phone').value || '+91 9876543210';
+                const loc = document.getElementById('location').value || 'Location';
+                const summary = document.getElementById('summary').value || 'Dedicated professional with extensive experience delivering technical solutions.';
+                const techSkills = document.getElementById('techSkills').value || 'Java, Spring Boot, MySQL, REST APIs, Microservices, Git, Docker';
+
+                const selectedTpl = document.querySelector('input[name="template"]:checked')?.value || 'Modern';
+                document.getElementById('previewTemplateBadge').textContent = selectedTpl + ' Template';
+
+                const paper = document.getElementById('previewPaper');
+                paper.className = 'paper-document paper-' + selectedTpl.toLowerCase();
+
+                document.getElementById('prevName').textContent = (selectedTpl === 'Modern' ? name.toUpperCase() : (selectedTpl === 'Creative' ? '✨ ' + name + ' ✨' : name));
+                document.getElementById('prevTitle').textContent = title;
+                document.getElementById('prevContact').textContent = `${email} • ${phone} • ${loc}`;
+                document.getElementById('prevSummaryText').textContent = summary;
+                document.getElementById('prevSkillsList').textContent = techSkills;
+            }
+
+            function submitDownload(targetAction) {
+                const form = document.getElementById('resumeForm');
+                form.action = targetAction;
+                form.submit();
+            }
+
+            window.addEventListener('DOMContentLoaded', () => {
+                addExperience('Enterprise Technologies Ltd.', 'Software Developer', '2022 - Present', '• Developed microservices using Java and Spring Boot\n• Optimized SQL database performance and API throughput');
+                addEducation('State University', 'B.Tech', 'Computer Science', '2022');
+                addProject('Cloud Resume Analyzer', 'Java, Spring Boot, PDFBox, MySQL', 'Engineered automated ATS readiness analyzer processing multi-format resumes with real-time scoring.');
+            });
+        </script>
+    </div>
+</body>
+</html>

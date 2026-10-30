@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::#main-content})}">
+<head>
+    <title>My Dashboard - Smart AI Resume Analyzer</title>
+</head>
+<body>
+    <div id="main-content">
+        <!-- Dashboard Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30">Active Member</span>
+                </div>
+                <h2 class="fw-bold mb-1">
+                    Personal Candidate Dashboard
+                </h2>
+                <p class="text-muted small mb-0">Welcome back, <strong class="text-heading" th:text="${currentUser.fullName}">User</strong> &bull; Manage your uploaded and built resumes.</p>
+            </div>
+            <div class="d-flex gap-2">
+                <a th:href="@{/analyzer}" class="btn btn-primary-custom">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>Analyze Resume</span>
+                </a>
+                <a th:href="@{/builder}" class="btn btn-secondary-custom">
+                    <i class="fa-solid fa-file-pen"></i>
+                    <span>Open Builder</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Metric Stat Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Tracked Resumes</span>
+                        <i class="fa-solid fa-file-lines metric-icon text-success"></i>
+                    </div>
+                    <div class="metric-value text-success" th:text="${resumes.size()}">0</div>
+                    <div class="metric-subtext">Uploaded or generated documents</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">AI Analyses Completed</span>
+                        <i class="fa-solid fa-brain metric-icon text-info"></i>
+                    </div>
+                    <div class="metric-value text-info" th:text="${aiAnalyses.size()}">0</div>
+                    <div class="metric-subtext">Gemini neural career evaluations</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Demonstration Tier</span>
+                        <i class="fa-solid fa-shield-halved metric-icon text-warning"></i>
+                    </div>
+                    <div class="metric-value text-warning fs-3 mt-1">ACADEMIC</div>
+                    <div class="metric-subtext">Full feature access enabled</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumes Table Card -->
+        <div class="custom-card mb-4 p-4">
+            <div class="card-header-clean">
+                <h5 class="fw-bold mb-0">
+                    <i class="fa-solid fa-id-card text-success me-2"></i> My Document Library
+                </h5>
+                <span class="text-muted small" th:text="${resumes.size()} + ' document(s)'">0 documents</span>
+            </div>
+
+            <!-- Empty State -->
+            <div th:if="${resumes.isEmpty()}" class="text-center py-5">
+                <div class="brand-icon-wrapper mx-auto mb-3" style="width: 56px; height: 56px; font-size: 1.5rem;">
+                    <i class="fa-solid fa-file-dashed-line"></i>
+                </div>
+                <h5 class="text-white mb-1">No resumes saved yet</h5>
+                <p class="text-muted small mb-3">Upload your first resume for ATS scoring or design one in the Resume Builder.</p>
+                <a th:href="@{/analyzer}" class="btn btn-primary-custom">Get Started</a>
+            </div>
+
+            <!-- Non-Empty Table -->
+            <div th:if="${!resumes.isEmpty()}" class="table-responsive">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>File Name / Title</th>
+                            <th>File Format</th>
+                            <th>Target Role</th>
+                            <th>Created Date</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="r : ${resumes}">
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-file-pdf text-danger" th:if="${r.fileType != null and r.fileType.contains('PDF')}"></i>
+                                    <i class="fa-solid fa-file-word text-primary" th:if="${r.fileType != null and r.fileType.contains('DOCX')}"></i>
+                                    <i class="fa-solid fa-file-lines text-info" th:if="${r.fileType == null or (!r.fileType.contains('PDF') and !r.fileType.contains('DOCX'))}"></i>
+                                    <strong class="text-heading" th:text="${r.fileName != null ? r.fileName : r.name}">Resume.pdf</strong>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary bg-opacity-20 text-white" th:text="${r.fileType != null ? r.fileType : 'DOCUMENT'}">PDF</span>
+                            </td>
+                            <td>
+                                <span class="text-info small" th:text="${r.targetRole != null && !r.targetRole.isBlank() ? r.targetRole : 'General Professional'}">Backend Developer</span>
+                            </td>
+                            <td class="text-muted small" th:text="${#temporals.format(r.createdAt, 'yyyy-MM-dd HH:mm')}">2026-09-28</td>
+                            <td class="text-end">
+                                <a th:href="@{'/analyzer/view/' + ${r.id}}" class="btn btn-sm btn-primary-custom py-1">
+                                    <i class="fa-solid fa-chart-simple me-1"></i> View Results
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- AI Evaluations History Card -->
+        <div class="custom-card p-4" th:if="${!aiAnalyses.isEmpty()}">
+            <div class="card-header-clean">
+                <h5 class="fw-bold mb-0">
+                    <i class="fa-solid fa-wand-magic-sparkles text-info me-2"></i> Recent AI Evaluations
+                </h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Target Role</th>
+                            <th>Job Match Score</th>
+                            <th>Analysis Date</th>
+                            <th class="text-end">Report</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ai : ${aiAnalyses}">
+                            <td>
+                                <strong class="text-heading" th:text="${ai.targetRole != null && !ai.targetRole.isBlank() ? ai.targetRole : 'Software Engineer'}">Role</strong>
+                            </td>
+                            <td>
+                                <span class="badge bg-info bg-opacity-20 text-info fw-semibold" th:text="${#numbers.formatDecimal(ai.jobMatchScore, 1, 0)} + '% Match'">85% Match</span>
+                            </td>
+                            <td class="text-muted small" th:text="${#temporals.format(ai.createdAt, 'yyyy-MM-dd HH:mm')}">2026-09-28</td>
+                            <td class="text-end">
+                                <a th:href="@{'/ai-analyzer/download-pdf/' + ${ai.id}}" class="btn btn-sm btn-secondary-custom py-1">
+                                    <i class="fa-solid fa-file-pdf text-danger me-1"></i> PDF Dossier
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

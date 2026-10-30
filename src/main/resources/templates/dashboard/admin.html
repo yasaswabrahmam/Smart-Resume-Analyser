@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::#main-content})}">
+<head>
+    <title>Admin Dashboard - Smart AI Resume Analyzer</title>
+</head>
+<body>
+    <div id="main-content">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-warning bg-opacity-15 text-warning border border-warning border-opacity-30">
+                        <i class="fa-solid fa-shield-halved me-1"></i> Root Administration
+                    </span>
+                </div>
+                <h2 class="fw-bold mb-0">System Control Console</h2>
+                <p class="text-muted small mb-0">Audit system activity, review member submissions, manage feedback, and export datasets.</p>
+            </div>
+            <!-- Multi-Format Data Exports -->
+            <div class="d-flex gap-2">
+                <a th:href="@{/admin/export/excel}" class="btn btn-sm btn-secondary-custom">
+                    <i class="fa-solid fa-file-excel text-success me-1"></i> Excel (.xlsx)
+                </a>
+                <a th:href="@{/admin/export/csv}" class="btn btn-sm btn-secondary-custom">
+                    <i class="fa-solid fa-file-csv text-info me-1"></i> CSV
+                </a>
+                <a th:href="@{/admin/export/json}" class="btn btn-sm btn-secondary-custom">
+                    <i class="fa-solid fa-file-code text-warning me-1"></i> JSON
+                </a>
+            </div>
+        </div>
+
+        <!-- System Overview Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Registered Members</span>
+                        <i class="fa-solid fa-users metric-icon text-primary"></i>
+                    </div>
+                    <div class="metric-value text-primary" th:text="${overview.totalUsers}">0</div>
+                    <div class="metric-subtext">Active database credentials</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Resumes Stored</span>
+                        <i class="fa-solid fa-file-invoice metric-icon text-success"></i>
+                    </div>
+                    <div class="metric-value text-success" th:text="${overview.totalResumes}">0</div>
+                    <div class="metric-subtext">Uploaded or generated files</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Today's Ingestions</span>
+                        <i class="fa-solid fa-calendar-day metric-icon text-warning"></i>
+                    </div>
+                    <div class="metric-value text-warning" th:text="${overview.todaySubmissions}">0</div>
+                    <div class="metric-subtext">Processed past 24 hours</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Estimated Storage</span>
+                        <i class="fa-solid fa-database metric-icon text-info"></i>
+                    </div>
+                    <div class="metric-value text-info fs-3 mt-1" th:text="${overview.storageSizeEstimate}">2.5 MB</div>
+                    <div class="metric-subtext">MySQL data footprint</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Engine Usage & Reset Row -->
+        <div class="custom-card custom-card-cyan mb-4 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <div>
+                    <h5 class="fw-bold text-info mb-1 d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-brain"></i>
+                        <span>AI Qualitative Engine Telemetry</span>
+                    </h5>
+                    <small class="text-muted">Total Gemini neural evaluations and heuristic assessments executed on the platform.</small>
+                </div>
+                <div>
+                    <form th:action="@{/admin/reset-ai-stats}" method="post" onsubmit="return confirm('Are you sure you want to reset all AI analysis statistics?');" class="m-0">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" style="font-size: 0.78rem;">
+                            <i class="fa-solid fa-trash-can me-1"></i> Reset AI Counter
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row g-3 text-center">
+                <div class="col-md-4">
+                    <div class="p-3 rounded-2" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle);">
+                        <div class="small text-muted mb-1">TOTAL AI ANALYSES</div>
+                        <h3 class="fw-bold text-info mb-0" th:text="${aiStats.totalAnalyses}">0</h3>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 rounded-2" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle);">
+                        <div class="small text-muted mb-1">AVERAGE MATCH SCORE</div>
+                        <h3 class="fw-bold text-success mb-0" th:text="${aiStats.avgMatchScore} + '%'">0%</h3>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 rounded-2" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle);">
+                        <div class="small text-muted mb-1">AI ENGINE RUNTIME</div>
+                        <h3 class="fw-bold text-warning mb-0">Google Gemini</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audit Activity Logs Table -->
+        <div class="custom-card mb-4 p-4">
+            <div class="card-header-clean">
+                <h5 class="fw-bold mb-0">
+                    <i class="fa-solid fa-list-check text-success me-2"></i> System Audit Activity Logs
+                </h5>
+                <span class="text-muted small" th:text="${logs.size()} + ' event(s) recorded'">0 events</span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Event Timestamp</th>
+                            <th>Admin Identity</th>
+                            <th>Action Type</th>
+                            <th>Details &amp; Metadata</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="log : ${logs}">
+                            <td class="text-muted" th:text="${#temporals.format(log.timestamp, 'yyyy-MM-dd HH:mm:ss')}">2026-09-28 20:00:00</td>
+                            <td>
+                                <strong class="text-heading" th:text="${log.adminEmail}">admin@smartresume.com</strong>
+                            </td>
+                            <td>
+                                <span class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30" th:text="${log.action}">LOGIN</span>
+                            </td>
+                            <td class="text-muted small" th:text="${log.details}">Action details recorded</td>
+                        </tr>
+                        <tr th:if="${logs.isEmpty()}">
+                            <td colspan="4" class="text-center text-muted py-4">No audit logs recorded yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Member Feedback Table -->
+        <div class="custom-card p-4">
+            <div class="card-header-clean">
+                <h5 class="fw-bold mb-0">
+                    <i class="fa-solid fa-comments text-primary me-2"></i> User Feedback Submissions
+                </h5>
+                <span class="text-muted small" th:text="${feedbackList.size()} + ' review(s)'">0 reviews</span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Email</th>
+                            <th>Overall Rating</th>
+                            <th>Favorite Module</th>
+                            <th>User Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="fb : ${feedbackList}">
+                            <td><strong class="text-heading" th:text="${fb.name}">Name</strong></td>
+                            <td class="text-muted" th:text="${fb.email}">email@example.com</td>
+                            <td>
+                                <span class="text-warning">
+                                    <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, fb.overallRating)}"></i>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary bg-opacity-25 text-white" th:text="${fb.bestFeature}">AI Analyzer</span>
+                            </td>
+                            <td class="text-muted small" th:text="${fb.comments}">Review comments</td>
+                        </tr>
+                        <tr th:if="${feedbackList.isEmpty()}">
+                            <td colspan="5" class="text-center text-muted py-4">No feedback received yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

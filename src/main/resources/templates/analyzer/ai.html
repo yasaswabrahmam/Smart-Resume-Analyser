@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::#main-content})}">
+<head>
+    <title>AI Gemini Resume Analyzer - Smart AI Resume Analyzer</title>
+</head>
+<body>
+    <div id="main-content">
+        <!-- Header -->
+        <div class="d-flex align-items-center mb-4 gap-3">
+            <div class="brand-icon-wrapper" style="width: 48px; height: 48px; font-size: 1.35rem; background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.3); color: #22D3EE;">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="ai-badge"><span class="ai-pulse-dot"></span> Generative AI Neural Engine</span>
+                </div>
+                <h2 class="fw-bold mb-0">Google Gemini AI Resume Analyzer</h2>
+                <p class="text-muted small mb-0">Leverage large language models for qualitative candidate evaluation and role alignment.</p>
+            </div>
+        </div>
+
+        <!-- Input Form Card -->
+        <div class="custom-card custom-card-cyan mb-4 p-4 p-md-5">
+            <form th:action="@{/ai-analyzer/analyze}" method="post" enctype="multipart/form-data">
+                
+                <!-- Category and Role Selectors -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label"><i class="fa-solid fa-layer-group me-1 text-info"></i> Target Industry Domain</label>
+                        <select name="targetCategory" id="aiCategory" class="form-select" onchange="updateAiRoles()">
+                            <option value="">-- Select Industry / Category --</option>
+                            <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label"><i class="fa-solid fa-briefcase me-1 text-info"></i> Target Job Role</label>
+                        <select name="targetRole" id="aiRole" class="form-select">
+                            <option value="">-- Select Specific Role --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Dual Inputs: Resume File + Job Description -->
+                <div class="row g-4 mb-4">
+                    <!-- Left: Resume File / Text Upload -->
+                    <div class="col-lg-6">
+                        <label class="form-label"><i class="fa-solid fa-file-arrow-up me-1 text-info"></i> Candidate Resume</label>
+                        
+                        <div class="upload-dropzone cyan-dropzone mb-3" id="aiDropzone" onclick="document.getElementById('aiResumeFile').click()">
+                            <div class="upload-icon-circle">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+                            <h6 class="fw-bold text-white mb-1">Upload Resume Document</h6>
+                            <p class="text-muted small mb-0">Drag &amp; drop PDF or DOCX, or <span class="text-info fw-semibold">browse</span></p>
+                            
+                            <div class="upload-filename-badge" id="aiFileBadge" style="background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.3); color: #67E8F9;">
+                                <i class="fa-solid fa-file-lines me-1"></i>
+                                <span id="aiFileName">filename.pdf</span>
+                            </div>
+
+                            <input type="file" name="resumeFile" id="aiResumeFile" class="d-none" accept=".pdf,.docx" onchange="handleAiFileSelected(this)">
+                        </div>
+
+                        <label class="form-label small text-dim">Or Paste Raw Resume Text</label>
+                        <textarea name="resumeText" class="form-control" rows="3" placeholder="Paste full resume text here if not uploading a file..."></textarea>
+                    </div>
+
+                    <!-- Right: Target Job Description -->
+                    <div class="col-lg-6">
+                        <label class="form-label"><i class="fa-solid fa-crosshairs me-1 text-info"></i> Target Job Description (For Match Comparison)</label>
+                        <textarea name="jobDescription" class="form-control h-100" style="min-height: 200px;" placeholder="Paste the job requirements, responsibilities, and qualifications here to compute an exact Match Percentage and pinpoint unmet prerequisites..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Optional Custom Gemini API Key Collapsible -->
+                <div class="mb-4">
+                    <button class="btn btn-sm btn-secondary-custom d-flex align-items-center gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKey">
+                        <i class="fa-solid fa-key text-warning"></i>
+                        <span>Custom Gemini API Key Settings (Optional)</span>
+                        <i class="fa-solid fa-chevron-down fs-6 text-muted"></i>
+                    </button>
+                    <div id="collapseKey" class="collapse mt-2">
+                        <div class="p-3 rounded-2" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle);">
+                            <p class="text-muted small mb-2">The application uses the pre-configured system Gemini API key. Enter your personal key below to override it:</p>
+                            <input type="password" name="customApiKey" class="form-control mb-1" placeholder="AIzaSy...">
+                            <small class="text-dim">Get a free key from <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-info">Google AI Studio</a>.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-ai-custom w-100 py-3 fs-6">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Execute Gemini AI Evaluation</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- AI Analysis Results Display -->
+        <div th:if="${result != null}">
+            <!-- Engine Status Strip -->
+            <div class="custom-card mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <span class="ai-badge">
+                        <i class="fa-solid fa-microchip"></i>
+                        <span th:text="${result.modelUsed}">gemini-1.5-flash</span>
+                    </span>
+                    <span class="text-muted small">
+                        Evaluated for <strong class="text-heading" th:text="${targetRole != null ? targetRole : 'Target Role'}">Role</strong> &bull;
+                        Candidate: <strong class="text-info" th:text="${result.candidateName != null ? result.candidateName : 'Candidate'}">Name</strong>
+                    </span>
+                </div>
+                <div th:if="${savedAiId != null}">
+                    <a th:href="@{'/ai-analyzer/download-pdf/' + ${savedAiId}}" class="btn btn-primary-custom" style="background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); border-color: rgba(239, 68, 68, 0.5);">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <span>Download AI PDF Report</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Match Percentage & Overview Row -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="metric-card h-100">
+                        <div class="metric-header">
+                            <span class="metric-label">Job Match Rating</span>
+                            <i class="fa-solid fa-circle-notch metric-icon text-info"></i>
+                        </div>
+                        <div class="metric-value text-info">
+                            <span th:text="${#numbers.formatDecimal(result.matchPercentage, 1, 0)}">85</span><span class="fs-4 text-muted fw-normal">%</span>
+                        </div>
+                        <div class="progress mt-2" style="height: 6px; background-color: rgba(255, 255, 255, 0.08);">
+                            <div class="progress-bar bg-info" th:style="'width: ' + ${result.matchPercentage} + '%'"></div>
+                        </div>
+                        <div class="metric-subtext mt-2">Neural alignment with target specifications</div>
+                    </div>
+                </div>
+
+                <!-- Strengths Summary Card -->
+                <div class="col-md-4">
+                    <div class="custom-card custom-card-emerald h-100 p-4">
+                        <h6 class="fw-bold text-success mb-3 d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Key Strengths Identified</span>
+                        </h6>
+                        <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                            <li th:each="st : ${result.strengths}" class="d-flex align-items-start gap-2">
+                                <i class="fa-solid fa-check text-success mt-1"></i>
+                                <span class="text-body" th:text="${st}">Strength description</span>
+                            </li>
+                            <li th:if="${result.strengths.isEmpty()}" class="text-muted">No explicit strengths isolated.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Skill Gaps Card -->
+                <div class="col-md-4">
+                    <div class="custom-card h-100 p-4" style="border-color: rgba(239, 68, 68, 0.2);">
+                        <h6 class="fw-bold text-danger mb-3 d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <span>Identified Skill Gaps</span>
+                        </h6>
+                        <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                            <li th:each="wk : ${result.areasForImprovement}" class="d-flex align-items-start gap-2">
+                                <i class="fa-solid fa-xmark text-danger mt-1"></i>
+                                <span class="text-body" th:text="${wk}">Improvement point</span>
+                            </li>
+                            <li th:if="${result.areasForImprovement.isEmpty()}" class="text-success">No critical skill gaps found!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strategic AI Recommendations -->
+            <div class="custom-card mb-4 p-4">
+                <div class="card-header-clean">
+                    <h5 class="fw-bold mb-0">
+                        <i class="fa-solid fa-compass text-info me-2"></i> Strategic Career Recommendations
+                    </h5>
+                </div>
+                <div class="row g-3">
+                    <div th:each="rec : ${result.recommendations}" class="col-md-6">
+                        <div class="p-3 rounded-2 h-100" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); display: flex; align-items: flex-start; gap: 0.75rem;">
+                            <i class="fa-solid fa-lightbulb text-warning mt-1"></i>
+                            <span class="text-body small" th:text="${rec}">Recommendation text</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full AI Qualitative Critique -->
+            <div class="custom-card p-4">
+                <div class="card-header-clean">
+                    <h5 class="fw-bold mb-0">
+                        <i class="fa-solid fa-file-lines text-primary me-2"></i> Comprehensive Dossier &amp; Qualitative Critique
+                    </h5>
+                </div>
+                <div class="p-3 rounded-2 text-body" style="background: rgba(0, 0, 0, 0.2); border: 1px solid var(--border-subtle); white-space: pre-wrap; font-family: 'Inter', monospace; font-size: 0.88rem; line-height: 1.6;" th:text="${result.fullAnalysis}">
+                    Detailed AI analysis content...
+                </div>
+            </div>
+        </div>
+
+        <!-- Embedded Roles Script & File Feedback -->
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            const jobRolesData = /*[[${jobRoles}]]*/ {};
+
+            function updateAiRoles() {
+                const catSelect = document.getElementById('aiCategory');
+                const roleSelect = document.getElementById('aiRole');
+                const selectedCat = catSelect.value;
+
+                roleSelect.innerHTML = '<option value="">-- Select Specific Role --</option>';
+
+                if (selectedCat && jobRolesData[selectedCat]) {
+                    const rolesMap = jobRolesData[selectedCat];
+                    for (const roleKey in rolesMap) {
+                        const opt = document.createElement('option');
+                        opt.value = roleKey;
+                        opt.textContent = roleKey;
+                        roleSelect.appendChild(opt);
+                    }
+                }
+            }
+
+            function handleAiFileSelected(input) {
+                if (input.files && input.files[0]) {
+                    const file = input.files[0];
+                    const badge = document.getElementById('aiFileBadge');
+                    const nameSpan = document.getElementById('aiFileName');
+                    nameSpan.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+                    badge.style.display = 'inline-flex';
+                }
+            }
+            /*]]>*/
+        </script>
+    </div>
+</body>
+</html>
