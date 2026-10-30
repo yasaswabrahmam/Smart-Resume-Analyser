@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::#main-content})}">
+<head>
+    <title>Skill Gap Analysis &amp; Learning Hub - Smart Resume AI</title>
+</head>
+<body>
+    <div id="main-content">
+        <!-- Header Banner -->
+        <div class="custom-card mb-4 p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(14, 19, 26, 0.95) 100%); border-color: rgba(239, 68, 68, 0.25);">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-30">Career Acceleration</span>
+                    <span class="text-muted small">&bull; Objective Evidence Breakdown</span>
+                </div>
+                <h3 class="fw-bold text-white mb-1">Skill Gap Analysis &amp; Learning Hub</h3>
+                <p class="text-muted small mb-0">Compare your verified resume capabilities against target role requirements and stream curated tutorials for every missing competency.</p>
+            </div>
+
+            <!-- Role Selector Form -->
+            <form th:action="@{/skill-gap}" method="get" class="d-flex align-items-center gap-2">
+                <select name="role" class="form-select form-select-sm" style="background: rgba(20, 26, 35, 0.9); border-color: var(--border-subtle); color: #fff; min-width: 220px;" onchange="this.form.submit()">
+                    <option th:each="r : ${allRoles}" th:value="${r}" th:text="${r}" th:selected="${r == selectedRole}">Role Name</option>
+                </select>
+            </form>
+        </div>
+
+        <!-- Metric KPI Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3 col-6">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Role Readiness</span>
+                        <i class="fa-solid fa-gauge-high metric-icon text-success"></i>
+                    </div>
+                    <div class="metric-value text-success" th:text="${report.readinessPercentage + '%'}">82.5%</div>
+                    <div class="metric-subtext" th:text="${'Target: ' + report.targetRole}">Target Role</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Demonstrated Skills</span>
+                        <i class="fa-solid fa-circle-check metric-icon text-success"></i>
+                    </div>
+                    <div class="metric-value text-success" th:text="${report.demonstratedCount}">6</div>
+                    <div class="metric-subtext">Proven with work metrics</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Weakly Evidenced</span>
+                        <i class="fa-solid fa-triangle-exclamation metric-icon text-warning"></i>
+                    </div>
+                    <div class="metric-value text-warning" th:text="${report.weakCount}">2</div>
+                    <div class="metric-subtext">Listed without bullets</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Missing Critical</span>
+                        <i class="fa-solid fa-circle-xmark metric-icon text-danger"></i>
+                    </div>
+                    <div class="metric-value text-danger" th:text="${report.missingCount}">3</div>
+                    <div class="metric-subtext">High ATS penalty risk</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommended Action Steps -->
+        <div class="custom-card mb-4 p-4" th:if="${!report.recommendedNextSteps.isEmpty()}">
+            <h6 class="fw-bold text-white mb-3 d-flex align-items-center gap-2">
+                <i class="fa-solid fa-lightbulb text-warning"></i> Recommended Immediate Action Steps
+            </h6>
+            <div class="d-flex flex-column gap-2">
+                <div th:each="step : ${report.recommendedNextSteps}" class="p-2.5 rounded d-flex align-items-start gap-2 small" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
+                    <i class="fa-solid fa-arrow-right text-success mt-1"></i>
+                    <span class="text-body" th:text="${step}">Step description</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3 Categorized Skill Columns -->
+        <div class="row g-4 mb-4">
+            <!-- 1. Demonstrated Skills -->
+            <div class="col-lg-4">
+                <div class="custom-card h-100 p-4 border-success border-opacity-25">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold text-success mb-0 d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-circle-check"></i> Demonstrated
+                        </h5>
+                        <span class="badge bg-success bg-opacity-20 text-success" th:text="${report.demonstratedCount}">0</span>
+                    </div>
+                    <p class="text-muted small mb-3">Skills verified in your resume with action verbs and practical experience evidence.</p>
+
+                    <div class="d-flex flex-column gap-2.5">
+                        <div th:each="item : ${report.demonstratedSkills}" class="p-3 rounded" style="background: rgba(16, 185, 129, 0.04); border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong class="text-white small" th:text="${item.skillName}">Java</strong>
+                                <span class="badge bg-success" style="font-size: 0.68rem;">Verified</span>
+                            </div>
+                            <p class="text-muted small mb-2" style="font-size: 0.78rem;" th:text="${item.evidenceReason}">Evidence reason</p>
+                            <a th:href="${item.documentationUrl}" target="_blank" class="text-success small d-inline-flex align-items-center gap-1" style="font-size: 0.75rem;">
+                                <i class="fa-solid fa-book-bookmark"></i> Official Docs
+                            </a>
+                        </div>
+                        <div th:if="${report.demonstratedSkills.isEmpty()}" class="text-center text-muted small py-3">
+                            No strongly demonstrated skills found. Consider adding bullet points with action verbs.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Weakly Evidenced Skills -->
+            <div class="col-lg-4">
+                <div class="custom-card h-100 p-4 border-warning border-opacity-25">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold text-warning mb-0 d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Weakly Evidenced
+                        </h5>
+                        <span class="badge bg-warning bg-opacity-20 text-warning" th:text="${report.weakCount}">0</span>
+                    </div>
+                    <p class="text-muted small mb-3">Mentioned in skills or summary but missing quantifiable project bullet points.</p>
+
+                    <div class="d-flex flex-column gap-2.5">
+                        <div th:each="item : ${report.weakSkills}" class="p-3 rounded" style="background: rgba(245, 158, 11, 0.04); border: 1px solid rgba(245, 158, 11, 0.2);">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong class="text-white small" th:text="${item.skillName}">Docker</strong>
+                                <span class="badge bg-warning text-dark" style="font-size: 0.68rem;">Needs Evidence</span>
+                            </div>
+                            <p class="text-muted small mb-2" style="font-size: 0.78rem;" th:text="${item.evidenceReason}">Evidence reason</p>
+                            <div class="p-2 rounded mb-2 small" style="background: rgba(0,0,0,0.2); font-size: 0.74rem;">
+                                <strong class="text-heading d-block mb-0.5">Recommended Project:</strong>
+                                <span class="text-body" th:text="${item.portfolioProject}">Project description</span>
+                            </div>
+                            <a th:href="${item.documentationUrl}" target="_blank" class="text-warning small d-inline-flex align-items-center gap-1" style="font-size: 0.75rem;">
+                                <i class="fa-solid fa-book-bookmark"></i> Official Docs
+                            </a>
+                        </div>
+                        <div th:if="${report.weakSkills.isEmpty()}" class="text-center text-muted small py-3">
+                            No weakly evidenced skills detected.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Missing Critical Skills & YouTube Hub -->
+            <div class="col-lg-4">
+                <div class="custom-card h-100 p-4 border-danger border-opacity-25" id="learning">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold text-danger mb-0 d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-circle-xmark"></i> Missing Skills
+                        </h5>
+                        <span class="badge bg-danger bg-opacity-20 text-danger" th:text="${report.missingCount}">0</span>
+                    </div>
+                    <p class="text-muted small mb-3">Absent from your resume. High risk of automated rejection by ATS parsers.</p>
+
+                    <div class="d-flex flex-column gap-2.5">
+                        <div th:each="item : ${report.missingSkills}" class="p-3 rounded" style="background: rgba(239, 68, 68, 0.04); border: 1px solid rgba(239, 68, 68, 0.2);">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong class="text-white small" th:text="${item.skillName}">Kubernetes</strong>
+                                <span class="badge bg-danger" style="font-size: 0.68rem;">Missing</span>
+                            </div>
+
+                            <!-- YouTube Recommendation Card -->
+                            <div class="p-2.5 rounded mb-2" style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25);">
+                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                    <span class="text-danger fw-semibold small d-flex align-items-center gap-1" style="font-size: 0.75rem;">
+                                        <i class="fa-brands fa-youtube"></i> YouTube Masterclass
+                                    </span>
+                                    <span class="text-dim" style="font-size: 0.7rem;" th:text="${item.youtubeRecommendation.duration}">3 Hours</span>
+                                </div>
+                                <div class="text-white fw-bold mb-1" style="font-size: 0.8rem;" th:text="${item.youtubeRecommendation.title}">Video Title</div>
+                                <div class="text-muted mb-2" style="font-size: 0.72rem;">
+                                    Channel: <span class="text-light" th:text="${item.youtubeRecommendation.channel}">Channel</span> &bull;
+                                    <span th:text="${item.youtubeRecommendation.reason}">Reason</span>
+                                </div>
+                                <a th:href="${item.youtubeRecommendation.searchUrl}" target="_blank" class="btn btn-sm btn-danger w-100 py-1" style="font-size: 0.75rem;">
+                                    <i class="fa-solid fa-play me-1"></i> Watch on YouTube
+                                </a>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a th:href="${item.documentationUrl}" target="_blank" class="text-muted small" style="font-size: 0.75rem;">
+                                    <i class="fa-solid fa-book-bookmark me-1"></i> Documentation
+                                </a>
+                            </div>
+                        </div>
+                        <div th:if="${report.missingSkills.isEmpty()}" class="text-center text-success small py-3">
+                            <i class="fa-solid fa-star text-warning"></i> Exceptional! No missing critical skills detected for this role.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Stage Navigation Strip -->
+        <div class="custom-card p-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+            <div>
+                <h6 class="fw-bold text-white mb-1">Ready for the Next Step in Your Career Journey?</h6>
+                <p class="text-muted small mb-0">Convert these skill gaps into an actionable 8-week learning plan or discover live jobs matching your profile.</p>
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+                <a th:href="@{/roadmap(role=${selectedRole})}" class="btn btn-primary-custom px-3 py-2 small">
+                    <i class="fa-solid fa-route me-1"></i> Generate 8-Week Roadmap
+                </a>
+                <a th:href="@{/interview(role=${selectedRole})}" class="btn btn-secondary-custom px-3 py-2 small">
+                    <i class="fa-solid fa-user-tie me-1"></i> Practice Interview Questions
+                </a>
+                <a th:href="@{/jobs(query=${selectedRole})}" class="btn btn-secondary-custom px-3 py-2 small">
+                    <i class="fa-solid fa-briefcase me-1"></i> Search Matching Jobs
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

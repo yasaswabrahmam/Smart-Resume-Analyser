@@ -5,6 +5,7 @@ import com.smartresume.model.AIAnalysis;
 import com.smartresume.model.Resume;
 import com.smartresume.model.User;
 import com.smartresume.repository.AIAnalysisRepository;
+import com.smartresume.service.ApplicationTrackerService;
 import com.smartresume.service.DashboardService;
 import com.smartresume.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -21,13 +22,16 @@ public class DashboardController {
     private final DashboardService dashboardService;
     private final UserService userService;
     private final AIAnalysisRepository aiAnalysisRepository;
+    private final ApplicationTrackerService applicationTrackerService;
 
     public DashboardController(DashboardService dashboardService,
                                UserService userService,
-                               AIAnalysisRepository aiAnalysisRepository) {
+                               AIAnalysisRepository aiAnalysisRepository,
+                               ApplicationTrackerService applicationTrackerService) {
         this.dashboardService = dashboardService;
         this.userService = userService;
         this.aiAnalysisRepository = aiAnalysisRepository;
+        this.applicationTrackerService = applicationTrackerService;
     }
 
     @GetMapping("/dashboard")
@@ -45,6 +49,9 @@ public class DashboardController {
 
         List<AIAnalysis> userAiAnalyses = aiAnalysisRepository.findByUserOrderByCreatedAtDesc(user);
         model.addAttribute("aiAnalyses", userAiAnalyses);
+
+        ApplicationTrackerService.PipelineMetrics trackerMetrics = applicationTrackerService.getMetricsForUser(user);
+        model.addAttribute("trackerMetrics", trackerMetrics);
 
         return "dashboard/user";
     }

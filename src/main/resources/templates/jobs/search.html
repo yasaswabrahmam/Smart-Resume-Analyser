@@ -213,9 +213,21 @@
                         <div class="d-flex justify-content-between align-items-center pt-2.5 border-top border-secondary border-opacity-15 mt-auto">
                             <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 small"
                                   th:text="${job.salary != null && !job.salary.isBlank() ? job.salary : 'Competitive Compensation'}">Competitive</span>
-                            <a th:href="${job.applyUrl}" target="_blank" class="btn btn-sm btn-outline-primary py-1 px-3 fw-medium">
-                                Apply Now <i class="fas fa-arrow-up-right-from-square ms-1 text-xs"></i>
-                            </a>
+                            <div class="d-flex align-items-center gap-2">
+                                <form th:action="@{/tracker/save}" method="post" class="m-0">
+                                    <input type="hidden" name="jobTitle" th:value="${job.title}">
+                                    <input type="hidden" name="company" th:value="${job.company}">
+                                    <input type="hidden" name="location" th:value="${job.location}">
+                                    <input type="hidden" name="url" th:value="${job.applyUrl}">
+                                    <input type="hidden" name="source" th:value="${job.source}">
+                                    <button type="submit" class="btn btn-sm btn-secondary-custom py-1 px-2.5" title="Save to Application Tracker">
+                                        <i class="fa-solid fa-bookmark me-1 text-warning"></i> Save
+                                    </button>
+                                </form>
+                                <a th:href="${job.applyUrl}" target="_blank" class="btn btn-sm btn-outline-primary py-1 px-3 fw-medium">
+                                    Apply Now <i class="fas fa-arrow-up-right-from-square ms-1 text-xs"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

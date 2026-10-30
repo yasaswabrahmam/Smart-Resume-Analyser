@@ -19,4 +19,9 @@ public class HomeController {
         userService.getCurrentUser().ifPresent(u -> model.addAttribute("currentUser", u));
         return "index";
     }
+
+    @GetMapping("/app")
+    public String appRedirect() {
+        return "redirect:/dashboard";
+    }
 }

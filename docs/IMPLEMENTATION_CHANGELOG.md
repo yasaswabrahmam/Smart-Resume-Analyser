@@ -177,6 +177,25 @@ All modifications strictly adhere to the project constraints:
 - `docs/REVIEW_READINESS_REPORT.md`
 - `docs/MASTER_CONTINUATION_PROMPT.md`
 
+### Phase 10: Public Landing Page Separation and Connected Career Modules (v2.0.0)
+- **Problem Diagnosed:** Previously, `/` inherited `layout/base.html`, rendering the application sidebar on the public marketing page and causing visitor disorientation. Additionally, career exploration was disconnected: ATS scores did not guide users into learning, job search lacked direct application tracking, and interview preparation was isolated.
+- **Modifications:**
+  1. **Dual-Layout Separation:**
+     - Created `src/main/resources/templates/layout/public.html`: Dedicated top public navbar with brand emblem, section links (`#features`, `#workflow`, `#roles`, `#skills`, `#formula`, `/about`), primary CTA **Get Started Free**, secondary CTA **Sign In**, and full-width footer. Strictly **NO sidebar**.
+     - Updated `src/main/resources/templates/index.html` to consume `layout/public.html`. Added Hero section ("Your Career Journey, Connected in One Place"), Problem vs Solution grid, 6 target industry roles with sample job descriptions, explainable 6-factor ATS formula, and 9-step candidate journey.
+     - Preserved `layout/base.html` exclusively for authenticated workspace routes (`/dashboard`, `/tracker`, `/builder/**`, etc.).
+  2. **Connected Career Services & Pipeline:**
+     - Created `SkillGapService.java` & `SkillGapController.java` (`/skill-gap`): Categorizes skills into Demonstrated, Weak, and Missing. Binds curated YouTube tutorials (title, channel, duration, rationale) and official documentation links.
+     - Created `CareerRoadmapService.java` & `CareerRoadmapController.java` (`/roadmap`): Builds customized 8-week career trajectory plans across 4 bi-weekly sprints.
+     - Created `ApplicationTrackerService.java` & `ApplicationTrackerController.java` (`/tracker`): Manages pipeline statuses (`SAVED`, `APPLIED`, `INTERVIEWING`, `OFFERED`, `REJECTED`). Persists to MySQL `job_matches` table.
+     - Created `InterviewPrepService.java` & `InterviewPrepController.java` (`/interview`): Generates role-specific technical core, system design, and STAR behavioral questions.
+     - Enhanced `JobSearchController.java` & `jobs/search.html`: Added 1-click **Save to Tracker** action alongside Apply links.
+     - Enhanced `DashboardController.java` & `dashboard/user.html`: Embedded live application pipeline metrics and quick links to connected workspace modules.
+  3. **Verification:**
+     - Executed full test suite: **24/24 unit/integration tests passed** with 0 failures, 0 errors.
+     - Packaged executable JAR `smart-resume-analyzer-1.0.0.jar`.
+     - Verified `GET /` returns HTTP 200 with `public-navbar` and without `app-sidebar`.
+
 ---
 
 ## 4. Verification Sign-Off

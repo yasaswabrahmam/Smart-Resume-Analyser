@@ -215,6 +215,10 @@ public class JobRolesConfig {
         return ROLES_BY_NAME.get(roleName);
     }
 
+    public static List<String> getAllRoleNames() {
+        return new ArrayList<>(ROLES_BY_NAME.keySet());
+    }
+
     public static Set<String> getCategories() {
         return JOB_ROLES.keySet();
     }

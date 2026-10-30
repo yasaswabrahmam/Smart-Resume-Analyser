@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::#main-content})}">
+<head>
+    <title>Application Tracker - Smart Resume AI</title>
+</head>
+<body>
+    <div id="main-content">
+        <!-- Header Banner -->
+        <div class="custom-card mb-4 p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(14, 19, 26, 0.95) 100%); border-color: rgba(168, 85, 247, 0.25);">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-secondary text-white">Full Lifecycle Management</span>
+                    <span class="text-muted small">&bull; End-to-End Application Monitoring</span>
+                </div>
+                <h3 class="fw-bold text-white mb-1">Job Application Tracker</h3>
+                <p class="text-muted small mb-0">Track your active job applications, interview stages, follow-up notes, and offer negotiations in one unified workspace.</p>
+            </div>
+
+            <!-- Quick Add Button -->
+            <button class="btn btn-primary-custom px-3 py-2 small d-inline-flex align-items-center gap-2" data-bs-toggle="collapse" data-bs-target="#addJobCollapse">
+                <i class="fa-solid fa-plus"></i> Add New Application
+            </button>
+        </div>
+
+        <!-- Metric KPI Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3 col-6">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Saved Jobs</span>
+                        <i class="fa-solid fa-bookmark metric-icon text-secondary"></i>
+                    </div>
+                    <div class="metric-value text-white" th:text="${metrics.totalSaved}">0</div>
+                    <div class="metric-subtext">Bookmarked opportunities</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Applied</span>
+                        <i class="fa-solid fa-paper-plane metric-icon text-primary"></i>
+                    </div>
+                    <div class="metric-value text-primary" th:text="${metrics.totalApplied}">0</div>
+                    <div class="metric-subtext">Awaiting recruiter review</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Interviewing</span>
+                        <i class="fa-solid fa-comments metric-icon text-warning"></i>
+                    </div>
+                    <div class="metric-value text-warning" th:text="${metrics.totalInterviewing}">0</div>
+                    <div class="metric-subtext">Active interview loops</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Offers Received</span>
+                        <i class="fa-solid fa-trophy metric-icon text-success"></i>
+                    </div>
+                    <div class="metric-value text-success" th:text="${metrics.totalOffered}">0</div>
+                    <div class="metric-subtext">Offer negotiation phase</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Job Form Collapse -->
+        <div class="collapse mb-4" id="addJobCollapse">
+            <div class="custom-card p-4">
+                <h6 class="fw-bold text-white mb-3"><i class="fa-solid fa-plus text-success me-1"></i> Add Custom Job to Tracker</h6>
+                <form th:action="@{/tracker/save}" method="post">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">Job Title *</label>
+                            <input type="text" name="jobTitle" class="form-control form-control-sm" placeholder="e.g. Full Stack Java Engineer" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">Company Name *</label>
+                            <input type="text" name="company" class="form-control form-control-sm" placeholder="e.g. Google / Microsoft" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">Location</label>
+                            <input type="text" name="location" class="form-control form-control-sm" placeholder="e.g. Bangalore, India / Remote">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Original Application URL</label>
+                            <input type="url" name="url" class="form-control form-control-sm" placeholder="https://careers.company.com/job/123">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted">Source Portal</label>
+                            <select name="source" class="form-select form-select-sm" style="background: rgba(20,26,35,0.9); color:#fff; border-color:var(--border-subtle);">
+                                <option value="LinkedIn">LinkedIn</option>
+                                <option value="Naukri">Naukri</option>
+                                <option value="Indeed">Indeed</option>
+                                <option value="Company Portal">Company Portal</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted">Match Score (%)</label>
+                            <input type="number" name="matchScore" class="form-control form-control-sm" value="85" min="0" max="100">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small text-muted">Notes / Key Requirements</label>
+                            <textarea name="notes" class="form-control form-control-sm" rows="2" placeholder="e.g. Followed up with hiring manager on LinkedIn. Requires Spring Boot and Kafka."></textarea>
+                        </div>
+                        <div class="col-12 d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-sm btn-secondary-custom" data-bs-toggle="collapse" data-bs-target="#addJobCollapse">Cancel</button>
+                            <button type="submit" class="btn btn-sm btn-primary-custom">Save to Pipeline</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Application Table / List -->
+        <div class="custom-card p-4">
+            <h6 class="fw-bold text-white mb-3 d-flex align-items-center justify-content-between">
+                <span><i class="fa-solid fa-list-check text-primary me-2"></i> Active Job Pipeline</span>
+                <span class="text-muted small" th:text="${applications.size() + ' Total Tracked'}">0 Total Tracked</span>
+            </h6>
+
+            <div class="table-responsive" th:if="${!applications.isEmpty()}">
+                <table class="table table-dark table-hover align-middle mb-0" style="background: transparent;">
+                    <thead>
+                        <tr class="text-muted small border-bottom" style="border-color: var(--border-subtle) !important;">
+                            <th>Job Title &amp; Company</th>
+                            <th>Location &amp; Source</th>
+                            <th>Status</th>
+                            <th>Match Score</th>
+                            <th>Saved Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="app : ${applications}">
+                            <td>
+                                <strong class="text-white d-block small" th:text="${app.jobTitle}">Job Title</strong>
+                                <span class="text-muted" style="font-size: 0.78rem;" th:text="${app.company}">Company</span>
+                            </td>
+                            <td>
+                                <span class="text-body small d-block" th:text="${app.location}">Location</span>
+                                <span class="badge bg-secondary text-dim" style="font-size: 0.68rem;" th:text="${app.source}">Source</span>
+                            </td>
+                            <td>
+                                <!-- Status Selector Form -->
+                                <form th:action="@{/tracker/update-status}" method="post" class="d-inline">
+                                    <input type="hidden" name="id" th:value="${app.id}">
+                                    <select name="status" class="form-select form-select-sm py-0 px-2" style="font-size: 0.75rem; width: auto; background: rgba(20,26,35,0.9); border-color: var(--border-subtle); color: #fff;" onchange="this.form.submit()">
+                                        <option value="SAVED" th:selected="${app.status == 'SAVED'}">Saved</option>
+                                        <option value="APPLIED" th:selected="${app.status == 'APPLIED'}">Applied</option>
+                                        <option value="INTERVIEWING" th:selected="${app.status == 'INTERVIEWING'}">Interviewing</option>
+                                        <option value="OFFERED" th:selected="${app.status == 'OFFERED'}">Offered</option>
+                                        <option value="REJECTED" th:selected="${app.status == 'REJECTED'}">Archived</option>
+                                    </select>
+                                </form>
+                            </td>
+                            <td>
+                                <span class="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30" th:text="${app.matchScore + '%'}">85%</span>
+                            </td>
+                            <td class="text-muted small" style="font-size: 0.78rem;" th:text="${#temporals.format(app.createdAt, 'dd MMM yyyy')}">Date</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-1.5">
+                                    <a th:href="${app.url}" target="_blank" class="btn btn-sm btn-secondary-custom py-1 px-2" style="font-size: 0.72rem;" title="Open Original Posting">
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                    </a>
+                                    <form th:action="@{/tracker/delete}" method="post" class="d-inline" onsubmit="return confirm('Remove this job from tracker?');">
+                                        <input type="hidden" name="id" th:value="${app.id}">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger py-1 px-2" style="font-size: 0.72rem; border-color: rgba(239,68,68,0.3);">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:if="${applications.isEmpty()}" class="text-center py-5">
+                <div class="user-avatar-circle mx-auto mb-3" style="width: 50px; height: 50px; font-size: 1.3rem;">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <h6 class="text-white fw-bold mb-1">Your Application Pipeline is Clean</h6>
+                <p class="text-muted small mb-3">Save opportunities from Job Search or manually add active applications to track interview rounds.</p>
+                <a th:href="@{/jobs}" class="btn btn-sm btn-primary-custom px-3 py-1.5">
+                    <i class="fa-solid fa-magnifying-glass me-1"></i> Browse Live Job Requisitions
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

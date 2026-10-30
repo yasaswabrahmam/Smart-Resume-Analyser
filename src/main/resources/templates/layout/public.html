@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:fragment="publicLayout(content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Resume AI — Your Career Journey, Connected in One Place</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- FontAwesome 6.5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
+    <style>
+        /* Public Layout Styling: Clean, full-width, no sidebar */
+        body {
+            background-color: var(--bg-primary, #0B0F19);
+            color: var(--text-primary, #E2E8F0);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .public-navbar {
+            background: rgba(14, 19, 26, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+            padding: 0.85rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .public-navbar .nav-link {
+            color: #94A3B8;
+            font-size: 0.92rem;
+            font-weight: 500;
+            padding: 0.5rem 0.9rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .public-navbar .nav-link:hover {
+            color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .public-content-container {
+            flex: 1 0 auto;
+            width: 100%;
+        }
+
+        .public-footer {
+            background: #080B12;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 4rem 0 2rem 0;
+            flex-shrink: 0;
+        }
+
+        .public-footer a {
+            color: #94A3B8;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .public-footer a:hover {
+            color: var(--accent-emerald, #10B981);
+        }
+
+        .cta-pill-btn {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: #FFFFFF !important;
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 0.45rem 1.35rem;
+            font-size: 0.88rem;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+            transition: all 0.25s ease;
+        }
+
+        .cta-pill-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+            color: #FFFFFF !important;
+        }
+
+        .signin-pill-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: #E2E8F0 !important;
+            font-weight: 500;
+            border-radius: 50px;
+            padding: 0.45rem 1.25rem;
+            font-size: 0.88rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: all 0.2s ease;
+        }
+
+        .signin-pill-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #FFFFFF !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Public Header / Navbar (No Sidebar!) -->
+    <header class="public-navbar">
+        <div class="container-xl px-3 px-md-4">
+            <div class="d-flex align-items-center justify-content-between">
+                <!-- Brand Logo & 3D Emblem -->
+                <a th:href="@{/}" class="d-flex align-items-center gap-2 text-decoration-none">
+                    <div th:replace="~{fragments/brand :: brandIcon('brand-icon-sm')}"></div>
+                    <div class="d-flex flex-column">
+                        <span class="fw-bold fs-5 text-white" style="letter-spacing: -0.02em;">
+                            Smart Resume <span class="brand-title-gradient">AI</span>
+                        </span>
+                        <span class="text-muted" style="font-size: 0.68rem; letter-spacing: 0.04em;">CAREER INTELLIGENCE</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="d-none d-lg-flex align-items-center gap-1">
+                    <a th:href="@{/#features}" class="nav-link">Features</a>
+                    <a th:href="@{/#workflow}" class="nav-link">Workflow</a>
+                    <a th:href="@{/#roles}" class="nav-link">Job Roles</a>
+                    <a th:href="@{/#skills}" class="nav-link">Skill Gaps &amp; YouTube</a>
+                    <a th:href="@{/#formula}" class="nav-link">ATS Math</a>
+                    <a th:href="@{/about}" class="nav-link">About</a>
+                </nav>
+
+                <!-- Auth Action Buttons -->
+                <div class="d-flex align-items-center gap-2">
+                    <!-- If user is already authenticated, direct to /dashboard -->
+                    <div sec:authorize="isAuthenticated()" class="d-flex align-items-center gap-2">
+                        <a th:href="@{/dashboard}" class="cta-pill-btn text-decoration-none d-inline-flex align-items-center gap-2">
+                            <i class="fa-solid fa-gauge-high"></i>
+                            <span>Go to Dashboard</span>
+                        </a>
+                        <form th:action="@{/logout}" method="post" class="m-0 d-none d-sm-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 text-light" style="font-size: 0.8rem; border-color: rgba(255,255,255,0.15);">
+                                Sign Out
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- If visitor is anonymous guest -->
+                    <div sec:authorize="isAnonymous()" class="d-flex align-items-center gap-2">
+                        <a th:href="@{/login}" class="signin-pill-btn text-decoration-none">
+                            <i class="fa-solid fa-arrow-right-to-bracket me-1"></i> Sign In
+                        </a>
+                        <a th:href="@{/register}" class="cta-pill-btn text-decoration-none">
+                            <i class="fa-solid fa-rocket me-1"></i> Get Started Free
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Public Content Area (Full-Width) -->
+    <main class="public-content-container">
+        <!-- Flash Alert Messages for Public Context -->
+        <div class="container-xl px-3 px-md-4 pt-3" th:if="${errorMessage != null or successMessage != null}">
+            <div th:if="${errorMessage}" class="alert-clean alert-clean-danger" role="alert">
+                <i class="fa-solid fa-circle-exclamation fs-5"></i>
+                <span th:text="${errorMessage}">Error notification</span>
+            </div>
+            <div th:if="${successMessage}" class="alert-clean alert-clean-success" role="alert">
+                <i class="fa-solid fa-circle-check fs-5"></i>
+                <span th:text="${successMessage}">Success notification</span>
+            </div>
+        </div>
+
+        <!-- Page Specific Body Injection -->
+        <div th:replace="${content}">
+            <!-- Child Template Content Injected Here -->
+        </div>
+    </main>
+
+    <!-- Comprehensive Public Footer -->
+    <footer class="public-footer">
+        <div class="container-xl px-3 px-md-4">
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div th:replace="~{fragments/brand :: brandIcon('brand-icon-xs')}"></div>
+                        <span class="fw-bold fs-5 text-white">Smart Resume <span class="brand-title-gradient">AI</span></span>
+                    </div>
+                    <p class="text-muted small mb-3" style="line-height: 1.7; max-width: 320px;">
+                        Your Career Journey, Connected in One Place. Stop jumping between fragmented resume builders, ATS checkers, YouTube, and job boards.
+                    </p>
+                    <div class="d-flex gap-3 text-muted">
+                        <span><i class="fa-brands fa-java text-warning"></i> Java 21</span>
+                        <span><i class="fa-brands fa-python text-primary"></i> Python ML</span>
+                        <span><i class="fa-solid fa-brain text-info"></i> Gemini 2.5</span>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-6">
+                    <h6 class="text-white fw-bold mb-3 small text-uppercase" style="letter-spacing: 0.05em;">Career Modules</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a th:href="@{/login}">ATS Resume Analyzer</a></li>
+                        <li><a th:href="@{/login}">AI Career Coach</a></li>
+                        <li><a th:href="@{/login}">4-Style Resume Builder</a></li>
+                        <li><a th:href="@{/login}">7-Portal Job Search</a></li>
+                        <li><a th:href="@{/login}">Skill Gap Analysis</a></li>
+                        <li><a th:href="@{/login}">Career Roadmaps</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-6">
+                    <h6 class="text-white fw-bold mb-3 small text-uppercase" style="letter-spacing: 0.05em;">Target Roles</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a th:href="@{/#roles}">Full Stack Java Engineer</a></li>
+                        <li><a th:href="@{/#roles}">Python AI/ML Specialist</a></li>
+                        <li><a th:href="@{/#roles}">Cloud DevOps Architect</a></li>
+                        <li><a th:href="@{/#roles}">Data Scientist &amp; BI</a></li>
+                        <li><a th:href="@{/#roles}">Cybersecurity Analyst</a></li>
+                        <li><a th:href="@{/#roles}">Technical Product Manager</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <h6 class="text-white fw-bold mb-3 small text-uppercase" style="letter-spacing: 0.05em;">Data Privacy &amp; Trust</h6>
+                    <p class="text-muted small mb-3">
+                        We prioritize candidate privacy. Phone numbers and email addresses are masked locally before AI evaluation (DPDP Act 2023 &amp; GDPR compliant). Plaintext passwords are never stored.
+                    </p>
+                    <div class="p-2 rounded" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);">
+                        <span class="text-success small fw-semibold d-flex align-items-center gap-1">
+                            <i class="fa-solid fa-shield-halved"></i> 100% Explainable Scoring
+                        </span>
+                        <span class="text-muted" style="font-size: 0.72rem;">No black-box rejection algorithms or guaranteed placement promises.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-4 border-top border-secondary border-opacity-10 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                <span class="text-muted small">&copy; 2026 Smart AI Resume Analyzer. Built for engineering excellence and career clarity.</span>
+                <div class="d-flex gap-3 small text-muted">
+                    <a th:href="@{/about}">Platform Architecture</a>
+                    <a th:href="@{/about}">Privacy Policy</a>
+                    <a th:href="@{/about}">Documentation</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

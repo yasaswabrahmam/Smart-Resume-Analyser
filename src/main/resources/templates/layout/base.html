@@ -58,11 +58,11 @@
             </a>
 
             <!-- Core Navigation Items -->
-            <div class="sidebar-nav-section">Core Platform</div>
+            <div class="sidebar-nav-section">Workspace</div>
             <nav class="sidebar-nav">
-                <a class="nav-link" th:href="@{/}">
-                    <i class="fa-solid fa-house"></i>
-                    <span>Home</span>
+                <a class="nav-link" th:href="@{/dashboard}">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Dashboard</span>
                 </a>
                 <a class="nav-link" th:href="@{/analyzer}">
                     <i class="fa-solid fa-file-magnifying-glass"></i>
@@ -70,25 +70,45 @@
                 </a>
                 <a class="nav-link ai-link" th:href="@{/ai-analyzer}">
                     <i class="fa-solid fa-wand-magic-sparkles text-info"></i>
-                    <span>AI Analyzer</span>
+                    <span>AI Career Coach</span>
                     <span class="badge bg-info bg-opacity-25 text-info nav-pill-badge">Gemini</span>
                 </a>
                 <a class="nav-link" th:href="@{/builder}">
                     <i class="fa-solid fa-file-pen"></i>
                     <span>Resume Builder</span>
                 </a>
-                <a class="nav-link" th:href="@{/dashboard}">
-                    <i class="fa-solid fa-chart-pie"></i>
-                    <span>Dashboard</span>
-                </a>
                 <a class="nav-link" th:href="@{/jobs}">
                     <i class="fa-solid fa-briefcase"></i>
-                    <span>Job Search</span>
+                    <span>Job Search (7 Portals)</span>
                 </a>
             </nav>
 
-            <div class="sidebar-nav-section">Insights &amp; Support</div>
+            <div class="sidebar-nav-section">Career Acceleration</div>
             <nav class="sidebar-nav">
+                <a class="nav-link" th:href="@{/skill-gap}">
+                    <i class="fa-solid fa-layer-group text-danger"></i>
+                    <span>Skill Gap &amp; YouTube</span>
+                </a>
+                <a class="nav-link" th:href="@{/roadmap}">
+                    <i class="fa-solid fa-route text-info"></i>
+                    <span>8-Week Roadmap</span>
+                </a>
+                <a class="nav-link" th:href="@{/tracker}">
+                    <i class="fa-solid fa-list-check text-success"></i>
+                    <span>Application Tracker</span>
+                </a>
+                <a class="nav-link" th:href="@{/interview}">
+                    <i class="fa-solid fa-user-tie text-warning"></i>
+                    <span>Interview Prep</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-nav-section">Platform &amp; Links</div>
+            <nav class="sidebar-nav">
+                <a class="nav-link" th:href="@{/}">
+                    <i class="fa-solid fa-globe"></i>
+                    <span>Public Landing Page</span>
+                </a>
                 <a class="nav-link" th:href="@{/analytics}">
                     <i class="fa-solid fa-chart-line"></i>
                     <span>Analytics</span>
@@ -99,7 +119,7 @@
                 </a>
                 <a class="nav-link" th:href="@{/about}">
                     <i class="fa-solid fa-circle-info"></i>
-                    <span>About</span>
+                    <span>About Platform</span>
                 </a>
             </nav>
 

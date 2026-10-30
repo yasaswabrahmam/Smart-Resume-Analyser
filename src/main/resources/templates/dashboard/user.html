@@ -31,34 +31,71 @@
 
         <!-- Metric Stat Cards -->
         <div class="row g-3 mb-4">
-            <div class="col-md-4">
+            <div class="col-md-3 col-6">
                 <div class="metric-card">
                     <div class="metric-header">
                         <span class="metric-label">Tracked Resumes</span>
                         <i class="fa-solid fa-file-lines metric-icon text-success"></i>
                     </div>
                     <div class="metric-value text-success" th:text="${resumes.size()}">0</div>
-                    <div class="metric-subtext">Uploaded or generated documents</div>
+                    <div class="metric-subtext">Uploaded or built resumes</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3 col-6">
                 <div class="metric-card">
                     <div class="metric-header">
-                        <span class="metric-label">AI Analyses Completed</span>
+                        <span class="metric-label">AI Evaluations</span>
                         <i class="fa-solid fa-brain metric-icon text-info"></i>
                     </div>
                     <div class="metric-value text-info" th:text="${aiAnalyses.size()}">0</div>
-                    <div class="metric-subtext">Gemini neural career evaluations</div>
+                    <div class="metric-subtext">Gemini qualitative audits</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3 col-6">
                 <div class="metric-card">
                     <div class="metric-header">
-                        <span class="metric-label">Demonstration Tier</span>
-                        <i class="fa-solid fa-shield-halved metric-icon text-warning"></i>
+                        <span class="metric-label">Job Pipeline</span>
+                        <i class="fa-solid fa-briefcase metric-icon text-warning"></i>
                     </div>
-                    <div class="metric-value text-warning fs-3 mt-1">ACADEMIC</div>
-                    <div class="metric-subtext">Full feature access enabled</div>
+                    <div class="metric-value text-warning" th:text="${trackerMetrics != null ? trackerMetrics.totalAll : 0}">0</div>
+                    <div class="metric-subtext">Applications in tracker</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Active Interviews</span>
+                        <i class="fa-solid fa-comments metric-icon text-success"></i>
+                    </div>
+                    <div class="metric-value text-success" th:text="${trackerMetrics != null ? trackerMetrics.totalInterviewing : 0}">0</div>
+                    <div class="metric-subtext">Interview loops in progress</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Connected Career Modules Fast Actions -->
+        <div class="custom-card mb-4 p-3.5" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(6, 182, 212, 0.05) 100%); border-color: rgba(16, 185, 129, 0.2);">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                <div>
+                    <h6 class="fw-bold text-white mb-0.5"><i class="fa-solid fa-route text-success me-2"></i> Connected Career Workspace</h6>
+                    <span class="text-muted small">Move seamlessly across every phase of your recruitment journey</span>
+                </div>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a th:href="@{/skill-gap}" class="btn btn-sm btn-secondary-custom">
+                        <i class="fa-solid fa-layer-group text-danger me-1"></i> Skill Gaps
+                    </a>
+                    <a th:href="@{/roadmap}" class="btn btn-sm btn-secondary-custom">
+                        <i class="fa-solid fa-route text-info me-1"></i> 8-Week Roadmap
+                    </a>
+                    <a th:href="@{/tracker}" class="btn btn-sm btn-secondary-custom">
+                        <i class="fa-solid fa-list-check text-success me-1"></i> Tracker
+                    </a>
+                    <a th:href="@{/interview}" class="btn btn-sm btn-secondary-custom">
+                        <i class="fa-solid fa-user-tie text-warning me-1"></i> Interview Prep
+                    </a>
+                    <a th:href="@{/jobs}" class="btn btn-sm btn-secondary-custom">
+                        <i class="fa-solid fa-briefcase text-primary me-1"></i> 7 Portals
+                    </a>
                 </div>
             </div>
         </div>

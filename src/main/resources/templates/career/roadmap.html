@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::#main-content})}">
+<head>
+    <title>8-Week Career Roadmap - Smart Resume AI</title>
+</head>
+<body>
+    <div id="main-content">
+        <!-- Header Banner -->
+        <div class="custom-card mb-4 p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(14, 19, 26, 0.95) 100%); border-color: rgba(6, 182, 212, 0.25);">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-30">Strategic Milestone Plan</span>
+                    <span class="text-muted small">&bull; 8-Week Structured Trajectory</span>
+                </div>
+                <h3 class="fw-bold text-white mb-1">Personalized Career Roadmap</h3>
+                <p class="text-muted small mb-0">Step-by-step milestone progression designed to transition your profile from your current state to a competitive candidate.</p>
+            </div>
+
+            <!-- Role Selector Form -->
+            <form th:action="@{/roadmap}" method="get" class="d-flex align-items-center gap-2">
+                <select name="role" class="form-select form-select-sm" style="background: rgba(20, 26, 35, 0.9); border-color: var(--border-subtle); color: #fff; min-width: 220px;" onchange="this.form.submit()">
+                    <option th:each="r : ${allRoles}" th:value="${r}" th:text="${r}" th:selected="${r == selectedRole}">Role Name</option>
+                </select>
+            </form>
+        </div>
+
+        <!-- Trajectory Outcome Banner -->
+        <div class="custom-card mb-4 p-3.5 d-flex align-items-center gap-3" style="background: rgba(16, 185, 129, 0.06); border-color: rgba(16, 185, 129, 0.3);">
+            <div class="user-avatar-circle" style="background: rgba(16, 185, 129, 0.2); color: #10B981;">
+                <i class="fa-solid fa-flag-checkered fs-5"></i>
+            </div>
+            <div>
+                <strong class="text-success d-block small">Expected Career Outcome:</strong>
+                <span class="text-white small" th:text="${plan.careerTrajectoryOutcome}">Target outcome description</span>
+            </div>
+        </div>
+
+        <!-- 8-Week Timeline Cards -->
+        <div class="d-flex flex-column gap-3 mb-5">
+            <div th:each="week : ${plan.weeks}" class="custom-card p-4 position-relative overflow-hidden">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-2 mb-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-primary px-2.5 py-1" th:text="${'Week ' + week.weekNumber}">Week 1</span>
+                        <span class="text-muted small" th:text="${week.phaseTitle}">Phase Title</span>
+                    </div>
+                    <span class="badge bg-secondary text-light small d-inline-flex align-items-center gap-1">
+                        <i class="fa-regular fa-clock"></i> <span th:text="${week.estimatedHours}">10-12 Hours</span>
+                    </span>
+                </div>
+
+                <h5 class="fw-bold text-white mb-3" th:text="${week.focusArea}">Focus Area</h5>
+
+                <!-- Learning Goals -->
+                <div class="mb-3">
+                    <strong class="text-heading small d-block mb-1.5">Actionable Learning Goals:</strong>
+                    <ul class="list-unstyled text-muted small d-flex flex-column gap-1 mb-0 ps-1">
+                        <li th:each="goal : ${week.learningGoals}" class="d-flex align-items-start gap-2">
+                            <i class="fa-solid fa-check text-success mt-1" style="font-size: 0.75rem;"></i>
+                            <span class="text-body" th:text="${goal}">Goal description</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Milestone Deliverable -->
+                <div class="p-2.5 rounded d-flex align-items-center gap-2 small" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
+                    <i class="fa-solid fa-trophy text-warning"></i>
+                    <div>
+                        <strong class="text-heading me-1">Milestone Deliverable:</strong>
+                        <span class="text-body" th:text="${week.milestoneDeliverable}">Deliverable</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommended Certifications -->
+        <div class="custom-card mb-4 p-4">
+            <h6 class="fw-bold text-white mb-3 d-flex align-items-center gap-2">
+                <i class="fa-solid fa-certificate text-warning"></i> Recommended Industry Certifications
+            </h6>
+            <div class="d-flex flex-wrap gap-2">
+                <span th:each="cert : ${plan.recommendedCertifications}" class="badge bg-secondary p-2.5 text-light fw-normal d-inline-flex align-items-center gap-1.5" style="border: 1px solid rgba(255,255,255,0.1);">
+                    <i class="fa-solid fa-award text-warning"></i>
+                    <span th:text="${cert}">Certification Name</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Navigation Strip -->
+        <div class="custom-card p-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+            <div>
+                <h6 class="fw-bold text-white mb-1">Ready to apply your knowledge?</h6>
+                <p class="text-muted small mb-0">Practice technical interview questions or browse real-world job postings.</p>
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+                <a th:href="@{/interview(role=${selectedRole})}" class="btn btn-primary-custom px-3 py-2 small">
+                    <i class="fa-solid fa-user-tie me-1"></i> Technical Interview Prep
+                </a>
+                <a th:href="@{/jobs(query=${selectedRole})}" class="btn btn-secondary-custom px-3 py-2 small">
+                    <i class="fa-solid fa-briefcase me-1"></i> Browse Matching Jobs
+                </a>
+                <a th:href="@{/skill-gap(role=${selectedRole})}" class="btn btn-secondary-custom px-3 py-2 small">
+                    <i class="fa-solid fa-arrow-left me-1"></i> Back to Skill Gaps
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

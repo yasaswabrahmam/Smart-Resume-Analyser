@@ -29,6 +29,12 @@ public class JobMatch {
 
     private String source; // "LinkedIn", "Remotive", "Naukri", "Indeed"
 
+    @Column(length = 30)
+    private String status = "SAVED"; // "SAVED", "APPLIED", "INTERVIEWING", "OFFERED", "REJECTED"
+
+    @Column(length = 2000)
+    private String notes;
+
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -44,6 +50,7 @@ public class JobMatch {
         this.matchScore = matchScore;
         this.url = url;
         this.source = source;
+        this.status = "SAVED";
         this.createdAt = LocalDateTime.now();
     }
 
@@ -125,5 +132,21 @@ public class JobMatch {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getStatus() {
+        return status != null ? status : "SAVED";
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }
