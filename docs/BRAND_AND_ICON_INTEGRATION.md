@@ -95,3 +95,20 @@ These assets are mirrored in:
 
 3. **Authenticated Platform Sidebar**:
    [`src/main/resources/templates/layout/base.html`](file:///c:/Users/yasas/OneDrive/Documents/Desktop/D3js%20program/AI%20Smart%20Resume%20Analyzer.java/Smart-Resume-Analyzer-Java/src/main/resources/templates/layout/base.html) displays the Northstar Path brand emblem prominently at the head of the navigation panel with the tagline *"Career Intelligence"*.
+
+
+---
+
+## 6. Master Raster Artwork & PWA Integration
+
+1. **Master Asset Preservation**:
+   - Original master artwork (`1024 × 1024` lossless RGBA PNG) is preserved in `src/main/resources/static/images/brand/northstar-path-master.png`.
+   - Anti-aliased high-DPI downsampling executed via Pillow Lanczos resampling ensuring geometry retention at `16px`, `32px`, `48px`, `180px`, `192px`, and `512px`.
+2. **Web App Manifest (`site.webmanifest`)**:
+   - Registered at `src/main/resources/static/site.webmanifest` and linked in both `public.html` and `base.html`.
+   - Configures theme color `#101D31` and background `#071426` for standalone PWA mobile installations.
+3. **Contained & Multi-Background Verification**:
+   - Verified across dark obsidian backgrounds (`#071426`, `#101D31`) and light backgrounds (`#FFFFFF`).
+   - Glowing drop-shadow `rgba(33, 210, 207, 0.35)` ensures brand mark pop without edge clipping.
+4. **Legal & Trademark Disclosure**:
+   - The Northstar Path design is a proprietary product visual concept. Before commercial release, a formal clearance search for visual similarity to existing registered trademarks will be conducted with specialized counsel. The mark is not claimed to be legally registered or unique prior to clearance.

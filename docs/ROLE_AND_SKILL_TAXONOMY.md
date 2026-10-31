@@ -97,3 +97,15 @@ The Dynamic Inferrer (`JobRolesConfig.inferRoleFromJobDescription`) executes:
 - **Status Codes**:
   - `200 OK`: Returns structured JSON metadata for the specified role.
   - `404 Not Found`: Returned if the role ID is unknown.
+
+
+---
+
+## 6. Official Taxonomy References & Administrative Governance
+
+1. **Official Occupational Foundations**:
+   - **ESCO API**: Aligned with the European Skills, Competences, Qualifications and Occupations taxonomy ([ESCO Web Service API](https://esco.ec.europa.eu/en/use-esco/use-esco-services-api/esco-web-service-api)).
+   - **O*NET Database**: Occupational descriptors cross-referenced with U.S. Department of Labor occupational profiles ([O*NET Database](https://www.onetcenter.org/database.html)).
+   - **AICTE & National Career Service (India)**: Technical terminology aligned with India-specific requirements and university internship structures ([AICTE Internship Portal](https://internship.aicte-india.org/)).
+2. **Administrative Role Management**:
+   - Authorized administrators can view, activate, deactivate, or register new custom role definitions at runtime via `JobRolesConfig.setRoleActive()` and `JobRolesConfig.addCustomRole()` without modifying source code or restarting the application.

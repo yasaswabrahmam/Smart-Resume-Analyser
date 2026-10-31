@@ -50,3 +50,19 @@ Unlike black-box ATS scorers that produce arbitrary numbers, Smart Resume AI com
 - **Execution Budget**: Maximum 5 tool hops per query to prevent runaway loops.
 - **Human Confirmation Gate**: All write operations require cryptographic action tokens and user confirmation before state mutation.
 - **Data Scoping**: Every tool invocation enforces `userId` ownership checks.
+
+
+---
+
+## 4. Google Gemini & Embedding Model Selection Guidelines
+
+1. **Configurable Model Identifiers**:
+   - `gemini.model.fast`: Configured to `gemini-3.8-flash` (or stable fallback `gemini-1.5-flash`) for low-latency candidate queries, skill review, and Copilot reasoning.
+   - `gemini.model.reasoning`: Configured to `gemini-4-argon` (or high-reasoning tier) for multi-source career synthesis and comprehensive resume refactoring.
+   - Official documentation: [Google Gemini Models Documentation](https://ai.google.dev/gemini-api/docs/models).
+2. **Embeddings & Vector Space Invariance**:
+   - `gemini-embedding-2` and `all-MiniLM-L6-v2` represent distinct embedding dimensionalities (768 vs. 384 dimensions).
+   - Invariant: Vector spaces are non-interchangeable. The vector metadata stores `model_id`, `version`, and `dimensions`. Vectors generated from different model spaces are never compared in cosine similarity calculations.
+3. **Bi-Encoder vs. Cross-Encoder Retrieval Strategy**:
+   - Bi-encoder (`all-MiniLM-L6-v2` / Gemini Embedding) provides high-throughput index search to retrieve top-k candidate jobs (k=20).
+   - Optional cross-encoder reranking is reserved for top candidate scoring where additional pairwise precision justifies latency overhead ([Sentence Transformers Cross-Encoders](https://sbert.net/docs/cross_encoder/usage/usage.html)).

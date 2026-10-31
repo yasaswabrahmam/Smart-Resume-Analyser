@@ -1,0 +1,23 @@
+{
+  "name": "Smart Resume AI — Career Intelligence Platform",
+  "short_name": "Smart Resume AI",
+  "description": "Find your direction. Build your skills. Prove your ability. Move towards the right opportunity.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#071426",
+  "theme_color": "#101D31",
+  "icons": [
+    {
+      "src": "/images/brand/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/brand/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
