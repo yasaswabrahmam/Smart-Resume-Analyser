@@ -30,11 +30,13 @@ public class SkillGapController {
     }
 
     @GetMapping
-    public String showSkillGapPage(@RequestParam(value = "role", required = false, defaultValue = "Full Stack Java Developer") String role,
+    public String showSkillGapPage(@RequestParam(value = "role", required = false, defaultValue = "Full Stack Developer") String role,
                                    @RequestParam(value = "resumeId", required = false) Long resumeId,
                                    Model model) {
         Optional<User> currentUser = userService.getCurrentUser();
         currentUser.ifPresent(u -> model.addAttribute("currentUser", u));
+
+        String resolvedRole = (role != null && !role.isBlank()) ? role.trim() : "Full Stack Developer";
 
         String resumeText = "";
         if (resumeId != null) {
@@ -52,22 +54,28 @@ public class SkillGapController {
         }
 
         // Evaluate skill gaps
-        SkillGapService.SkillGapReport report = skillGapService.evaluateGaps(resumeText, role, "");
+        SkillGapService.SkillGapReport report = skillGapService.evaluateGaps(resumeText, resolvedRole, "");
         model.addAttribute("report", report);
-        model.addAttribute("selectedRole", role);
+        model.addAttribute("selectedRole", resolvedRole);
         model.addAttribute("allRoles", JobRolesConfig.getAllRoleNames());
 
         return "career/skill-gap";
     }
 
+    @GetMapping("/role/{role}")
+    public String showSkillGapByPath(@PathVariable("role") String role, Model model) {
+        return showSkillGapPage(role, null, model);
+    }
+
     @PostMapping("/analyze")
-    public String analyzeCustomGap(@RequestParam("role") String role,
+    public String analyzeCustomGap(@RequestParam(value = "role", defaultValue = "Full Stack Developer") String role,
                                    @RequestParam(value = "customText", required = false) String customText,
                                    Model model) {
         userService.getCurrentUser().ifPresent(u -> model.addAttribute("currentUser", u));
-        SkillGapService.SkillGapReport report = skillGapService.evaluateGaps(customText, role, "");
+        String resolvedRole = (role != null && !role.isBlank()) ? role.trim() : "Full Stack Developer";
+        SkillGapService.SkillGapReport report = skillGapService.evaluateGaps(customText, resolvedRole, "");
         model.addAttribute("report", report);
-        model.addAttribute("selectedRole", role);
+        model.addAttribute("selectedRole", resolvedRole);
         model.addAttribute("allRoles", JobRolesConfig.getAllRoleNames());
         return "career/skill-gap";
     }

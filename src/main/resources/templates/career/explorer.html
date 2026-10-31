@@ -1,201 +1,207 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      th:replace="~{layout/base :: layout(~{::#main-content})}">
-<head>
-    <title>Career Explorer — Discover Roles &amp; Skill Requirements</title>
-</head>
-<body>
-    <div id="main-content">
-        <!-- Header Banner -->
-        <div class="custom-card mb-4 p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3"
-             style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(14, 19, 26, 0.95) 100%); border-color: rgba(6, 182, 212, 0.25);">
-            <div>
-                <div class="d-flex align-items-center gap-2 mb-1">
-                    <span class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-30">Part 2: Explore</span>
-                    <span class="text-muted small">&bull; Role &amp; Skill Intelligence</span>
-                </div>
-                <h3 class="fw-bold text-white mb-1">Career Explorer &amp; Role Catalogue</h3>
-                <p class="text-muted small mb-0">Discover verified software, AI, cloud, and engineering career trajectories, see core vs preferred skills, and understand practical project benchmarks.</p>
-            </div>
-            <div class="d-flex gap-2 flex-wrap">
-                <button class="btn btn-outline-info btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#inferRoleCollapse">
-                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Paste Custom JD
-                </button>
-                <a th:href="@{/profile}" class="btn btn-secondary-custom btn-sm">
-                    <i class="fa-solid fa-user-gear me-1"></i> My Target Pathway
-                </a>
-                <a th:href="@{/analyzer/upload}" class="btn btn-primary-custom btn-sm">
-                    <i class="fa-solid fa-file-arrow-up me-1"></i> Scan Resume
-                </a>
-            </div>
-        </div>
-
-        <!-- Inferred Role Success Flash Banner -->
-        <div th:if="${inferredSuccess}" class="alert alert-success alert-dismissible fade show p-3 mb-4" role="alert"
-             style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); color: #E2E8F0;">
-            <div class="d-flex align-items-start gap-2">
-                <i class="fa-solid fa-circle-check text-success fs-5 mt-0.5"></i>
-                <div>
-                    <strong class="text-white">Custom Role Profile Inferred Successfully!</strong>
-                    <p class="small mb-1" th:text="'Extracted competencies for: ' + ${inferredRole != null ? inferredRole.roleName : 'Custom Target Role'}"></p>
-                    <div class="d-flex flex-wrap gap-1 mt-1" th:if="${inferredRole != null}">
-                        <span th:each="s : ${inferredRole.coreSkills}" class="badge bg-success bg-opacity-25 text-success small" th:text="${s}">Skill</span>
-                    </div>
-                </div>
-            </div>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-
-        <!-- Collapsible Paste Custom Job Description Panel -->
-        <div class="collapse mb-4" id="inferRoleCollapse">
-            <div class="custom-card p-4" style="background: rgba(14, 19, 26, 0.98); border: 1px solid rgba(6, 182, 212, 0.35);">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <div class="d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-file-invoice text-info"></i>
-                        <h5 class="fw-bold text-white mb-0">Dynamic Job Description Parser &amp; Skill Inferrer</h5>
-                    </div>
-                    <span class="badge bg-info bg-opacity-20 text-info">Zero Static Failure</span>
-                </div>
-                <p class="text-muted small mb-3">
-                    Targeting a niche, unlisted, or hybrid role? Paste the employer's job description below. Our NLP taxonomy parser will extract core technical skills, infer the domain family, and generate an actionable role profile with project benchmarks.
-                </p>
-                <form th:action="@{/explore/infer-role}" method="post">
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-5">
-                            <label class="form-label text-muted small fw-semibold">Target Job Title (Optional)</label>
-                            <input type="text" name="targetTitle" class="form-control custom-input" placeholder="e.g. Lead Generative AI Solutions Architect">
-                        </div>
-                        <div class="col-md-7">
-                            <label class="form-label text-muted small fw-semibold">Job Description / Requirements Text</label>
-                            <textarea name="jobDescription" class="form-control custom-input" rows="4" placeholder="Paste requirements, required qualifications, and technology stack..." required></textarea>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-end gap-2">
-                        <button type="button" class="btn btn-secondary-custom btn-sm" data-bs-toggle="collapse" data-bs-target="#inferRoleCollapse">Cancel</button>
-                        <button type="submit" class="btn btn-primary-custom btn-sm px-4">
-                            <i class="fa-solid fa-brain me-1"></i> Extract Skills &amp; Build Role Profile
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Search & Filter Controls -->
-        <div class="custom-card p-3 mb-4">
-            <form th:action="@{/explore}" method="get" class="row g-2 align-items-center">
-                <div class="col-md-5">
-                    <div class="input-group">
-                        <span class="input-group-text bg-transparent text-muted" style="border-color: var(--border-subtle);"><i class="fa-solid fa-magnifying-glass"></i></span>
-                        <input type="text" name="search" class="form-control custom-input" placeholder="Search by role, skill (e.g. Java, Python, AWS), or alias..." th:value="${searchTerm}">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <select name="category" class="form-select custom-input" onchange="this.form.submit()">
-                        <option value="All" th:selected="${selectedCategory == 'All'}">All Role Families</option>
-                        <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}" th:selected="${cat == selectedCategory}">Category</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <select name="level" class="form-select custom-input" onchange="this.form.submit()">
-                        <option value="All" th:selected="${selectedLevel == 'All'}">All Career Levels</option>
-                        <option value="Graduate" th:selected="${selectedLevel == 'Graduate'}">Graduate / Fresher</option>
-                        <option value="Entry" th:selected="${selectedLevel == 'Entry'}">Entry to Mid-Level</option>
-                        <option value="Senior" th:selected="${selectedLevel == 'Senior'}">Senior / Lead</option>
-                    </select>
-                </div>
-                <div class="col-md-2 d-flex gap-2">
-                    <button type="submit" class="btn btn-primary-custom w-100">
-                        <span>Filter</span>
-                    </button>
-                    <a th:href="@{/explore}" class="btn btn-secondary-custom" title="Reset Filters"><i class="fa-solid fa-rotate-left"></i></a>
-                </div>
-            </form>
-        </div>
-
-        <!-- Result Stats -->
-        <div class="d-flex justify-content-between align-items-center mb-3 text-muted small flex-wrap gap-2">
-            <span>Showing <strong class="text-white" th:text="${totalCount}">20+</strong> verified career roles across industry families</span>
-            <div class="d-flex align-items-center gap-2">
-                <span class="badge bg-secondary text-info"><i class="fa-solid fa-layer-group me-1"></i> <span th:text="${canonicalSkillsCount}">60+</span> Canonical Skills Indexed</span>
-                <span><i class="fa-solid fa-shield-halved text-success me-1"></i> ESCO / O*NET Aligned</span>
-            </div>
-        </div>
-
-        <!-- Role Grid -->
-        <div class="row g-4 mb-5">
-            <div th:each="role : ${roles}" class="col-lg-6">
-                <div class="custom-card p-4 h-100 d-flex flex-column" style="background: rgba(20, 26, 35, 0.95); border: 1px solid var(--border-subtle);">
-                    <!-- Role Header -->
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <div>
-                            <span class="badge bg-secondary text-info border border-info border-opacity-25 px-2 py-1 small" th:text="${role.category}">Category</span>
-                            <span class="badge bg-secondary text-light ms-1 small" th:text="${role.careerLevel}">Level</span>
-                        </div>
-                        <span class="text-muted extra-small" th:if="${role.aliases != null and !role.aliases.isEmpty()}"
-                              th:text="'aka ' + ${#strings.listJoin(role.aliases, ', ')}"></span>
-                    </div>
-
-                    <h4 class="fw-bold text-white mb-2" th:text="${role.roleName}">Role Title</h4>
-                    <p class="text-muted small mb-3" th:text="${role.description}">Role description summary</p>
-
-                    <!-- Core Required Skills -->
-                    <div class="mb-3">
-                        <strong class="text-heading small d-block mb-1">
-                            <i class="fa-solid fa-star text-warning me-1"></i> Core Required Skills:
-                        </strong>
-                        <div class="d-flex flex-wrap gap-1">
-                            <span th:each="s : ${role.coreSkills}" class="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30 small" th:text="${s}">Skill</span>
-                        </div>
-                    </div>
-
-                    <!-- Preferred Skills & Tools -->
-                    <div class="mb-3" th:if="${role.preferredSkills != null and !role.preferredSkills.isEmpty()}">
-                        <strong class="text-heading small d-block mb-1">
-                            <i class="fa-solid fa-plus-circle text-info me-1"></i> Preferred &amp; Emerging Skills:
-                        </strong>
-                        <div class="d-flex flex-wrap gap-1">
-                            <span th:each="ps : ${role.preferredSkills}" class="badge bg-info bg-opacity-15 text-info border border-info border-opacity-30 small" th:text="${ps}">Preferred Skill</span>
-                        </div>
-                    </div>
-
-                    <!-- Project Evidence Recommendation -->
-                    <div class="p-3 rounded-3 mb-3 flex-grow-1" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
-                        <strong class="text-white small d-block mb-1">
-                            <i class="fa-solid fa-code-branch text-primary me-1"></i> Recommended Portfolio Evidence:
-                        </strong>
-                        <p class="text-muted small mb-2" th:text="${role.projectEvidence}">Project blueprint guidelines.</p>
-                        <div th:if="${role.marketContext != null}" class="extra-small text-muted border-top border-secondary border-opacity-20 pt-1 mt-1">
-                            <i class="fa-solid fa-chart-line text-warning me-1"></i> <span th:text="${role.marketContext}">Market Demand Context</span>
-                        </div>
-                    </div>
-
-                    <!-- Action Links -->
-                    <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-20 flex-wrap gap-2">
-                        <div class="d-flex gap-2">
-                            <a th:href="@{/skill-gap(role=${role.roleName})}" class="btn btn-sm btn-outline-danger" title="Identify Gaps & Stream YouTube Tutorials">
-                                <i class="fa-brands fa-youtube me-1"></i> Skill Gaps
-                            </a>
-                            <a th:href="@{/jobs(title=${role.roleName})}" class="btn btn-sm btn-outline-warning" title="Search Live Job Postings">
-                                <i class="fa-solid fa-briefcase me-1"></i> Jobs
-                            </a>
-                        </div>
-                        <a th:href="@{/analyzer/upload(targetRole=${role.roleName})}" class="btn btn-sm btn-primary-custom">
-                            <i class="fa-solid fa-magnifying-glass-chart me-1"></i> Benchmark Resume
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Educational Note -->
-        <div class="custom-card p-3 text-center mb-4" style="background: rgba(16, 185, 129, 0.04); border-color: rgba(16, 185, 129, 0.2);">
-            <p class="text-muted small mb-0">
-                <i class="fa-solid fa-circle-info text-success me-1"></i>
-                <strong>Notice:</strong> Role specifications are updated periodically to reflect verified employer job requirements across leading engineering hiring portals (NCS, AICTE, ESCO, and O*NET taxonomies).
-            </p>
-        </div>
-    </div>
-</body>
-</html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout/base :: layout(~{::#main-content})}">
+<head>
+    <title>Career Explorer — Discover Roles &amp; Skill Requirements</title>
+</head>
+<body>
+    <div id="main-content">
+        <!-- Header Banner -->
+        <div class="custom-card mb-4 p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3"
+             style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(14, 19, 26, 0.95) 100%); border-color: rgba(6, 182, 212, 0.25);">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-30">Part 2: Explore</span>
+                    <span class="text-muted small">&bull; Role &amp; Skill Intelligence</span>
+                </div>
+                <h3 class="fw-bold text-white mb-1">Career Explorer &amp; Role Catalogue</h3>
+                <p class="text-muted small mb-0">Discover verified software, AI, cloud, and engineering career trajectories, see core vs preferred skills, and understand practical project benchmarks.</p>
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-outline-info btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#inferRoleCollapse">
+                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Paste Custom JD
+                </button>
+                <a th:href="@{/profile}" class="btn btn-secondary-custom btn-sm">
+                    <i class="fa-solid fa-user-gear me-1"></i> My Target Pathway
+                </a>
+                <a th:href="@{/roadmap}" class="btn btn-outline-primary btn-sm">
+                    <i class="fa-solid fa-route me-1"></i> Learning Roadmap
+                </a>
+                <a th:href="@{/analyzer}" class="btn btn-primary-custom btn-sm">
+                    <i class="fa-solid fa-file-arrow-up me-1"></i> Scan Resume
+                </a>
+            </div>
+        </div>
+
+        <!-- Inferred Role Success Flash Banner -->
+        <div th:if="${inferredSuccess}" class="alert alert-success alert-dismissible fade show p-3 mb-4" role="alert"
+             style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); color: #E2E8F0;">
+            <div class="d-flex align-items-start gap-2">
+                <i class="fa-solid fa-circle-check text-success fs-5 mt-0.5"></i>
+                <div>
+                    <strong class="text-white">Custom Role Profile Inferred Successfully!</strong>
+                    <p class="small mb-1" th:text="'Extracted competencies for: ' + ${inferredRole != null ? inferredRole.roleName : 'Custom Target Role'}"></p>
+                    <div class="d-flex flex-wrap gap-1 mt-1" th:if="${inferredRole != null}">
+                        <span th:each="s : ${inferredRole.coreSkills}" class="badge-skill-core" th:text="${s}">Skill</span>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Collapsible Paste Custom Job Description Panel -->
+        <div class="collapse mb-4" id="inferRoleCollapse">
+            <div class="custom-card p-4" style="background: rgba(14, 19, 26, 0.98); border: 1px solid rgba(6, 182, 212, 0.35);">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-file-invoice text-info"></i>
+                        <h5 class="fw-bold text-white mb-0">Dynamic Job Description Parser &amp; Skill Inferrer</h5>
+                    </div>
+                    <span class="badge bg-info bg-opacity-20 text-info">Zero Static Failure</span>
+                </div>
+                <p class="text-muted small mb-3">
+                    Targeting a niche, unlisted, or hybrid role? Paste the employer's job description below. Our NLP taxonomy parser will extract core technical skills, infer the domain family, and generate an actionable role profile with project benchmarks.
+                </p>
+                <form th:action="@{/explore/infer-role}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-5">
+                            <label class="form-label text-muted small fw-semibold">Target Job Title (Optional)</label>
+                            <input type="text" name="targetTitle" class="form-control custom-input" placeholder="e.g. Lead Generative AI Solutions Architect">
+                        </div>
+                        <div class="col-md-7">
+                            <label class="form-label text-muted small fw-semibold">Job Description / Requirements Text</label>
+                            <textarea name="jobDescription" class="form-control custom-input" rows="4" placeholder="Paste requirements, required qualifications, and technology stack..." required></textarea>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-secondary-custom btn-sm" data-bs-toggle="collapse" data-bs-target="#inferRoleCollapse">Cancel</button>
+                        <button type="submit" class="btn btn-primary-custom btn-sm px-4">
+                            <i class="fa-solid fa-brain me-1"></i> Extract Skills &amp; Build Role Profile
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Search & Filter Controls -->
+        <div class="custom-card p-3 mb-4">
+            <form th:action="@{/explore}" method="get" class="row g-2 align-items-center">
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent text-muted" style="border-color: var(--border-subtle);"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" name="search" class="form-control custom-input" placeholder="Search by role, skill (e.g. Java, Python, AWS), or alias..." th:value="${searchTerm}">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select name="category" class="form-select custom-input" onchange="this.form.submit()">
+                        <option value="All" th:selected="${selectedCategory == 'All'}">All Role Families</option>
+                        <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}" th:selected="${cat == selectedCategory}">Category</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="level" class="form-select custom-input" onchange="this.form.submit()">
+                        <option value="All" th:selected="${selectedLevel == 'All'}">All Career Levels</option>
+                        <option value="Graduate" th:selected="${selectedLevel == 'Graduate'}">Graduate / Fresher</option>
+                        <option value="Entry" th:selected="${selectedLevel == 'Entry'}">Entry to Mid-Level</option>
+                        <option value="Senior" th:selected="${selectedLevel == 'Senior'}">Senior / Lead</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary-custom w-100">
+                        <span>Filter</span>
+                    </button>
+                    <a th:href="@{/explore}" class="btn btn-secondary-custom" title="Reset Filters"><i class="fa-solid fa-rotate-left"></i></a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Result Stats -->
+        <div class="d-flex justify-content-between align-items-center mb-3 text-muted small flex-wrap gap-2">
+            <span>Showing <strong class="text-white" th:text="${totalCount}">20+</strong> verified career roles across industry families</span>
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-secondary text-info"><i class="fa-solid fa-layer-group me-1"></i> <span th:text="${canonicalSkillsCount}">60+</span> Canonical Skills Indexed</span>
+                <span><i class="fa-solid fa-shield-halved text-success me-1"></i> ESCO / O*NET Aligned</span>
+            </div>
+        </div>
+
+        <!-- Role Grid -->
+        <div class="row g-4 mb-5">
+            <div th:each="role : ${roles}" class="col-lg-6">
+                <div class="custom-card p-4 h-100 d-flex flex-column" style="background: rgba(20, 26, 35, 0.95); border: 1px solid var(--border-subtle);">
+                    <!-- Role Header -->
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <span class="badge bg-secondary text-info border border-info border-opacity-25 px-2 py-1 small" th:text="${role.category}">Category</span>
+                            <span class="badge bg-secondary text-light ms-1 small" th:text="${role.careerLevel}">Level</span>
+                        </div>
+                        <span class="text-muted extra-small" th:if="${role.aliases != null and !role.aliases.isEmpty()}"
+                              th:text="'aka ' + ${#strings.listJoin(role.aliases, ', ')}"></span>
+                    </div>
+
+                    <h4 class="fw-bold text-white mb-2" th:text="${role.roleName}">Role Title</h4>
+                    <p class="text-muted small mb-3" th:text="${role.description}">Role description summary</p>
+
+                    <!-- Core Required Skills -->
+                    <div class="mb-3">
+                        <strong class="text-heading small d-block mb-1">
+                            <i class="fa-solid fa-star text-warning me-1"></i> Core Required Skills:
+                        </strong>
+                        <div class="d-flex flex-wrap gap-1">
+                            <span th:each="s : ${role.coreSkills}" class="badge-skill-core" th:text="${s}">Skill</span>
+                        </div>
+                    </div>
+
+                    <!-- Preferred Skills & Tools -->
+                    <div class="mb-3" th:if="${role.preferredSkills != null and !role.preferredSkills.isEmpty()}">
+                        <strong class="text-heading small d-block mb-1">
+                            <i class="fa-solid fa-plus-circle text-info me-1"></i> Preferred &amp; Emerging Skills:
+                        </strong>
+                        <div class="d-flex flex-wrap gap-1">
+                            <span th:each="ps : ${role.preferredSkills}" class="badge-skill-preferred" th:text="${ps}">Preferred Skill</span>
+                        </div>
+                    </div>
+
+                    <!-- Project Evidence Recommendation -->
+                    <div class="p-3 rounded-3 mb-3 flex-grow-1" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
+                        <strong class="text-white small d-block mb-1">
+                            <i class="fa-solid fa-code-branch text-primary me-1"></i> Recommended Portfolio Evidence:
+                        </strong>
+                        <p class="text-muted small mb-2" th:text="${role.projectEvidence}">Project blueprint guidelines.</p>
+                        <div th:if="${role.marketContext != null}" class="extra-small text-muted border-top border-secondary border-opacity-20 pt-1 mt-1">
+                            <i class="fa-solid fa-chart-line text-warning me-1"></i> <span th:text="${role.marketContext}">Market Demand Context</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Links -->
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-20 flex-wrap gap-2">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a th:href="@{/skill-gap(role=${role.roleName})}" class="btn btn-sm btn-outline-danger" title="Identify Gaps & Stream YouTube Tutorials">
+                                <i class="fa-brands fa-youtube me-1"></i> Skill Gaps
+                            </a>
+                            <a th:href="@{/roadmap(role=${role.roleName})}" class="btn btn-sm btn-outline-primary" title="Open 8-Week Learning Roadmap">
+                                <i class="fa-solid fa-route me-1"></i> Roadmap
+                            </a>
+                            <a th:href="@{/jobs(title=${role.roleName})}" class="btn btn-sm btn-outline-warning" title="Search Live Job Postings">
+                                <i class="fa-solid fa-briefcase me-1"></i> Jobs
+                            </a>
+                        </div>
+                        <a th:href="@{/analyzer(targetRole=${role.roleName})}" class="btn btn-sm btn-primary-custom" title="Benchmark Your Resume Against This Role">
+                            <i class="fa-solid fa-magnifying-glass-chart me-1"></i> Benchmark Resume
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Educational Note -->
+        <div class="custom-card p-3 text-center mb-4" style="background: rgba(16, 185, 129, 0.04); border-color: rgba(16, 185, 129, 0.2);">
+            <p class="text-muted small mb-0">
+                <i class="fa-solid fa-circle-info text-success me-1"></i>
+                <strong>Notice:</strong> Role specifications are updated periodically to reflect verified employer job requirements across leading engineering hiring portals (NCS, AICTE, ESCO, and O*NET taxonomies).
+            </p>
+        </div>
+    </div>
+</body>
+</html>

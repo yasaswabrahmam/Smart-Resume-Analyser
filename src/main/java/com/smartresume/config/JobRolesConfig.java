@@ -150,7 +150,7 @@ public class JobRolesConfig {
         addRole(softwareRoles, new RoleDefinition(
                 "full-stack-developer", "Full Stack Developer", "Software Engineering", "Enterprise Software & Web",
                 "Entry to Mid-Level", "Architect and deliver responsive user interfaces and resilient backend microservices.",
-                List.of("Full Stack Engineer", "Web Application Developer", "Software Engineer"),
+                List.of("Full Stack Engineer", "Web Application Developer", "Software Engineer", "Full Stack Java Developer", "Java Full Stack Developer", "Full Stack Software Engineer"),
                 List.of("Java", "JavaScript", "React", "Spring Boot", "SQL", "HTML5", "CSS3", "REST APIs"),
                 List.of("Docker", "TypeScript", "GraphQL", "Tailwind CSS", "Redis"),
                 List.of("Git", "Postman", "Maven", "VS Code", "IntelliJ IDEA"),

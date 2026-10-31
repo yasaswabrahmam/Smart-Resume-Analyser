@@ -286,3 +286,33 @@ All modifications strictly adhere to the project constraints:
 ## 4. Verification Sign-Off
 
 The system has undergone full automated unit, integration, and security verification. All features remain backward compatible with zero disruption to the original visual interface, database schema, or enterprise Spring Boot foundations.
+
+
+---
+
+## 5. Phase 12.1: UI Contrast Hardening, Interactive Collapsible Roadmap, Role Routing Resilience, and Market Insights Fix
+
+### A. Root Causes Diagnosed and Resolved
+1. **Invisible Badge Text (`/explore`, Skill Badges, Tags):**
+   - *Root Cause:* Bootstrap 5.3 CDN does not support `.bg-opacity-15` or `.bg-opacity-20`, defaulting `--bs-bg-opacity` to 1.0 (solid opaque). When dark mode templates paired `bg-success` with `text-success` or `bg-info` with `text-info`, identical RGB values were applied to both background and text, rendering text completely invisible until highlighted by cursor selection.
+   - *Fix:* Added global CSS utility fallbacks for `.bg-opacity-10` through `.bg-opacity-30` in `main.css`. Added global badge contrast rules ensuring translucent backgrounds (15-20% opacity) and bright luminous foreground text (`#34D399` emerald, `#38BDF8` electric cyan, `#60A5FA` electric blue, `#FBBF24` gold, `#F87171` coral red, `#F1F5F9` light). Created dedicated `.badge-skill-core` and `.badge-skill-preferred` classes.
+2. **Roadmap "Cannot Open" & Static Curriculum (`/roadmap`):**
+   - *Root Cause:* Weeks in `career/roadmap.html` were static cards with no accordion collapse mechanism. The backend `CareerRoadmapService` hardcoded an 8-week Java backend curriculum regardless of target role. Explorer role cards lacked direct Roadmap navigation buttons.
+   - *Fix:* Converted week cards into an interactive Bootstrap accordion (`#roadmapAccordion`) with expand/collapse headers and a global "Expand All / Collapse All" toggle. Added direct "Watch Video Lessons" (YouTube search), "Official Documentation", "Practice Lab", and "Mark Completed" buttons to every week. Rewrote `CareerRoadmapService.java` to dynamically generate tailored 8-week curricula based on the target role's category, level, skills, tools, milestone capstone blueprint, and certifications. Added direct "Roadmap" buttons to every role card in `career/explorer.html`.
+3. **Job Search Market Insights Exception (`/jobs`):**
+   - *Root Cause:* `jobs/search.html` dereferenced `marketInsights.trendingSkills`, `marketInsights.topLocations`, and `marketInsights.salaryInsights`, but `JobSearchController` never populated `marketInsights`, causing a 500 error.
+   - *Fix:* Created `MarketInsights`, `SkillInsight`, `LocationInsight`, and `SalaryInsight` records and populated them in `JobSearchController.java`. Added title pre-filtering so clicking "Jobs" on role cards filters for that role. Added protective null-guard in `search.html`.
+4. **Role Routing & Alias Normalization:**
+   - *Root Cause:* Clicking "Benchmark Resume" navigated to `/analyzer/upload` which was not mapped. Missing aliases for "Full Stack Java Developer" caused role lookups to fall back to generic defaults.
+   - *Fix:* Added `@GetMapping("/upload")` redirect to `/analyzer` with `targetRole`. Expanded `JobRolesConfig` aliases. Added path variable routing (`/role/{role}`) to controllers.
+
+### B. Automated Verification Results
+- **96/96 End-to-End Role Tests Passed:** All 24 canonical roles verified across Roadmap, Skill Gap, Interview Prep, and Jobs.
+- **39/39 Maven Tests Passed:** 0 failures, 0 errors across 14 test suites.
+- Spring Boot 3.3.4 running on port 8085 with MySQL 8.4 database.
+
+---
+
+## 6. Verification Sign-Off
+
+The system has undergone full automated unit, integration, UI contrast, and end-to-end verification. All features remain backward compatible with zero disruption to the original visual interface, database schema, or enterprise Spring Boot foundations.

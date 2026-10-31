@@ -2,108 +2,279 @@
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layout/base :: layout(~{::#main-content})}">
 <head>
-    <title>8-Week Career Roadmap - Smart Resume AI</title>
+    <title th:text="'8-Week Career Roadmap — ' + ${plan.targetRole}">8-Week Career Roadmap - Smart Resume AI</title>
 </head>
 <body>
     <div id="main-content">
         <!-- Header Banner -->
-        <div class="custom-card mb-4 p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(14, 19, 26, 0.95) 100%); border-color: rgba(6, 182, 212, 0.25);">
+        <div class="custom-card mb-4 p-4 d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3" 
+             style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(14, 19, 26, 0.98) 100%); border-color: rgba(6, 182, 212, 0.35);">
             <div>
-                <div class="d-flex align-items-center gap-2 mb-1">
-                    <span class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-30">Strategic Milestone Plan</span>
+                <div class="d-flex align-items-center gap-2 mb-1.5 flex-wrap">
+                    <span class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-30">Part 3: Prepare</span>
+                    <span class="badge bg-secondary text-light small" th:text="${plan.category}">Software Engineering</span>
+                    <span class="badge bg-secondary text-info small" th:text="${plan.careerLevel}">Entry to Mid-Level</span>
                     <span class="text-muted small">&bull; 8-Week Structured Trajectory</span>
                 </div>
-                <h3 class="fw-bold text-white mb-1">Personalized Career Roadmap</h3>
-                <p class="text-muted small mb-0">Step-by-step milestone progression designed to transition your profile from your current state to a competitive candidate.</p>
+                <h3 class="fw-bold text-white mb-1">
+                    <i class="fa-solid fa-route text-info me-2"></i>Personalized 8-Week Learning Roadmap
+                </h3>
+                <p class="text-muted small mb-0">
+                    Step-by-step milestone progression tailored for <strong class="text-white" th:text="${plan.targetRole}">Target Role</strong>. Click any week to open learning modules, video lessons, and deliverables.
+                </p>
             </div>
 
-            <!-- Role Selector Form -->
-            <form th:action="@{/roadmap}" method="get" class="d-flex align-items-center gap-2">
-                <select name="role" class="form-select form-select-sm" style="background: rgba(20, 26, 35, 0.9); border-color: var(--border-subtle); color: #fff; min-width: 220px;" onchange="this.form.submit()">
-                    <option th:each="r : ${allRoles}" th:value="${r}" th:text="${r}" th:selected="${r == selectedRole}">Role Name</option>
-                </select>
-            </form>
+            <!-- Role Selector & Actions Form -->
+            <div class="d-flex flex-column align-items-lg-end gap-2">
+                <form th:action="@{/roadmap}" method="get" class="d-flex align-items-center gap-2">
+                    <label class="text-muted small text-nowrap d-none d-sm-inline">Target Role:</label>
+                    <select name="role" class="form-select form-select-sm" 
+                            style="background: rgba(20, 26, 35, 0.95); border-color: var(--border-subtle); color: #fff; min-width: 240px;" 
+                            onchange="this.form.submit()">
+                        <option th:each="r : ${allRoles}" th:value="${r}" th:text="${r}" th:selected="${r == selectedRole}">Role Name</option>
+                    </select>
+                </form>
+
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-info" id="toggleAllWeeksBtn" onclick="toggleAllWeeks()">
+                        <i class="fa-solid fa-folder-open me-1"></i> <span id="toggleAllText">Expand All Weeks</span>
+                    </button>
+                    <a th:href="@{/explore}" class="btn btn-sm btn-secondary-custom">
+                        <i class="fa-solid fa-compass me-1"></i> Role Catalogue
+                    </a>
+                </div>
+            </div>
         </div>
 
-        <!-- Trajectory Outcome Banner -->
-        <div class="custom-card mb-4 p-3.5 d-flex align-items-center gap-3" style="background: rgba(16, 185, 129, 0.06); border-color: rgba(16, 185, 129, 0.3);">
-            <div class="user-avatar-circle" style="background: rgba(16, 185, 129, 0.2); color: #10B981;">
-                <i class="fa-solid fa-flag-checkered fs-5"></i>
-            </div>
-            <div>
-                <strong class="text-success d-block small">Expected Career Outcome:</strong>
-                <span class="text-white small" th:text="${plan.careerTrajectoryOutcome}">Target outcome description</span>
-            </div>
-        </div>
-
-        <!-- 8-Week Timeline Cards -->
-        <div class="d-flex flex-column gap-3 mb-5">
-            <div th:each="week : ${plan.weeks}" class="custom-card p-4 position-relative overflow-hidden">
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-2 mb-2">
-                    <div class="d-flex align-items-center gap-2">
-                        <span class="badge bg-primary px-2.5 py-1" th:text="${'Week ' + week.weekNumber}">Week 1</span>
-                        <span class="text-muted small" th:text="${week.phaseTitle}">Phase Title</span>
+        <!-- Trajectory Outcome & Prerequisites Banner -->
+        <div class="row g-3 mb-4">
+            <div class="col-lg-8">
+                <div class="custom-card p-3.5 h-100 d-flex align-items-center gap-3" 
+                     style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.35);">
+                    <div class="user-avatar-circle flex-shrink-0" style="background: rgba(16, 185, 129, 0.2); color: #10B981; width: 44px; height: 44px; font-size: 1.2rem;">
+                        <i class="fa-solid fa-flag-checkered"></i>
                     </div>
-                    <span class="badge bg-secondary text-light small d-inline-flex align-items-center gap-1">
-                        <i class="fa-regular fa-clock"></i> <span th:text="${week.estimatedHours}">10-12 Hours</span>
-                    </span>
-                </div>
-
-                <h5 class="fw-bold text-white mb-3" th:text="${week.focusArea}">Focus Area</h5>
-
-                <!-- Learning Goals -->
-                <div class="mb-3">
-                    <strong class="text-heading small d-block mb-1.5">Actionable Learning Goals:</strong>
-                    <ul class="list-unstyled text-muted small d-flex flex-column gap-1 mb-0 ps-1">
-                        <li th:each="goal : ${week.learningGoals}" class="d-flex align-items-start gap-2">
-                            <i class="fa-solid fa-check text-success mt-1" style="font-size: 0.75rem;"></i>
-                            <span class="text-body" th:text="${goal}">Goal description</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Milestone Deliverable -->
-                <div class="p-2.5 rounded d-flex align-items-center gap-2 small" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
-                    <i class="fa-solid fa-trophy text-warning"></i>
                     <div>
-                        <strong class="text-heading me-1">Milestone Deliverable:</strong>
-                        <span class="text-body" th:text="${week.milestoneDeliverable}">Deliverable</span>
+                        <strong class="text-success d-block small mb-0.5">Career Trajectory &amp; Earning Potential:</strong>
+                        <span class="text-white small" th:text="${plan.careerTrajectoryOutcome}">Target outcome description</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="custom-card p-3.5 h-100 d-flex flex-column justify-content-center" 
+                     style="background: rgba(53, 107, 250, 0.08); border-color: rgba(53, 107, 250, 0.3);">
+                    <strong class="text-primary d-block small mb-1">
+                        <i class="fa-solid fa-graduation-cap me-1"></i> Recommended Prerequisites:
+                    </strong>
+                    <div class="d-flex flex-wrap gap-1">
+                        <span th:each="pre : ${plan.prerequisites}" class="badge bg-secondary text-light extra-small" th:text="${pre}">Prereq</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Recommended Certifications -->
-        <div class="custom-card mb-4 p-4">
-            <h6 class="fw-bold text-white mb-3 d-flex align-items-center gap-2">
-                <i class="fa-solid fa-certificate text-warning"></i> Recommended Industry Certifications
-            </h6>
+        <!-- Milestone Portfolio Capstone Banner -->
+        <div class="custom-card p-4 mb-4" style="background: rgba(20, 26, 35, 0.95); border-left: 4px solid var(--accent-ai); border-color: rgba(6, 182, 212, 0.3);">
+            <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-trophy text-warning fs-5"></i>
+                    <h5 class="fw-bold text-white mb-0" th:text="${plan.milestoneProjectTitle}">Milestone Capstone Portfolio Benchmark</h5>
+                </div>
+                <span class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-30">Production Proof Point</span>
+            </div>
+            <p class="text-muted small mb-0" th:text="${plan.milestoneProjectDescription}">
+                Full-stack system architecture with end-to-end testing, Dockerized container deployment, and GitHub Actions CI/CD automation.
+            </p>
+        </div>
+
+        <!-- 8-Week Interactive Accordion Timeline -->
+        <h5 class="fw-bold text-white mb-3 d-flex align-items-center justify-content-between">
+            <span>
+                <i class="fa-solid fa-calendar-days text-info me-2"></i>Weekly Execution Plan
+                <small class="text-muted fw-normal ms-2" style="font-size: 0.85rem;">(Click any week to open modules &amp; video tutorials)</small>
+            </span>
+            <span class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30 small">8 Weeks Duration</span>
+        </h5>
+
+        <div class="accordion mb-5" id="roadmapAccordion">
+            <div th:each="week, iterStat : ${plan.weeks}" class="custom-card p-0 mb-3 overflow-hidden week-card-container" 
+                 style="background: rgba(16, 22, 31, 0.95); border: 1px solid var(--border-subtle); transition: all 0.2s ease;">
+                
+                <!-- Clickable Week Accordion Header -->
+                <div class="p-3.5 d-flex align-items-center justify-content-between cursor-pointer week-header" 
+                     data-bs-toggle="collapse" 
+                     th:data-bs-target="'#weekCollapse' + ${week.weekNumber}" 
+                     th:aria-expanded="${iterStat.index < 2 ? 'true' : 'false'}" 
+                     th:aria-controls="'weekCollapse' + ${week.weekNumber}"
+                     style="background: rgba(255, 255, 255, 0.02); cursor: pointer;">
+                    
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                        <span class="badge bg-primary px-3 py-1.5 fs-6 fw-bold" th:text="'Week ' + ${week.weekNumber}">Week 1</span>
+                        <div>
+                            <span class="text-muted extra-small d-block" th:text="${week.phaseTitle}">Phase 1: Foundations</span>
+                            <h6 class="fw-bold text-white mb-0" th:text="${week.focusArea}">Focus Area Title</h6>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-secondary text-light small d-none d-sm-inline-flex align-items-center gap-1">
+                            <i class="fa-regular fa-clock"></i> <span th:text="${week.estimatedHours}">10-12 Hours</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-down text-muted transition-base accordion-arrow ms-2"></i>
+                    </div>
+                </div>
+
+                <!-- Collapsible Week Body Content -->
+                <div th:id="'weekCollapse' + ${week.weekNumber}" 
+                     class="collapse" 
+                     th:classappend="${iterStat.index < 2 ? 'show' : ''}" 
+                     data-bs-parent="#roadmapAccordion">
+                    
+                    <div class="p-4 border-top border-secondary border-opacity-15">
+                        
+                        <!-- Tools / Skills Badge Strip -->
+                        <div class="mb-3" th:if="${week.keyTools != null and !week.keyTools.isEmpty()}">
+                            <span class="text-muted extra-small fw-semibold text-uppercase me-2">Focus Competencies:</span>
+                            <span th:each="tool : ${week.keyTools}" class="badge-skill-core" th:text="${tool}">Skill</span>
+                        </div>
+
+                        <!-- Actionable Learning Goals Checklist -->
+                        <div class="mb-3.5">
+                            <strong class="text-heading small d-block mb-2">
+                                <i class="fa-solid fa-list-check text-info me-1"></i> Actionable Learning Goals:
+                            </strong>
+                            <ul class="list-unstyled text-muted small d-flex flex-column gap-2 mb-0 ps-1">
+                                <li th:each="goal : ${week.learningGoals}" class="d-flex align-items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-success mt-1 flex-shrink-0" style="font-size: 0.85rem;"></i>
+                                    <span class="text-body" th:text="${goal}">Goal description</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Milestone Deliverable Box -->
+                        <div class="p-3 rounded-3 mb-3 d-flex align-items-start gap-2.5 small" 
+                             style="background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.25);">
+                            <i class="fa-solid fa-medal text-warning fs-5 mt-0.5 flex-shrink-0"></i>
+                            <div>
+                                <strong class="text-warning d-block mb-0.5">Week Milestone Deliverable:</strong>
+                                <span class="text-white" th:text="${week.milestoneDeliverable}">Deliverable specification</span>
+                            </div>
+                        </div>
+
+                        <!-- Direct Interactive Learning Links Toolbar -->
+                        <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-15 flex-wrap gap-2">
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a th:href="${week.youtubeSearchUrl}" target="_blank" class="btn btn-sm btn-danger px-3" title="Watch high-rated tutorials on YouTube">
+                                    <i class="fa-brands fa-youtube me-1"></i> Watch Video Lessons
+                                </a>
+                                <a th:href="${week.documentationUrl}" target="_blank" class="btn btn-sm btn-outline-info" title="Read official reference documentation">
+                                    <i class="fa-solid fa-book-bookmark me-1"></i> Official Docs
+                                </a>
+                                <a th:href="${week.practiceLabUrl}" target="_blank" class="btn btn-sm btn-outline-success" title="Practice open-source labs and katas on GitHub">
+                                    <i class="fa-solid fa-terminal me-1"></i> Practice Lab
+                                </a>
+                            </div>
+
+                            <button type="button" class="btn btn-sm btn-outline-secondary week-status-btn" onclick="toggleWeekDone(this)">
+                                <i class="fa-regular fa-circle-check me-1"></i> <span>Mark Completed</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Recommended Industry Certifications -->
+        <div class="custom-card mb-4 p-4" style="background: rgba(20, 26, 35, 0.95); border: 1px solid var(--border-subtle);">
+            <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                <h6 class="fw-bold text-white mb-0 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-certificate text-warning"></i> Recommended Industry Certifications for <span th:text="${plan.targetRole}">Role</span>
+                </h6>
+                <span class="badge bg-warning bg-opacity-15 text-warning border border-warning border-opacity-30 small">Career Credentialing</span>
+            </div>
             <div class="d-flex flex-wrap gap-2">
-                <span th:each="cert : ${plan.recommendedCertifications}" class="badge bg-secondary p-2.5 text-light fw-normal d-inline-flex align-items-center gap-1.5" style="border: 1px solid rgba(255,255,255,0.1);">
+                <span th:each="cert : ${plan.recommendedCertifications}" 
+                      class="badge bg-secondary p-2.5 text-light fw-normal d-inline-flex align-items-center gap-2" 
+                      style="border: 1px solid rgba(255,255,255,0.12); font-size: 0.82rem;">
                     <i class="fa-solid fa-award text-warning"></i>
                     <span th:text="${cert}">Certification Name</span>
                 </span>
             </div>
         </div>
 
-        <!-- Navigation Strip -->
+        <!-- Next Stage Navigation Strip -->
         <div class="custom-card p-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
             <div>
-                <h6 class="fw-bold text-white mb-1">Ready to apply your knowledge?</h6>
-                <p class="text-muted small mb-0">Practice technical interview questions or browse real-world job postings.</p>
+                <h6 class="fw-bold text-white mb-1">Ready to put your roadmap into practice?</h6>
+                <p class="text-muted small mb-0">Uncover your specific skill gaps, benchmark your resume ATS score, or explore matching jobs.</p>
             </div>
             <div class="d-flex gap-2 flex-wrap">
+                <a th:href="@{/skill-gap(role=${selectedRole})}" class="btn btn-sm btn-outline-danger px-3 py-2">
+                    <i class="fa-brands fa-youtube me-1"></i> Skill Gap Analysis
+                </a>
+                <a th:href="@{/analyzer(targetRole=${selectedRole})}" class="btn btn-sm btn-outline-info px-3 py-2">
+                    <i class="fa-solid fa-file-lines me-1"></i> Benchmark Resume
+                </a>
                 <a th:href="@{/interview(role=${selectedRole})}" class="btn btn-primary-custom px-3 py-2 small">
-                    <i class="fa-solid fa-user-tie me-1"></i> Technical Interview Prep
+                    <i class="fa-solid fa-user-tie me-1"></i> Interview Practice
                 </a>
-                <a th:href="@{/jobs(query=${selectedRole})}" class="btn btn-secondary-custom px-3 py-2 small">
-                    <i class="fa-solid fa-briefcase me-1"></i> Browse Matching Jobs
-                </a>
-                <a th:href="@{/skill-gap(role=${selectedRole})}" class="btn btn-secondary-custom px-3 py-2 small">
-                    <i class="fa-solid fa-arrow-left me-1"></i> Back to Skill Gaps
+                <a th:href="@{/jobs(title=${selectedRole})}" class="btn btn-secondary-custom px-3 py-2 small">
+                    <i class="fa-solid fa-briefcase me-1"></i> Matching Jobs
                 </a>
             </div>
         </div>
     </div>
+
+    <!-- Client-Side Script for Interactive Roadmap Functionality -->
+    <script>
+        let allExpanded = false;
+
+        function toggleAllWeeks() {
+            const collapses = document.querySelectorAll('#roadmapAccordion .collapse');
+            const btnText = document.getElementById('toggleAllText');
+            const btnIcon = document.querySelector('#toggleAllWeeksBtn i');
+
+            allExpanded = !allExpanded;
+
+            collapses.forEach(collapseEl => {
+                const bsCollapse = bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false });
+                if (allExpanded) {
+                    bsCollapse.show();
+                } else {
+                    bsCollapse.hide();
+                }
+            });
+
+            if (allExpanded) {
+                btnText.textContent = 'Collapse All Weeks';
+                btnIcon.className = 'fa-solid fa-folder-closed me-1';
+            } else {
+                btnText.textContent = 'Expand All Weeks';
+                btnIcon.className = 'fa-solid fa-folder-open me-1';
+            }
+        }
+
+        function toggleWeekDone(btn) {
+            const container = btn.closest('.week-card-container');
+            const icon = btn.querySelector('i');
+            const label = btn.querySelector('span');
+
+            if (container.classList.contains('border-success')) {
+                container.classList.remove('border-success');
+                container.style.border = '1px solid var(--border-subtle)';
+                btn.className = 'btn btn-sm btn-outline-secondary week-status-btn';
+                icon.className = 'fa-regular fa-circle-check me-1';
+                label.textContent = 'Mark Completed';
+            } else {
+                container.classList.add('border-success');
+                container.style.border = '1px solid #10B981';
+                btn.className = 'btn btn-sm btn-success week-status-btn';
+                icon.className = 'fa-solid fa-circle-check me-1';
+                label.textContent = 'Completed!';
+            }
+        }
+    </script>
 </body>
 </html>

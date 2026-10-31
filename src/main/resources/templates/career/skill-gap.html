@@ -128,7 +128,7 @@
                         <div th:each="item : ${report.weakSkills}" class="p-3 rounded" style="background: rgba(245, 158, 11, 0.04); border: 1px solid rgba(245, 158, 11, 0.2);">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <strong class="text-white small" th:text="${item.skillName}">Docker</strong>
-                                <span class="badge bg-warning text-dark" style="font-size: 0.68rem;">Needs Evidence</span>
+                                <span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-30" style="font-size: 0.68rem;">Needs Evidence</span>
                             </div>
                             <p class="text-muted small mb-2" style="font-size: 0.78rem;" th:text="${item.evidenceReason}">Evidence reason</p>
                             <div class="p-2 rounded mb-2 small" style="background: rgba(0,0,0,0.2); font-size: 0.74rem;">

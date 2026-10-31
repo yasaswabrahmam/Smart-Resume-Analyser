@@ -21,15 +21,23 @@ public class InterviewPrepController {
     }
 
     @GetMapping
-    public String showInterviewPrep(@RequestParam(value = "role", required = false, defaultValue = "Full Stack Java Developer") String role,
+    public String showInterviewPrep(@RequestParam(value = "role", required = false, defaultValue = "Full Stack Developer") String role,
                                     Model model) {
         userService.getCurrentUser().ifPresent(u -> model.addAttribute("currentUser", u));
 
-        InterviewPrepService.InterviewPrepKit prepKit = interviewPrepService.generatePrepKit(role);
+        String resolvedRole = (role != null && !role.isBlank()) ? role.trim() : "Full Stack Developer";
+
+        InterviewPrepService.InterviewPrepKit prepKit = interviewPrepService.generatePrepKit(resolvedRole);
         model.addAttribute("prepKit", prepKit);
-        model.addAttribute("selectedRole", role);
+        model.addAttribute("selectedRole", resolvedRole);
         model.addAttribute("allRoles", JobRolesConfig.getAllRoleNames());
+        model.addAttribute("title", "Interview Preparation — " + resolvedRole);
 
         return "career/interview";
+    }
+
+    @GetMapping("/role/{role}")
+    public String showInterviewPrepByPath(@PathVariable("role") String role, Model model) {
+        return showInterviewPrep(role, model);
     }
 }

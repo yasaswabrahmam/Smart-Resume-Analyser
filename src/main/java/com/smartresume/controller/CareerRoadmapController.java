@@ -24,20 +24,28 @@ public class CareerRoadmapController {
     }
 
     @GetMapping
-    public String showRoadmap(@RequestParam(value = "role", required = false, defaultValue = "Full Stack Java Developer") String role,
+    public String showRoadmap(@RequestParam(value = "role", required = false, defaultValue = "Full Stack Developer") String role,
                               @RequestParam(value = "missingSkills", required = false) List<String> missingSkills,
                               Model model) {
         userService.getCurrentUser().ifPresent(u -> model.addAttribute("currentUser", u));
 
+        String targetRole = (role != null && !role.isBlank()) ? role.trim() : "Full Stack Developer";
+
         CareerRoadmapService.CareerRoadmapPlan plan = careerRoadmapService.generateRoadmap(
-                role,
+                targetRole,
                 missingSkills != null ? missingSkills : Collections.emptyList()
         );
 
         model.addAttribute("plan", plan);
-        model.addAttribute("selectedRole", role);
+        model.addAttribute("selectedRole", plan.getTargetRole());
         model.addAttribute("allRoles", JobRolesConfig.getAllRoleNames());
+        model.addAttribute("title", "8-Week Career Roadmap — " + plan.getTargetRole());
 
         return "career/roadmap";
+    }
+
+    @GetMapping("/role/{role}")
+    public String showRoadmapByPath(@PathVariable("role") String role, Model model) {
+        return showRoadmap(role, null, model);
     }
 }
